@@ -1,4 +1,4 @@
-package primoz.com.alarmcontinue
+package primoz.com.alarmcontinue.views
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity

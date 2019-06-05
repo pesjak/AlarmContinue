@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Alarm Continue</string>
+    <string name="current_time_title">Current time</string>
+    <string name="bedtime">Bedtime</string>
+    <string name="remaining">remaining</string>
 </resources>
