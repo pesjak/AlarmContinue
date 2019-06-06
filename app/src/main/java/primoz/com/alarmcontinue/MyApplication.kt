@@ -5,6 +5,9 @@ import android.content.Context
 import io.github.inflationx.calligraphy3.CalligraphyConfig
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor
 import io.github.inflationx.viewpump.ViewPump
+import io.realm.Realm
+import io.realm.RealmConfiguration
+import primoz.com.alarmcontinue.model.AlarmList
 
 class MyApplication : Application() {
 
@@ -12,9 +15,24 @@ class MyApplication : Application() {
         super.onCreate()
 
         appContext = applicationContext
-        ViewPump.init(ViewPump.builder().addInterceptor(CalligraphyInterceptor(CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Raleway-Regular.ttf")
-                .setFontAttrId(R.attr.fontPath).build())).build())
+
+        //Init Realm
+        Realm.init(this)
+        val realmConfig = RealmConfiguration.Builder()
+            .initialData { realm -> realm.createObject(AlarmList::class.java) }
+            .build()
+        Realm.deleteRealm(realmConfig) // Delete Realm between app restarts.
+        Realm.setDefaultConfiguration(realmConfig)
+
+        ViewPump.init(
+            ViewPump.builder().addInterceptor(
+                CalligraphyInterceptor(
+                    CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/Raleway-Regular.ttf")
+                        .setFontAttrId(R.attr.fontPath).build()
+                )
+            ).build()
+        )
     }
 
     companion object {
