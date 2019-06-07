@@ -22,20 +22,27 @@ object DataHelper {
 
     fun addAlarmAsync(
         realm: Realm,
-        bedtimeAlarm: RealmString? = null,
-        startTimeOfAlarm: RealmString,
-        daysList: RealmList<RealmDayOfWeek>,
-        songsLocationList: RealmList<RealmString>,
+        bedtimeAlarm: String? = null,
+        startTimeOfAlarm: String,
+        daysList: ArrayList<EnumDayOfWeek>,
+        songsLocationList: ArrayList<String>,
         shouldResumePlaying: Boolean = false,
         shouldVibrate: Boolean = false
     ) {
         realm.executeTransactionAsync { realmInTransaction ->
+            var monday = realmInTransaction.createObject(RealmDayOfWeek::class.java)
+            monday.saveNameOfDay(EnumDayOfWeek.MONDAY)
+            var wednesday =  realmInTransaction.createObject(RealmDayOfWeek::class.java)
+            monday.saveNameOfDay(EnumDayOfWeek.WEDNESDAY)
+            val realmDayOfTheWeekList = RealmList(monday,wednesday)
+            val realmSongLocationList = RealmList("aslgkhaskl//alksgh.com","c://sakh./")
+
             Alarm.createAlarm(
                 realmInTransaction,
                 bedtimeAlarm,
                 startTimeOfAlarm,
-                daysList,
-                songsLocationList,
+                realmDayOfTheWeekList,
+                realmSongLocationList,
                 shouldResumePlaying,
                 shouldVibrate
             )
@@ -49,10 +56,10 @@ object DataHelper {
     fun editAlarm(
         id: Int,
         realm: Realm,
-        bedtimeAlarm: RealmString? = null,
-        startTimeOfAlarm: RealmString,
+        bedtimeAlarm: String? = null,
+        startTimeOfAlarm: String,
         daysList: RealmList<RealmDayOfWeek>,
-        songsLocationList: RealmList<RealmString>,
+        songsLocationList: RealmList<String>,
         shouldResumePlaying: Boolean = false,
         shouldVibrate: Boolean = false,
         isEnabled: Boolean = false

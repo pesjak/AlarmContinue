@@ -1,10 +1,10 @@
-package primoz.com.alarmcontinue.views.home
+package primoz.com.alarmcontinue.views.home.adapters
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.item_alarm.view.*
 import primoz.com.alarmcontinue.model.Alarm
+import primoz.com.alarmcontinue.views.home.listeners.OnAlarmListener
 
 class AlarmViewHolder(itemView: View, private val onAlarmListener: OnAlarmListener) :
     RecyclerView.ViewHolder(itemView) {
@@ -20,8 +20,7 @@ class AlarmViewHolder(itemView: View, private val onAlarmListener: OnAlarmListen
 
     fun setData(alarm: Alarm) {
         this.alarm = alarm
-        itemView.tvNextAlarmText.text = "00:00"
-        itemView.textNextDay.text = "Test"
+        itemView.textAlarm.text = "07:00"
     }
 
 }

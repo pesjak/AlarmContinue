@@ -1,4 +1,4 @@
-package primoz.com.alarmcontinue.views.home
+package primoz.com.alarmcontinue.views.home.listeners
 
 import primoz.com.alarmcontinue.model.Alarm
 

@@ -25,10 +25,10 @@ open class Alarm : RealmObject() {
 
     @PrimaryKey
     var id: Int = 0
-    var bedtimeAlarm: RealmString? = null
-    var startTimeOfAlarm: RealmString? = null
+    var bedtimeAlarm: String? = null
+    var startTimeOfAlarm: String? = null
     var daysList: RealmList<RealmDayOfWeek>? = null
-    var songsLocationList: RealmList<RealmString>? = null
+    var songsLocationList: RealmList<String>? = null
     var shouldResumePlaying: Boolean? = null
     var shouldVibrate: Boolean? = null
     var isEnabled: Boolean? = null
@@ -39,16 +39,16 @@ open class Alarm : RealmObject() {
 
         fun createAlarm(
             realm: Realm,
-            bedtimeAlarm: RealmString? = null,
-            startTimeOfAlarm: RealmString,
+            bedtimeAlarm: String? = null,
+            startTimeOfAlarm: String,
             daysList: RealmList<RealmDayOfWeek>,
-            songsLocationList: RealmList<RealmString>,
+            songsLocationList: RealmList<String>,
             shouldResumePlaying: Boolean,
             shouldVibrate: Boolean
         ) {
             val parent = realm.where(AlarmList::class.java).findFirst()
             val alarmList = parent!!.alarmList
-            val alarm = realm.createObject(Alarm::class.java, increment())
+            val alarm = realm.createObject(Alarm::class.java, alarmList?.size ?: 0)
             alarm.bedtimeAlarm = bedtimeAlarm
             alarm.startTimeOfAlarm = startTimeOfAlarm
             alarm.daysList = daysList
@@ -62,10 +62,10 @@ open class Alarm : RealmObject() {
         fun editAlarm(
             id: Int,
             realm: Realm,
-            bedtimeAlarm: RealmString? = null,
-            startTimeOfAlarm: RealmString,
+            bedtimeAlarm: String? = null,
+            startTimeOfAlarm: String,
             daysList: RealmList<RealmDayOfWeek>,
-            songsLocationList: RealmList<RealmString>,
+            songsLocationList: RealmList<String>,
             shouldResumePlaying: Boolean,
             shouldVibrate: Boolean,
             isEnabled: Boolean

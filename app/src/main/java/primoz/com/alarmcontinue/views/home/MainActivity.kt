@@ -5,13 +5,17 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_add_alarm.*
 import kotlinx.android.synthetic.main.item_bedtime.*
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.AlarmList
 import primoz.com.alarmcontinue.views.BaseActivity
+import primoz.com.alarmcontinue.views.home.adapters.MyAlarmsRecyclerViewAdapter
+import primoz.com.alarmcontinue.views.home.listeners.OnAlarmListener
 
-class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener {
+class MainActivity : BaseActivity(), MainActivityContract.View,
+    OnAlarmListener {
 
     private lateinit var realm: Realm
     private lateinit var mPresenter: MainActivityContract.Presenter
@@ -27,10 +31,18 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
 
         realm = Realm.getDefaultInstance()
         initRecyclerView()
+        initOnClickListeners()
 
         MainActivityPresenter(this)
         mPresenter.loadCurrentTime()
 
+    }
+
+    private fun initOnClickListeners() {
+        switchBedtime.setOnCheckedChangeListener { buttonView, isChecked -> mPresenter.enableBedtime(realm, isChecked) }
+        ivAddAlarm.setOnClickListener {
+            mPresenter.showAddNewAlarm(realm)
+        }
     }
 
     override fun onDestroy() {
@@ -48,7 +60,7 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
     }
 
     override fun onAlarmEnable(alarm: Alarm, shouldEnable: Boolean) {
-        mPresenter.enableAlarm(alarm, shouldEnable)
+        mPresenter.enableAlarm(realm, alarm, shouldEnable)
     }
 
     /*
@@ -72,10 +84,10 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
      */
 
     private fun initRecyclerView() {
-        adapter = MyAlarmsRecyclerViewAdapter(realm.where(AlarmList::class.java).findFirst()!!.alarmList!!, this)
+        val data = realm.where(AlarmList::class.java).findFirst()!!.alarmList!!
+        adapter = MyAlarmsRecyclerViewAdapter(data, this)
         rvAlarms.layoutManager = LinearLayoutManager(this)
         rvAlarms.adapter = adapter
-        rvAlarms.setHasFixedSize(true)
         rvAlarms.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
 }

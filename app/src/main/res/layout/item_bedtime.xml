@@ -8,6 +8,7 @@
 
     <TextView
         android:id="@+id/textBedtime"
+        style="@style/TextAppearance.SemiBold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
@@ -24,13 +25,13 @@
         android:layout_height="wrap_content"
         android:alpha="0.5"
         android:paddingStart="16dp"
+        android:paddingTop="16dp"
         android:paddingEnd="24dp"
         android:paddingBottom="16dp"
+        android:text="Tomorrow"
         android:textSize="@dimen/subtitle"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textBedtime"
-        tools:text="Tomorrow" />
+        app:layout_constraintTop_toBottomOf="@+id/textBedtime" />
 
     <Switch
         android:id="@+id/switchBedtime"
@@ -40,5 +41,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/bedtimeTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.5"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:scrollbarSize="@dimen/subtitle"
+        android:text="23:00 - 7:00"
+        android:textSize="@dimen/subtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textBedtime" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

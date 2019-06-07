@@ -1,4 +1,4 @@
-package primoz.com.alarmcontinue.views.home
+package primoz.com.alarmcontinue.views.home.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,6 +6,7 @@ import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.model.Alarm
+import primoz.com.alarmcontinue.views.home.listeners.OnAlarmListener
 
 class MyAlarmsRecyclerViewAdapter(
     data: OrderedRealmCollection<Alarm>,

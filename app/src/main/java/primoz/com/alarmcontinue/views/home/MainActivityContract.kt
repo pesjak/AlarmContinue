@@ -1,5 +1,6 @@
 package primoz.com.alarmcontinue.views.home
 
+import io.realm.Realm
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.views.BasePresenter
 import primoz.com.alarmcontinue.views.BaseView
@@ -14,6 +15,8 @@ interface MainActivityContract {
         fun loadAlarms()
         fun loadCurrentTime()
         fun showEditAlarmScreen(alarm: Alarm)
-        fun enableAlarm(alarm: Alarm, shouldEnable: Boolean)
+        fun enableAlarm(realm: Realm, alarm: Alarm, shouldEnable: Boolean)
+        fun enableBedtime(realm: Realm, shouldEnable: Boolean)
+        fun showAddNewAlarm(realm: Realm)
     }
 }

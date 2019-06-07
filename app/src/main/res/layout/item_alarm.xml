@@ -8,15 +8,14 @@
 
     <TextView
         android:id="@+id/textAlarm"
+        style="@style/TextAppearance.Bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingTop="24dp"
-        android:paddingEnd="16dp"
-        android:textSize="@dimen/title"
+        android:padding="16dp"
+        android:textSize="@dimen/alarmSize"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/bedtime" />
+        tools:text="23:00" />
 
     <TextView
         android:id="@+id/textNextDay"
@@ -24,14 +23,12 @@
         android:layout_height="wrap_content"
         android:alpha="0.5"
         android:paddingStart="16dp"
-        android:paddingEnd="24dp"
+        android:paddingEnd="16dp"
         android:paddingBottom="16dp"
+        android:text="Tomorrow"
         android:textSize="@dimen/subtitle"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textAlarm"
-        tools:text="Tomorrow"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@+id/textAlarm" />
 
     <Switch
         android:id="@+id/switchAlarm"
@@ -43,14 +40,5 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0.1dp"
-        android:layout_marginTop="8dp"
-        android:alpha="0.5"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNextDay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
