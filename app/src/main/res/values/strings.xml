@@ -3,4 +3,5 @@
     <string name="current_time_title">Current time</string>
     <string name="bedtime">Bedtime</string>
     <string name="remaining">remaining</string>
+    <string name="other_alarms">Other Alarms</string>
 </resources>

@@ -7,36 +7,27 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/textBedtime"
+        android:id="@+id/textAlarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="16dp"
-        android:text="@string/bedtime"
+        android:padding="16dp"
+        android:text="@string/other_alarms"
         android:textSize="@dimen/title"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textNextDay"
+    <ImageView
+        android:id="@+id/switchAlarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0.5"
-        android:paddingStart="16dp"
-        android:paddingEnd="24dp"
-        android:paddingBottom="16dp"
-        android:textSize="@dimen/subtitle"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textBedtime"
-        tools:text="Tomorrow" />
-
-    <Switch
-        android:id="@+id/switchBedtime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />

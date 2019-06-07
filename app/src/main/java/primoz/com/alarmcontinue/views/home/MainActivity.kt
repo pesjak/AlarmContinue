@@ -77,6 +77,5 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
         rvAlarms.adapter = adapter
         rvAlarms.setHasFixedSize(true)
         rvAlarms.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-
     }
 }
