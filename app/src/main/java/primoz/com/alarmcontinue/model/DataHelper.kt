@@ -17,6 +17,7 @@ package primoz.com.alarmcontinue.model
 
 import io.realm.Realm
 import io.realm.RealmList
+import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 
 object DataHelper {
 

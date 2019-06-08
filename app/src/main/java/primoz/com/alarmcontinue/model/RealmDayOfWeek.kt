@@ -1,6 +1,7 @@
 package primoz.com.alarmcontinue.model
 
 import io.realm.RealmObject
+import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 
 open class RealmDayOfWeek : RealmObject() {
     private lateinit var nameOfDayEnum: String
@@ -12,14 +13,4 @@ open class RealmDayOfWeek : RealmObject() {
     val nameOfDayString: EnumDayOfWeek
         get() = EnumDayOfWeek.valueOf(nameOfDayEnum)
 
-}
-
-enum class EnumDayOfWeek {
-    MONDAY,
-    TUESDAY,
-    WEDNESDAY,
-    THURSDAY,
-    FRIDAY,
-    SATURDAY,
-    SUNDAY
 }

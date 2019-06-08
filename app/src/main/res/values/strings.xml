@@ -4,4 +4,7 @@
     <string name="bedtime">Bedtime</string>
     <string name="remaining">remaining</string>
     <string name="other_alarms">Other Alarms</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

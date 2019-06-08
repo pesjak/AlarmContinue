@@ -76,7 +76,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-
             <TextView
                 android:id="@+id/tvCurrentTimeTitle"
                 android:layout_width="wrap_content"
