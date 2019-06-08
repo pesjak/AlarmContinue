@@ -115,7 +115,7 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="16dp"
-            android:src="@drawable/ic_sleep"
+            android:src="@drawable/ic_change"
             app:layout_constraintBottom_toBottomOf="@+id/timePicker"
             app:layout_constraintEnd_toEndOf="parent" />
 
