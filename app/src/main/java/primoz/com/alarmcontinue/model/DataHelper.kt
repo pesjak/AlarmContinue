@@ -62,6 +62,7 @@ object DataHelper {
         daysList: RealmList<RealmDayOfWeek>,
         songsLocationList: RealmList<String>,
         shouldResumePlaying: Boolean = false,
+        secondsPlayed: Int = 0,
         shouldVibrate: Boolean = false,
         isEnabled: Boolean = false
     ) {
@@ -74,6 +75,7 @@ object DataHelper {
                 daysList,
                 songsLocationList,
                 shouldResumePlaying,
+                secondsPlayed,
                 shouldVibrate,
                 isEnabled
             )

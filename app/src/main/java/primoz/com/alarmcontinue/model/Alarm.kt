@@ -30,6 +30,7 @@ open class Alarm : RealmObject() {
     var daysList: RealmList<RealmDayOfWeek>? = null
     var songsLocationList: RealmList<String>? = null
     var shouldResumePlaying: Boolean? = null
+    var secondsPlayed: Int? = null
     var shouldVibrate: Boolean? = null
     var isEnabled: Boolean? = null
 
@@ -48,12 +49,13 @@ open class Alarm : RealmObject() {
         ) {
             val parent = realm.where(AlarmList::class.java).findFirst()
             val alarmList = parent!!.alarmList
-            val alarm = realm.createObject(Alarm::class.java, alarmList?.size ?: 0)
+            val alarm = realm.createObject(Alarm::class.java, increment())
             alarm.bedtimeAlarm = bedtimeAlarm
             alarm.startTimeOfAlarm = startTimeOfAlarm
             alarm.daysList = daysList
             alarm.songsLocationList = songsLocationList
             alarm.shouldResumePlaying = shouldResumePlaying
+            alarm.secondsPlayed = 0
             alarm.shouldVibrate = shouldVibrate
             alarm.isEnabled = true
             alarmList?.add(alarm)
@@ -62,11 +64,12 @@ open class Alarm : RealmObject() {
         fun editAlarm(
             id: Int,
             realm: Realm,
-            bedtimeAlarm: String? = null,
+            bedtimeAlarm: String?,
             startTimeOfAlarm: String,
             daysList: RealmList<RealmDayOfWeek>,
             songsLocationList: RealmList<String>,
             shouldResumePlaying: Boolean,
+            secondsPlayed: Int,
             shouldVibrate: Boolean,
             isEnabled: Boolean
         ) {
@@ -77,6 +80,7 @@ open class Alarm : RealmObject() {
                 alarm.daysList = daysList
                 alarm.songsLocationList = songsLocationList
                 alarm.shouldResumePlaying = shouldResumePlaying
+                alarm.secondsPlayed = secondsPlayed
                 alarm.shouldVibrate = shouldVibrate
                 alarm.isEnabled = isEnabled
             }

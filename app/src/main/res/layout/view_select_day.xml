@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvCurrentDaysOverall"
+        style="@style/TextAppearance.SemiBold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/repeat"
+        android:textSize="@dimen/subtitle" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp">
+
+        <primoz.com.alarmcontinue.views.custom.SelectDayItemView
+            android:id="@+id/day1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/day2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <primoz.com.alarmcontinue.views.custom.SelectDayItemView
+            android:id="@+id/day2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/day1"
+            app:layout_constraintEnd_toStartOf="@+id/day3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/day1"
+            app:layout_constraintTop_toTopOf="@+id/day1" />
+
+        <primoz.com.alarmcontinue.views.custom.SelectDayItemView
+            android:id="@+id/day3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/day1"
+            app:layout_constraintEnd_toStartOf="@+id/day4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/day2"
+            app:layout_constraintTop_toTopOf="@+id/day1"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <primoz.com.alarmcontinue.views.custom.SelectDayItemView
+            android:id="@+id/day4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/day1"
+            app:layout_constraintEnd_toStartOf="@+id/day5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/day3"
+            app:layout_constraintTop_toTopOf="@+id/day1"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <primoz.com.alarmcontinue.views.custom.SelectDayItemView
+            android:id="@+id/day5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/day1"
+            app:layout_constraintEnd_toStartOf="@+id/day6"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/day4"
+            app:layout_constraintTop_toTopOf="@+id/day1"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <primoz.com.alarmcontinue.views.custom.SelectDayItemView
+            android:id="@+id/day6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/day1"
+            app:layout_constraintEnd_toStartOf="@+id/day7"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/day5"
+            app:layout_constraintTop_toTopOf="@+id/day1"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <primoz.com.alarmcontinue.views.custom.SelectDayItemView
+            android:id="@+id/day7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/day1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/day6"
+            app:layout_constraintTop_toTopOf="@+id/day1"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

@@ -84,11 +84,11 @@
                 android:layout_marginTop="18dp"
                 android:alpha="0.75"
                 android:text="@string/current_time_title"
-                android:textSize="18sp" />
+                android:textSize="@dimen/subtitle" />
 
             <TextClock
                 android:id="@+id/tvCurrentTimeActual"
-                style="@style/TextAppearance.Bold"
+                style="@style/TextAppearance.SemiBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="36sp"
@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.75"
-                android:textSize="18sp"
+                android:textSize="@dimen/subtitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCurrentTimeActual"
@@ -121,7 +121,6 @@
 
             <TextView
                 android:id="@+id/tvNextAlarmTimeRemaining"
-                style="@style/TextAppearance.SemiBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -133,7 +132,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvCurrentTimeActual" />
 
             <TextView
-                style="@style/TextAppearance.SemiBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/remaining"
@@ -148,12 +146,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp" />
 
-            <View
+            <include layout="@layout/view_line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="8dp"
-                android:alpha="0.15"
-                android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textNextDay" />
@@ -170,9 +166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:nestedScrollingEnabled="false">
-
-            </androidx.recyclerview.widget.RecyclerView>
+                android:nestedScrollingEnabled="false"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

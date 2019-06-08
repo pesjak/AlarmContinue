@@ -10,4 +10,13 @@
     <string name="save">Save</string>
     <string name="set_alarm">Set alarm</string>
     <string name="i_need_to_wake_up_at">I need to wake up at</string>
+    <string name="repeat">Repeat</string>
+    <string name="every_day">Every day</string>
+    <string name="weekend">Weekend</string>
+    <string name="workweek">Workweek</string>
+    <string name="ringtones">Ringtones</string>
+    <string name="clear">clear</string>
+    <string name="resume_playing">Resume playing</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="delete">Delete</string>
 </resources>
