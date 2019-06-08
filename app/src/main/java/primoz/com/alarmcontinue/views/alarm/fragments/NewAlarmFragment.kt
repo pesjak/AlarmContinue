@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fragment_new_alarm.*
 import primoz.com.alarmcontinue.R
 
 class NewAlarmFragment : Fragment() {
@@ -15,6 +16,8 @@ class NewAlarmFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        timePicker.setIs24HourView(true)
     }
 
 

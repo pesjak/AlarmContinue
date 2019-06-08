@@ -7,4 +7,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="save">Save</string>
+    <string name="set_alarm">Set alarm</string>
+    <string name="i_need_to_wake_up_at">I need to wake up at</string>
 </resources>

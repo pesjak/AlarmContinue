@@ -9,6 +9,21 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
+    <!-- Time Picker -->
+    <style name="MyTimePicker" parent="@android:style/Widget.Material.TimePicker">
+        <item name="colorAccent">@color/colorAccent</item> <!-- colorAccent here seems to work just fine? -->
+        <item name="android:headerTimeTextAppearance">@style/TextAppearance.TimePickerDialogStyle.TimeLabel</item>
+        <item name="android:headerBackground">@color/colorBackground</item>
+        <item name="android:numbersTextColor">@color/colorBackground</item>
+        <item name="android:numbersInnerTextColor">@color/colorBackground</item>
+        <item name="android:numbersSelectorColor">@color/colorAccent</item>
+        <item name="android:numbersBackgroundColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.TimePickerDialogStyle.TimeLabel" parent="@android:style/TextAppearance.Material">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
     <!-- Fonts -->
 
     <style name="TextAppearance.Bold" parent="android:TextAppearance">
