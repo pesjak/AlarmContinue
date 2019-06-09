@@ -8,8 +8,8 @@ import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 
 class AudioPickViewHolder(
     itemView: View,
-    onSelectStateListener: OnSelectViewListener,
-    onPlayPressed: OnPlayListener
+    var onSelectStateListener: OnSelectViewListener,
+    var onPlayPressed: OnPlayListener
 ) : RecyclerView.ViewHolder(itemView) {
 
     private lateinit var audioFile: AudioFile
@@ -17,14 +17,10 @@ class AudioPickViewHolder(
 
     init {
         itemView.checkBox.setOnClickListener {
-            isChecked = !isChecked
-            itemView.checkBox.isChecked = isChecked
-            onSelectStateListener.OnSelectStateChanged(isChecked, adapterPosition)
+            checkedPressed()
         }
         itemView.rootView.setOnClickListener {
-            isChecked = !isChecked
-            itemView.checkBox.isChecked = isChecked
-            onSelectStateListener.OnSelectStateChanged(isChecked, adapterPosition)
+            checkedPressed()
         }
         itemView.ivAudio.setOnClickListener {
             onPlayPressed.OnPlayClicked(audioFile)
@@ -40,5 +36,15 @@ class AudioPickViewHolder(
         itemView.tvDuration.text = Util.getDurationString(audioFile.duration)
         isChecked = audioFile.isSelected
         itemView.checkBox.isChecked = isChecked
+    }
+
+    private fun checkedPressed() {
+        isChecked = !isChecked
+        itemView.checkBox.isChecked = isChecked
+        if (!onSelectStateListener.OnSelectStateChanged(isChecked, adapterPosition)) {
+            isChecked = !isChecked
+        }
+        itemView.checkBox.isChecked = isChecked
+        audioFile.isSelected = isChecked
     }
 }
