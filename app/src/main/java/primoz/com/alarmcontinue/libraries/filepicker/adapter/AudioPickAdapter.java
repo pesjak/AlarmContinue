@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import primoz.com.alarmcontinue.R;
@@ -19,11 +20,6 @@ import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile;
 import java.io.File;
 import java.util.ArrayList;
 
-/**
- * Created by Vincent Woo
- * Date: 2016/10/25
- * Time: 10:57
- */
 
 public class AudioPickAdapter extends BaseAdapter<AudioFile, AudioPickAdapter.AudioPickViewHolder> {
     private int mMaxNumber;
@@ -88,7 +84,7 @@ public class AudioPickAdapter extends BaseAdapter<AudioFile, AudioPickAdapter.Au
             }
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.ivAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -118,13 +114,15 @@ public class AudioPickAdapter extends BaseAdapter<AudioFile, AudioPickAdapter.Au
     class AudioPickViewHolder extends RecyclerView.ViewHolder {
         private TextView mTvTitle;
         private TextView mTvDuration;
-        private ImageView mCbx;
+        private AppCompatCheckBox mCbx;
+        private ImageView ivAudio;
 
         public AudioPickViewHolder(View itemView) {
             super(itemView);
-            mTvTitle = (TextView) itemView.findViewById(R.id.tv_audio_title);
-            mTvDuration = (TextView) itemView.findViewById(R.id.tv_duration);
-            mCbx = (ImageView) itemView.findViewById(R.id.cbx);
+            mTvTitle = (TextView) itemView.findViewById(R.id.tvSongTitle);
+            mTvDuration = (TextView) itemView.findViewById(R.id.tvDuration);
+            mCbx = (AppCompatCheckBox) itemView.findViewById(R.id.checkBox);
+            ivAudio = (ImageView) itemView.findViewById(R.id.ivAudio);
         }
     }
 
