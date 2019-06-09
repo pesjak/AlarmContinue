@@ -19,13 +19,10 @@ import static primoz.com.alarmcontinue.libraries.filepicker.filter.callback.File
 public class FileFilter {
 
     public static void getAudios(FragmentActivity activity, FilterResultCallback<AudioFile> callback) {
-        activity.getSupportLoaderManager().initLoader(2, null,
-                new FileLoaderCallbacks(activity, callback, TYPE_AUDIO));
+        activity.getSupportLoaderManager().initLoader(2, null, new FileLoaderCallbacks(activity, callback, TYPE_AUDIO));
     }
 
-    public static void getFiles(FragmentActivity activity,
-                                FilterResultCallback<NormalFile> callback, String[] suffix) {
-        activity.getSupportLoaderManager().initLoader(3, null,
-                new FileLoaderCallbacks(activity, callback, TYPE_FILE, suffix));
+    public static void getFiles(FragmentActivity activity, FilterResultCallback<NormalFile> callback, String[] suffix) {
+        activity.getSupportLoaderManager().initLoader(3, null, new FileLoaderCallbacks(activity, callback, TYPE_FILE, suffix));
     }
 }

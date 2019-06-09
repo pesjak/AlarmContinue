@@ -3,12 +3,6 @@ package primoz.com.alarmcontinue.libraries.filepicker.filter.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Vincent Woo
- * Date: 2016/10/10
- * Time: 17:31
- */
-
 public class Directory<T> {
     private String id;
     private String name;

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.x_filepicker_activity_audio_pick.*
@@ -12,12 +13,11 @@ import kotlinx.android.synthetic.main.x_filepicker_layout_toolbar.*
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.libraries.filepicker.Constant
 import primoz.com.alarmcontinue.libraries.filepicker.adapter.AudioPickAdapter
-import primoz.com.alarmcontinue.libraries.filepicker.adapter.FolderListAdapter
 import primoz.com.alarmcontinue.libraries.filepicker.filter.FileFilter
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.Directory
 import java.io.File
-import java.util.*
+
 
 class AudioPickActivity : BaseActivity() {
 
@@ -28,6 +28,9 @@ class AudioPickActivity : BaseActivity() {
     private val mSelectedList = ArrayList<AudioFile>()
     private var mAll: List<Directory<AudioFile>>? = null
     private var mAudioPath: String? = null
+    private val fileDialog by lazy {
+        AlertDialog.Builder(this, R.style.AlertDialogCustom)
+    }
 
     override fun permissionGranted() {
         loadData()
@@ -72,28 +75,10 @@ class AudioPickActivity : BaseActivity() {
         if (isNeedFolderList) {
             llFolder.visibility = View.VISIBLE
             llFolder.setOnClickListener {
-                mFolderHelper?.toggle(toolbar)
+                fileDialog.setTitle(getString(R.string.pick_a_folder))
+                fileDialog.show()
             }
             tvFolder.text = resources.getString(R.string.all)
-            mFolderHelper?.setFolderListListener(FolderListAdapter.FolderListListener { directory ->
-                directory ?: return@FolderListListener
-                mFolderHelper?.toggle(toolbar)
-                tvFolder.text = directory.name
-                mAll?.let {
-                    if (TextUtils.isEmpty(directory.path)) { //All
-                        refreshData(it)
-                    } else {
-                        for (dir in it) {
-                            if (dir.path == directory.path) {
-                                val list = ArrayList<Directory<AudioFile>>()
-                                list.add(dir)
-                                refreshData(list)
-                                break
-                            }
-                        }
-                    }
-                }
-            })
         }
     }
 
@@ -106,11 +91,39 @@ class AudioPickActivity : BaseActivity() {
                 all.name = resources.getString(R.string.all)
                 list.add(all)
                 list.addAll(directories)
-                mFolderHelper?.fillData(list)
+
+                setFoldersToBuilder(list)
             }
 
             mAll = directories
             refreshData(directories)
+
+        }
+    }
+
+    private fun setFoldersToBuilder(listDirectories: ArrayList<Directory<*>>) {
+        val tempStringDirectoryArray = arrayListOf<String>()
+        for (directory in listDirectories) {
+            tempStringDirectoryArray.add(directory.name)
+        }
+        val directoryCharSequenceList = tempStringDirectoryArray.toArray(arrayOfNulls<CharSequence>(tempStringDirectoryArray.size))
+        fileDialog.setItems(directoryCharSequenceList) { dialog, which ->
+            val directory = listDirectories[which]
+            tvFolder.text = directory.name
+            mAll?.let {
+                if (TextUtils.isEmpty(directory.path)) { //All
+                    refreshData(it)
+                } else {
+                    for (dir in it) {
+                        if (dir.path == directory.path) {
+                            val list = ArrayList<Directory<AudioFile>>()
+                            list.add(dir)
+                            refreshData(list)
+                            break
+                        }
+                    }
+                }
+            }
         }
     }
 

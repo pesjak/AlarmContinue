@@ -9,6 +9,12 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
+    <!-- Alert dialog -->
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/colorBackground</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
     <!-- Time Picker -->
     <style name="MyTimePicker" parent="@android:style/Widget.Material.Light.TimePicker">
         <item name="colorAccent">@color/colorAccent</item> <!-- colorAccent here seems to work just fine? -->

@@ -30,4 +30,5 @@
     <string name="vw_no_video_app">No video App in this phone!</string>
     <string name="vw_no_audio_app">No audio App in this phone!</string>
     <string name="all">All</string>
+    <string name="pick_a_folder">Pick a folder</string>
 </resources>

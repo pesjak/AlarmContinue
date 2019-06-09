@@ -2,17 +2,16 @@ package primoz.com.alarmcontinue.libraries.filepicker.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.x_filepicker_layout_toolbar.*
 import primoz.com.alarmcontinue.R
-import primoz.com.alarmcontinue.libraries.filepicker.FolderListHelper
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
 abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
-    var mFolderHelper: FolderListHelper? = null
     var isNeedFolderList: Boolean = false
 
     abstract fun permissionGranted()
@@ -25,16 +24,13 @@ abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCal
         super.onCreate(savedInstanceState)
 
         isNeedFolderList = intent.getBooleanExtra(IS_NEED_FOLDER_LIST, false)
-        if (isNeedFolderList) {
-            mFolderHelper = FolderListHelper()
-            mFolderHelper?.initFolderListView(this)
-        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         readExternalStorage()
         ivBack.setOnClickListener { finish() }
+        llFolder.visibility = if (isNeedFolderList) View.VISIBLE else View.GONE
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
