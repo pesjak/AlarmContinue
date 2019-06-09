@@ -163,11 +163,15 @@
             <TextView
                 android:id="@+id/tvRingtonesTitle"
                 style="@style/TextAppearance.SemiBold"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:text="@string/ringtones"
                 android:textSize="@dimen/subtitle"
+                app:layout_constraintEnd_toStartOf="@+id/tvClear"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
