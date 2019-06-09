@@ -22,20 +22,20 @@ class AudioPickAdapter(context: Context, list: ArrayList<AudioFile>, private val
     val isUpToMax: Boolean
         get() = mCurrentNumber >= mMaxNumber
 
-    val onCheckedChangeListener = object : OnSelectViewListener {
+    private val onCheckedChangeListener = object : OnSelectViewListener {
         override fun OnSelectStateChanged(isChecked: Boolean, position: Int): Boolean {
             if (isUpToMax) {
                 ToastUtil.getInstance(mContext).showToast(R.string.vw_up_to_max)
                 return false
             }
             if (isChecked) mCurrentNumber++ else mCurrentNumber--
-            mListener.OnSelectStateChanged(isChecked, mList[position])
+            mListener?.OnSelectStateChanged(isChecked, mList[position])
             return true
         }
 
     }
 
-    val onPlayListener = object : OnPlayListener {
+    private val onPlayListener = object : OnPlayListener {
         override fun OnPlayClicked(audioFile: AudioFile) {
             val intent = Intent(Intent.ACTION_VIEW)
             val uri: Uri

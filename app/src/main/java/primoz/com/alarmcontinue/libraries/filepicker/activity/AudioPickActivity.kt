@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.x_filepicker_layout_toolbar.*
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.libraries.filepicker.Constant
 import primoz.com.alarmcontinue.libraries.filepicker.adapter.AudioPickAdapter
+import primoz.com.alarmcontinue.libraries.filepicker.adapter.OnSelectStateListener
 import primoz.com.alarmcontinue.libraries.filepicker.filter.FileFilter
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.Directory
@@ -54,16 +55,18 @@ class AudioPickActivity : BaseActivity() {
         mAdapter = AudioPickAdapter(this, mMaxNumber)
         rvAudioPick.adapter = mAdapter
 
-        mAdapter?.setOnSelectStateListener { state, file ->
-            if (state) {
-                mSelectedList.add(file)
-                mCurrentNumber++
-            } else {
-                mSelectedList.remove(file)
-                mCurrentNumber--
+        mAdapter?.setOnSelectStateListener(object : OnSelectStateListener<AudioFile> {
+            override fun OnSelectStateChanged(state: Boolean, file: AudioFile) {
+                if (state) {
+                    mSelectedList.add(file)
+                    mCurrentNumber++
+                } else {
+                    mSelectedList.remove(file)
+                    mCurrentNumber--
+                }
+                tvCount?.text = "$mCurrentNumber/$mMaxNumber"
             }
-            tvCount?.text = "$mCurrentNumber/$mMaxNumber"
-        }
+        })
 
         tvDone.setOnClickListener {
             val intent = Intent()
@@ -106,7 +109,8 @@ class AudioPickActivity : BaseActivity() {
         for (directory in listDirectories) {
             tempStringDirectoryArray.add(directory.name)
         }
-        val directoryCharSequenceList = tempStringDirectoryArray.toArray(arrayOfNulls<CharSequence>(tempStringDirectoryArray.size))
+        val directoryCharSequenceList =
+            tempStringDirectoryArray.toArray(arrayOfNulls<CharSequence>(tempStringDirectoryArray.size))
         fileDialog.setItems(directoryCharSequenceList) { dialog, which ->
             val directory = listDirectories[which]
             tvFolder.text = directory.name
