@@ -11,6 +11,8 @@
         android:layout_height="42dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:padding="4dp"
         android:src="@drawable/ic_play"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,39 +30,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/tvSongTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:layout_toLeftOf="@id/checkBox"
-        android:layout_toRightOf="@id/ivAudio"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/checkBox"
         app:layout_constraintStart_toEndOf="@+id/ivAudio"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Some song title" />
 
-        <TextView
-            android:id="@+id/tvSongTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="2"
-            android:textSize="16sp"
-            tools:text="Bla bla bla" />
-
-        <TextView
-            android:id="@+id/tvDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="14sp"
-            tools:text="04:10" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tvDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivAudio"
+        app:layout_constraintTop_toBottomOf="@+id/tvSongTitle"
+        tools:text="04:10" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
