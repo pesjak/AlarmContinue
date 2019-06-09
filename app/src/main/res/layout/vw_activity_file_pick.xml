@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <include android:id="@+id/tb_pick"
-        layout="@layout/vw_layout_top_bar" />
+        layout="@layout/x_filepicker_layout_toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_file_pick"

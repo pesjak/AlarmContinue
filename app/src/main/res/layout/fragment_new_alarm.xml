@@ -155,7 +155,6 @@
             android:id="@+id/ringtoneContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line2">
@@ -169,6 +168,7 @@
                 android:layout_marginEnd="8dp"
                 android:clickable="true"
                 android:focusable="true"
+                android:paddingTop="24dp"
                 android:text="@string/ringtones"
                 android:textSize="@dimen/subtitle"
                 app:layout_constraintEnd_toStartOf="@+id/tvClear"
@@ -192,6 +192,7 @@
                 style="@style/TextAppearance.SemiBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"

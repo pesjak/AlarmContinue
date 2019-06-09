@@ -5,16 +5,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/vw_bg_folder_list"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    app:mhl_HeightDimen="190dp">
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    app:mhl_HeightDimen="250dp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_folder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:scrollbars="vertical"
         android:scrollbarSize="3dp"
         android:scrollbarStyle="outsideOverlay"/>

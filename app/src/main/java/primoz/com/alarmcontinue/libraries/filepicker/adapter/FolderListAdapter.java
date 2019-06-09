@@ -26,7 +26,7 @@ public class FolderListAdapter extends BaseAdapter<Directory, FolderListAdapter.
 
     @Override
     public FolderListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(mContext).inflate(R.layout.vw_layout_item_folder_list,
+        View itemView = LayoutInflater.from(mContext).inflate(R.layout.x_filepicker_drop_down_folder_list,
                 parent, false);
         return new FolderListViewHolder(itemView);
     }
@@ -55,7 +55,7 @@ public class FolderListAdapter extends BaseAdapter<Directory, FolderListAdapter.
         public FolderListViewHolder(View itemView) {
             super(itemView);
 
-            mTvTitle = itemView.findViewById(R.id.tv_folder_title);
+            mTvTitle = itemView.findViewById(R.id.tvFolderTitle);
         }
     }
 

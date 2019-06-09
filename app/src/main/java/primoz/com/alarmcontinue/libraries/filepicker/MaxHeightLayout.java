@@ -8,23 +8,13 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import primoz.com.alarmcontinue.R;
 
-/**
- * Created by Vincent Woo
- * Date: 2018/2/26
- * Time: 17:52
- *
- * 先判断是否设定了mMaxHeight，如果设定了mMaxHeight，则直接使用mMaxHeight的值，
- * 如果没有设定mMaxHeight，则判断是否设定了mMaxRatio，如果设定了mMaxRatio的值
- * 则使用此值与屏幕高度的乘积作为最高高度
- */
-
 public class MaxHeightLayout extends FrameLayout {
 
     private static final float DEFAULT_MAX_RATIO = 0.6f;
     private static final float DEFAULT_MAX_HEIGHT = 0f;
 
-    private float mMaxRatio = DEFAULT_MAX_RATIO;// 优先级高
-    private float mMaxHeight = DEFAULT_MAX_HEIGHT;// 优先级低
+    private float mMaxRatio = DEFAULT_MAX_RATIO;
+    private float mMaxHeight = DEFAULT_MAX_HEIGHT;
 
     public MaxHeightLayout(Context context) {
         super(context);
@@ -91,11 +81,6 @@ public class MaxHeightLayout extends FrameLayout {
         super.onMeasure(widthMeasureSpec, maxHeightMeasureSpec);
     }
 
-    /**
-     * 获取屏幕高度
-     *
-     * @param context
-     */
     private int getScreenHeight(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         return wm.getDefaultDisplay().getHeight();
