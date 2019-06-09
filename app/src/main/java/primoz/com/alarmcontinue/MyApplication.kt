@@ -8,6 +8,7 @@ import io.github.inflationx.viewpump.ViewPump
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import primoz.com.alarmcontinue.model.AlarmList
+import primoz.com.alarmcontinue.model.SongList
 
 class MyApplication : Application() {
 
@@ -19,7 +20,10 @@ class MyApplication : Application() {
         //Init Realm
         Realm.init(this)
         val realmConfig = RealmConfiguration.Builder()
-            .initialData { realm -> realm.createObject(AlarmList::class.java) }
+            .initialData { realm ->
+                realm.createObject(AlarmList::class.java)
+                realm.createObject(SongList::class.java)
+            }
             .build()
         Realm.deleteRealm(realmConfig) // Delete Realm between app restarts.
         Realm.setDefaultConfiguration(realmConfig)

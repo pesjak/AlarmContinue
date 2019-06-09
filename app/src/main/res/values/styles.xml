@@ -59,9 +59,4 @@
         <item name="fontPath">fonts/Raleway-Thin.ttf</item>
     </style>
 
-    <!-- MaxHeightLayout属性 -->
-    <declare-styleable name="MaxHeightLayout">
-        <attr name="mhl_HeightRatio" format="reference|float" />
-        <attr name="mhl_HeightDimen" format="reference|dimension" />
-    </declare-styleable>
 </resources>

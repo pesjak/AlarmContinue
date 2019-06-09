@@ -1,4 +1,4 @@
-package primoz.com.alarmcontinue.views.alarm.fragments
+package primoz.com.alarmcontinue.views.alarm.fragments.editAlarm
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -3,16 +3,15 @@ package primoz.com.alarmcontinue.views.alarm
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_alarm.*
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.enums.AlarmType
 import primoz.com.alarmcontinue.extensions.inTransaction
 import primoz.com.alarmcontinue.views.BaseActivity
-import primoz.com.alarmcontinue.views.alarm.fragments.BedtimeAlarmFragment
-import primoz.com.alarmcontinue.views.alarm.fragments.EditAlarmFragment
-import primoz.com.alarmcontinue.views.alarm.fragments.NewAlarmFragment
+import primoz.com.alarmcontinue.views.alarm.fragments.bedtime.BedtimeAlarmFragment
+import primoz.com.alarmcontinue.views.alarm.fragments.editAlarm.EditAlarmFragment
+import primoz.com.alarmcontinue.views.alarm.fragments.newAlarm.NewAlarmFragment
 
 class AlarmActivity : BaseActivity() {
 

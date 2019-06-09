@@ -28,7 +28,7 @@ open class Alarm : RealmObject() {
     var bedtimeAlarm: String? = null
     var startTimeOfAlarm: String? = null
     var daysList: RealmList<RealmDayOfWeek>? = null
-    var songsLocationList: RealmList<String>? = null
+    var songsList: RealmList<Song>? = null
     var shouldResumePlaying: Boolean? = null
     var secondsPlayed: Int? = null
     var shouldVibrate: Boolean? = null
@@ -43,7 +43,7 @@ open class Alarm : RealmObject() {
             bedtimeAlarm: String? = null,
             startTimeOfAlarm: String,
             daysList: RealmList<RealmDayOfWeek>,
-            songsLocationList: RealmList<String>,
+            songList: RealmList<Song>,
             shouldResumePlaying: Boolean,
             shouldVibrate: Boolean
         ) {
@@ -53,7 +53,7 @@ open class Alarm : RealmObject() {
             alarm.bedtimeAlarm = bedtimeAlarm
             alarm.startTimeOfAlarm = startTimeOfAlarm
             alarm.daysList = daysList
-            alarm.songsLocationList = songsLocationList
+            alarm.songsList = songList
             alarm.shouldResumePlaying = shouldResumePlaying
             alarm.secondsPlayed = 0
             alarm.shouldVibrate = shouldVibrate
@@ -67,7 +67,7 @@ open class Alarm : RealmObject() {
             bedtimeAlarm: String?,
             startTimeOfAlarm: String,
             daysList: RealmList<RealmDayOfWeek>,
-            songsLocationList: RealmList<String>,
+            songList: RealmList<Song>,
             shouldResumePlaying: Boolean,
             secondsPlayed: Int,
             shouldVibrate: Boolean,
@@ -78,7 +78,7 @@ open class Alarm : RealmObject() {
                 alarm.bedtimeAlarm = bedtimeAlarm
                 alarm.startTimeOfAlarm = startTimeOfAlarm
                 alarm.daysList = daysList
-                alarm.songsLocationList = songsLocationList
+                alarm.songsList = songList
                 alarm.shouldResumePlaying = shouldResumePlaying
                 alarm.secondsPlayed = secondsPlayed
                 alarm.shouldVibrate = shouldVibrate

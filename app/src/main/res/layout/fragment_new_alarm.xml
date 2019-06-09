@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
+    android:fillViewport="true"
     android:fitsSystemWindows="true"
     tools:context=".views.home.MainActivity">
 
@@ -13,7 +14,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="36dp"
         android:background="@color/colorBackground"
-        tools:context=".views.alarm.fragments.NewAlarmFragment">
+        tools:context=".views.alarm.fragments.newAlarm.NewAlarmFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -153,8 +154,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ringtoneContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line2">
@@ -175,17 +176,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvRingtones"
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:nestedScrollingEnabled="false"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvRingtonesTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/tvRingtonesTitle">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvRingtones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/dummyClickableContainerRingtones"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvClear"
@@ -197,9 +218,9 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:paddingBottom="4dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
                 android:text="@string/clear"
                 android:textAllCaps="true"
                 android:textSize="14sp"

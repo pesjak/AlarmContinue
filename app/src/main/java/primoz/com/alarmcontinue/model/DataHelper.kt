@@ -18,6 +18,7 @@ package primoz.com.alarmcontinue.model
 import io.realm.Realm
 import io.realm.RealmList
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
+import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 
 object DataHelper {
 
@@ -26,24 +27,38 @@ object DataHelper {
         bedtimeAlarm: String? = null,
         startTimeOfAlarm: String,
         daysList: ArrayList<EnumDayOfWeek>,
-        songsLocationList: ArrayList<String>,
+        songList: ArrayList<AudioFile>,
         shouldResumePlaying: Boolean = false,
         shouldVibrate: Boolean = false
     ) {
         realm.executeTransactionAsync { realmInTransaction ->
             var monday = realmInTransaction.createObject(RealmDayOfWeek::class.java)
             monday.saveNameOfDay(EnumDayOfWeek.MONDAY)
-            var wednesday =  realmInTransaction.createObject(RealmDayOfWeek::class.java)
+            var wednesday = realmInTransaction.createObject(RealmDayOfWeek::class.java)
             monday.saveNameOfDay(EnumDayOfWeek.WEDNESDAY)
-            val realmDayOfTheWeekList = RealmList(monday,wednesday)
-            val realmSongLocationList = RealmList("aslgkhaskl//alksgh.com","c://sakh./")
+            val realmDayOfTheWeekList = RealmList(monday, wednesday)
+
+            val realmSongList = RealmList<Song>()
+            for (audio in songList) {
+                realmSongList.add(
+                    Song.createSong(
+                        realmInTransaction,
+                        0,
+                        audio.name,
+                        audio.path,
+                        audio.size,
+                        audio.bucketId,
+                        audio.bucketName
+                    )
+                )
+            }
 
             Alarm.createAlarm(
                 realmInTransaction,
                 bedtimeAlarm,
                 startTimeOfAlarm,
                 realmDayOfTheWeekList,
-                realmSongLocationList,
+                realmSongList,
                 shouldResumePlaying,
                 shouldVibrate
             )
@@ -60,20 +75,34 @@ object DataHelper {
         bedtimeAlarm: String? = null,
         startTimeOfAlarm: String,
         daysList: RealmList<RealmDayOfWeek>,
-        songsLocationList: RealmList<String>,
+        songList: RealmList<AudioFile>,
         shouldResumePlaying: Boolean = false,
         secondsPlayed: Int = 0,
         shouldVibrate: Boolean = false,
         isEnabled: Boolean = false
     ) {
         realm.executeTransactionAsync { realmInTransaction ->
+            val realmSongList = RealmList<Song>()
+            for (audio in songList) {
+                realmSongList.add(
+                    Song.createSong(
+                        realmInTransaction,
+                        0,
+                        audio.name,
+                        audio.path,
+                        audio.size,
+                        audio.bucketId,
+                        audio.bucketName
+                    )
+                )
+            }
             Alarm.editAlarm(
                 id,
                 realmInTransaction,
                 bedtimeAlarm,
                 startTimeOfAlarm,
                 daysList,
-                songsLocationList,
+                realmSongList,
                 shouldResumePlaying,
                 secondsPlayed,
                 shouldVibrate,

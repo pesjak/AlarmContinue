@@ -188,6 +188,6 @@ class AudioPickActivity : BaseActivity() {
 
     companion object {
         const val IS_TAKEN_AUTO_SELECTED = "IsTakenAutoSelected"
-        const val DEFAULT_MAX_NUMBER = 9
+        const val DEFAULT_MAX_NUMBER = 5
     }
 }

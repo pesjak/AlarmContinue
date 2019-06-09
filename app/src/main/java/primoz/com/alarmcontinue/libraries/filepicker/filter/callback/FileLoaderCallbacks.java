@@ -109,8 +109,8 @@ public class FileLoaderCallbacks implements LoaderManager.LoaderCallbacks<Cursor
 
             //Create a Directory
             Directory<AudioFile> directory = new Directory<>();
-            directory.setName(Util.extractFileNameWithSuffix(Util.extractPathWithoutSeparator(audio.getPath())));
-            directory.setPath(Util.extractPathWithoutSeparator(audio.getPath()));
+            directory.setName(Util.INSTANCE.extractFileNameWithSuffix(Util.INSTANCE.extractPathWithoutSeparator(audio.getPath())));
+            directory.setPath(Util.INSTANCE.extractPathWithoutSeparator(audio.getPath()));
 
             if (!directories.contains(directory)) {
                 directory.addFile(audio);
@@ -148,8 +148,8 @@ public class FileLoaderCallbacks implements LoaderManager.LoaderCallbacks<Cursor
 
                 //Create a Directory
                 Directory<NormalFile> directory = new Directory<>();
-                directory.setName(Util.extractFileNameWithSuffix(Util.extractPathWithoutSeparator(file.getPath())));
-                directory.setPath(Util.extractPathWithoutSeparator(file.getPath()));
+                directory.setName(Util.INSTANCE.extractFileNameWithSuffix(Util.INSTANCE.extractPathWithoutSeparator(file.getPath())));
+                directory.setPath(Util.INSTANCE.extractPathWithoutSeparator(file.getPath()));
 
                 if (!directories.contains(directory)) {
                     directory.addFile(file);
@@ -166,7 +166,7 @@ public class FileLoaderCallbacks implements LoaderManager.LoaderCallbacks<Cursor
     }
 
     private boolean contains(String path) {
-        String name = Util.extractFileNameWithSuffix(path);
+        String name = Util.INSTANCE.extractFileNameWithSuffix(path);
         Pattern pattern = Pattern.compile(mSuffixRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(name);
         return matcher.matches();

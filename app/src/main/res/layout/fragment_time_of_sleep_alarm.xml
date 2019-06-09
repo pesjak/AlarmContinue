@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".views.alarm.fragments.NewAlarmFragment">
+    tools:context=".views.alarm.fragments.newAlarm.NewAlarmFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
