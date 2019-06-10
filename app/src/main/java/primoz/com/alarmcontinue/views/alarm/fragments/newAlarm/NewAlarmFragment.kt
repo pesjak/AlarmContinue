@@ -87,6 +87,10 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
             startActivityForResult(intent3, Constant.REQUEST_CODE_PICK_AUDIO)
         }
 
+        ivClose.setOnClickListener {
+            finish()
+        }
+
         ivSave.setOnClickListener {
             mPresenter.saveAlarm(
                 realm,

@@ -42,7 +42,7 @@ class DaySelectorView @JvmOverloads constructor(
     }
 
     private fun updateStatus() {
-        if (selectedDays.size == 7) {
+        if (selectedDays.size == 7 || selectedDays.size == 0) {
             tvCurrentDaysOverall.text = context.getText(R.string.every_day)
         } else if (selectedDays.size == 2
             && selectedDays.contains(EnumDayOfWeek.SATURDAY)
