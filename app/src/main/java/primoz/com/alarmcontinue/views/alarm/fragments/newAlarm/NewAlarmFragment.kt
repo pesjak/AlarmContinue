@@ -31,8 +31,16 @@ class NewAlarmFragment : Fragment() {
                 //    builder.append(path + "\n")
                 //}
                 //Log.d("Songs", builder.toString())
-                adapter?.songList =
-                    data?.getParcelableArrayListExtra<Parcelable>(Constant.RESULT_PICK_AUDIO) as ArrayList<AudioFile>
+
+                val songList = data?.getParcelableArrayListExtra<Parcelable>(Constant.RESULT_PICK_AUDIO) as ArrayList<AudioFile>
+
+                if (songList.isEmpty()) {
+                    tvRingtonesTitle.text = getString(R.string.ringtone)
+                    songList.add(getDefaultRingtone())
+                } else {
+                    tvRingtonesTitle.text = getString(R.string.ringtones)
+                }
+                adapter?.songList = songList
 
             }
         }
@@ -68,18 +76,20 @@ class NewAlarmFragment : Fragment() {
      */
 
     private fun initRecyclerView() {
-
-        //Get Default Alarm
-        val alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-        val ringtoneAlarm = RingtoneManager.getRingtone(context, alarmTone)
-        var defaultRingtone = AudioFile()
-        defaultRingtone.name = ringtoneAlarm.getTitle(context)
-        defaultRingtone.path = alarmTone.path
-
         val linearLayoutManager = LinearLayoutManager(context)
         adapter = SelectedSongsRecyclerViewAdapter()
-        adapter?.songList = mutableListOf(defaultRingtone)
+        adapter?.songList = mutableListOf(getDefaultRingtone())
         rvRingtones.layoutManager = linearLayoutManager
         rvRingtones.adapter = adapter
     }
+
+    private fun getDefaultRingtone(): AudioFile {
+        val alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        val ringtoneAlarm = RingtoneManager.getRingtone(context, alarmTone)
+        val defaultRingtone = AudioFile()
+        defaultRingtone.name = ringtoneAlarm.getTitle(context)
+        defaultRingtone.path = alarmTone.path
+        return defaultRingtone
+    }
+
 }

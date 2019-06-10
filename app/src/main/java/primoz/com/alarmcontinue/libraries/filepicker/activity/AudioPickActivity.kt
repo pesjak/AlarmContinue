@@ -9,7 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.x_filepicker_activity_audio_pick.*
-import kotlinx.android.synthetic.main.x_filepicker_layout_toolbar.*
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.libraries.filepicker.Constant
 import primoz.com.alarmcontinue.libraries.filepicker.adapter.AudioPickAdapter

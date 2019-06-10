@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.x_filepicker_layout_toolbar.*
+import kotlinx.android.synthetic.main.x_filepicker_activity_audio_pick.*
 import primoz.com.alarmcontinue.R
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
