@@ -24,19 +24,23 @@ object DataHelper {
 
     fun addAlarmAsync(
         realm: Realm,
-        bedtimeAlarm: String? = null,
-        startTimeOfAlarm: String,
-        daysList: ArrayList<EnumDayOfWeek>,
-        songList: ArrayList<AudioFile>,
+        hourAlarm: Int,
+        minuteAlarm: Int,
+        daysList: MutableList<EnumDayOfWeek>,
+        songList: MutableList<AudioFile>,
         shouldResumePlaying: Boolean = false,
-        shouldVibrate: Boolean = false
+        shouldVibrate: Boolean = false,
+        hourBedtimeSleep: Int? = null,
+        minuteBedtimeSleep: Int? = null
     ) {
         realm.executeTransactionAsync { realmInTransaction ->
-            var monday = realmInTransaction.createObject(RealmDayOfWeek::class.java)
-            monday.saveNameOfDay(EnumDayOfWeek.MONDAY)
-            var wednesday = realmInTransaction.createObject(RealmDayOfWeek::class.java)
-            monday.saveNameOfDay(EnumDayOfWeek.WEDNESDAY)
-            val realmDayOfTheWeekList = RealmList(monday, wednesday)
+            //Create Realm objects
+            val realmDayOfTheWeekList = RealmList<RealmDayOfWeek>()
+            for (day in daysList) {
+                val realmDay = realmInTransaction.createObject(RealmDayOfWeek::class.java)
+                realmDay.saveNameOfDay(day)
+                realmDayOfTheWeekList.add(realmDay)
+            }
 
             val realmSongList = RealmList<Song>()
             for (audio in songList) {
@@ -47,20 +51,25 @@ object DataHelper {
                         audio.name,
                         audio.path,
                         audio.size,
+                        audio.duration,
                         audio.bucketId,
                         audio.bucketName
                     )
                 )
             }
 
+
+            //Save object
             Alarm.createAlarm(
                 realmInTransaction,
-                bedtimeAlarm,
-                startTimeOfAlarm,
+                hourAlarm,
+                minuteAlarm,
                 realmDayOfTheWeekList,
                 realmSongList,
                 shouldResumePlaying,
-                shouldVibrate
+                shouldVibrate,
+                hourBedtimeSleep,
+                minuteBedtimeSleep
             )
         }
     }
@@ -72,16 +81,28 @@ object DataHelper {
     fun editAlarm(
         id: Int,
         realm: Realm,
-        bedtimeAlarm: String? = null,
-        startTimeOfAlarm: String,
-        daysList: RealmList<RealmDayOfWeek>,
-        songList: RealmList<AudioFile>,
+        isEnabled: Boolean = false,
+        hourAlarm: Int,
+        minuteAlarm: Int,
+        daysList: MutableList<EnumDayOfWeek>,
+        songList: MutableList<AudioFile>,
         shouldResumePlaying: Boolean = false,
-        secondsPlayed: Int = 0,
         shouldVibrate: Boolean = false,
-        isEnabled: Boolean = false
+        secondsPlayed: Int = 0,
+        hourBedtimeSleep: Int? = null,
+        minuteBedtimeSleep: Int? = null
     ) {
         realm.executeTransactionAsync { realmInTransaction ->
+
+            //Create Realm objects
+            val realmDayOfTheWeekList = RealmList<RealmDayOfWeek>()
+            for (day in daysList) {
+                val realmDay = realmInTransaction.createObject(RealmDayOfWeek::class.java)
+                realmDay.saveNameOfDay(day)
+                realmDayOfTheWeekList.add(realmDay)
+            }
+
+            //Save object
             val realmSongList = RealmList<Song>()
             for (audio in songList) {
                 realmSongList.add(
@@ -91,22 +112,26 @@ object DataHelper {
                         audio.name,
                         audio.path,
                         audio.size,
+                        audio.duration,
                         audio.bucketId,
                         audio.bucketName
                     )
                 )
             }
+
             Alarm.editAlarm(
                 id,
                 realmInTransaction,
-                bedtimeAlarm,
-                startTimeOfAlarm,
-                daysList,
+                isEnabled,
+                hourAlarm,
+                minuteAlarm,
+                realmDayOfTheWeekList,
                 realmSongList,
                 shouldResumePlaying,
-                secondsPlayed,
                 shouldVibrate,
-                isEnabled
+                secondsPlayed,
+                hourBedtimeSleep,
+                minuteBedtimeSleep
             )
         }
     }

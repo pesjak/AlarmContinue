@@ -32,4 +32,5 @@
     <string name="all">All</string>
     <string name="pick_a_folder">Pick a folder</string>
     <string name="ringtone">Ringtone</string>
+    <string name="none">None</string>
 </resources>

@@ -18,7 +18,6 @@ package primoz.com.alarmcontinue.model
 import io.realm.Realm
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import java.util.concurrent.atomic.AtomicInteger
 
 open class Song : RealmObject() {
 
@@ -27,30 +26,32 @@ open class Song : RealmObject() {
     var secondsPlayed: Int? = null
     var name: String? = null
     var path: String? = null
-    var size: Long = 0   //byte
+    var size: Long? = 0   //byte
+    var duration: Long? = 0
     var bucketId: String? = null  //Directory ID
     var bucketName: String? = null  //Directory Name
 
     companion object {
         const val FIELD_ID = "id"
-        private val INTEGER_COUNTER = AtomicInteger(0)
 
         fun createSong(
             realm: Realm,
             secondsPlayed: Int,
-            name: String,
-            path: String,
-            size: Long,
-            bucketId: String,
-            bucketName: String
+            name: String?,
+            path: String?,
+            size: Long?,
+            duration: Long?,
+            bucketId: String?,
+            bucketName: String?
         ): Song {
             // val parent = realm.where(SongList::class.java).findFirst()
             // val songList = parent!!.songList
-            val song = realm.createObject(Song::class.java, increment())
+            val song = realm.createObject(Song::class.java, getNextID(realm))
             song.secondsPlayed = secondsPlayed
             song.name = name
             song.path = path
             song.size = size
+            song.duration = duration
             song.bucketId = bucketId
             song.bucketName = bucketName
             // songList?.add(song)
@@ -62,8 +63,17 @@ open class Song : RealmObject() {
             alarm?.deleteFromRealm()
         }
 
-        private fun increment(): Int {
-            return INTEGER_COUNTER.getAndIncrement()
+        private fun getNextID(realm: Realm): Int {
+            return try {
+                val number = realm.where(Song::class.java).max(FIELD_ID)
+                if (number != null) {
+                    number.toInt() + 1
+                } else {
+                    0
+                }
+            } catch (e: ArrayIndexOutOfBoundsException) {
+                0
+            }
         }
     }
 }

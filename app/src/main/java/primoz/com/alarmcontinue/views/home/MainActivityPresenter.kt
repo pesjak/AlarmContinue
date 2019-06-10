@@ -16,7 +16,7 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
     }
 
     override fun enableAlarm(realm: Realm, alarm: Alarm, shouldEnable: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun enableBedtime(realm: Realm, shouldEnable: Boolean) {

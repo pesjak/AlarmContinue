@@ -19,60 +19,68 @@ import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import java.util.concurrent.atomic.AtomicInteger
+
 
 open class Alarm : RealmObject() {
 
     @PrimaryKey
     var id: Int = 0
-    var bedtimeAlarm: String? = null
-    var startTimeOfAlarm: String? = null
+    var hourAlarm: Int? = null
+    var minuteAlarm: Int? = null
     var daysList: RealmList<RealmDayOfWeek>? = null
     var songsList: RealmList<Song>? = null
     var shouldResumePlaying: Boolean? = null
     var secondsPlayed: Int? = null
     var shouldVibrate: Boolean? = null
     var isEnabled: Boolean? = null
+    var hourBedtimeSleep: Int? = null
+    var minuteBedtimeSleep: Int? = null
 
     companion object {
         const val FIELD_ID = "id"
-        private val INTEGER_COUNTER = AtomicInteger(0)
 
         fun createAlarm(
             realm: Realm,
-            bedtimeAlarm: String? = null,
-            startTimeOfAlarm: String,
+            hourAlarm: Int,
+            minuteAlarm: Int,
             daysList: RealmList<RealmDayOfWeek>,
             songList: RealmList<Song>,
             shouldResumePlaying: Boolean,
-            shouldVibrate: Boolean
+            shouldVibrate: Boolean,
+            hourBedtimeSleep: Int? = null,
+            minuteBedtimeSleep: Int? = null
         ) {
             val parent = realm.where(AlarmList::class.java).findFirst()
             val alarmList = parent!!.alarmList
-            val alarm = realm.createObject(Alarm::class.java, increment())
-            alarm.bedtimeAlarm = bedtimeAlarm
-            alarm.startTimeOfAlarm = startTimeOfAlarm
+            val alarm = realm.createObject(Alarm::class.java, getNextID(realm))
+            alarm.hourAlarm = hourAlarm
+            alarm.minuteAlarm = minuteAlarm
             alarm.daysList = daysList
             alarm.songsList = songList
             alarm.shouldResumePlaying = shouldResumePlaying
             alarm.secondsPlayed = 0
             alarm.shouldVibrate = shouldVibrate
             alarm.isEnabled = true
+            alarm.hourBedtimeSleep = hourBedtimeSleep
+            alarm.minuteBedtimeSleep = minuteBedtimeSleep
             alarmList?.add(alarm)
         }
 
         fun editAlarm(
             id: Int,
             realm: Realm,
-            bedtimeAlarm: String?,
-            startTimeOfAlarm: String,
+            isEnabled: Boolean,
+            hourAlarm: Int,
+            minuteAlarm: Int,
             daysList: RealmList<RealmDayOfWeek>,
             songList: RealmList<Song>,
             shouldResumePlaying: Boolean,
-            secondsPlayed: Int,
             shouldVibrate: Boolean,
-            isEnabled: Boolean
+            secondsPlayed: Int,
+            hourBedtimeSleep: Int? = null,
+            minuteBedtimeSleep: Int? = null
         ) {
+            /*
             val alarm = realm.where(Alarm::class.java).equalTo(FIELD_ID, id).findFirst()
             alarm?.let {
                 alarm.bedtimeAlarm = bedtimeAlarm
@@ -84,6 +92,7 @@ open class Alarm : RealmObject() {
                 alarm.shouldVibrate = shouldVibrate
                 alarm.isEnabled = isEnabled
             }
+            */
         }
 
 
@@ -92,8 +101,17 @@ open class Alarm : RealmObject() {
             alarm?.deleteFromRealm()
         }
 
-        private fun increment(): Int {
-            return INTEGER_COUNTER.getAndIncrement()
+        private fun getNextID(realm: Realm): Int {
+            return try {
+                val number = realm.where(Alarm::class.java).max(FIELD_ID)
+                if (number != null) {
+                    number.toInt() + 1
+                } else {
+                    0
+                }
+            } catch (e: ArrayIndexOutOfBoundsException) {
+                0
+            }
         }
     }
 }

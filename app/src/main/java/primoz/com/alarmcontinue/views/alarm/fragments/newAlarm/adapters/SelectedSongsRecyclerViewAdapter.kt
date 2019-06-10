@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 
-class SelectedSongsRecyclerViewAdapter() : RecyclerView.Adapter<SongViewHolder>() {
+class SelectedSongsRecyclerViewAdapter : RecyclerView.Adapter<SongViewHolder>() {
 
-    var songList: List<AudioFile>? = null
+    var songList: MutableList<AudioFile> = mutableListOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -19,13 +19,13 @@ class SelectedSongsRecyclerViewAdapter() : RecyclerView.Adapter<SongViewHolder>(
     }
 
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
-        songList?.get(position)?.let {
+        songList[position].let {
             holder.setData(it, itemCount == 1)
         }
     }
 
     override fun getItemCount(): Int {
-        return songList?.size ?: 0
+        return songList.size
     }
 
 }

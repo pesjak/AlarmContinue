@@ -4,7 +4,6 @@ import android.app.Activity
 import io.realm.Realm
 import io.realm.RealmList
 import primoz.com.alarmcontinue.model.Alarm
-import primoz.com.alarmcontinue.views.BasePresenter
 import primoz.com.alarmcontinue.views.BaseView
 
 interface MainActivityContract {
@@ -15,7 +14,7 @@ interface MainActivityContract {
         fun showEnabledBedtime(shouldEnable: Boolean = false)
     }
 
-    interface Presenter : BasePresenter {
+    interface Presenter {
         fun loadAlarms(realm: Realm)
         fun loadCurrentTime()
         fun showEditAlarmScreen(alarm: Alarm)
