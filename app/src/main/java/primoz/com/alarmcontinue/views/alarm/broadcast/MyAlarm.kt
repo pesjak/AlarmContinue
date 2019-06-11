@@ -14,8 +14,8 @@ class MyAlarm : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         // Put here YOUR code.
-        //val path = intent.extras?.getString("Path") as String
-        Toast.makeText(context, "Dela", Toast.LENGTH_LONG).show() // For example
+        val path = intent.extras?.getString("Path")
+        Toast.makeText(context, path, Toast.LENGTH_LONG).show() // For example
         /*mp = MediaPlayer.create(context, Uri.parse());
         mp?.isLooping = true
         mp?.start()
@@ -28,11 +28,13 @@ class MyAlarm : BroadcastReceiver() {
         fun setAlarm(context: Context, alarm: Alarm) {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(context, MyAlarm::class.java)
-            //  val song = alarm.songsList?.get(0)
-            //  song?.let {
-            //      intent.putExtra("Path", it.path)
-            //  }
-            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+            if (alarm.songsList?.isNotEmpty() == true) {
+                val song = alarm.songsList?.get(0)
+                song?.let {
+                    intent.putExtra("Path", it.path)
+                }
+            }
+            val pendingIntent = PendingIntent.getBroadcast(context, alarm.id, intent, 0)
             // Set the alarm to start at 8:30 a.m.
             val calendar: Calendar = Calendar.getInstance().apply {
                 timeInMillis = System.currentTimeMillis()
@@ -50,7 +52,7 @@ class MyAlarm : BroadcastReceiver() {
 
         fun cancelAlarm(context: Context, alarm: Alarm) {
             val intent = Intent(context, MyAlarm::class.java)
-            val sender = PendingIntent.getBroadcast(context, 0, intent, 0)
+            val sender = PendingIntent.getBroadcast(context, alarm.id, intent, 0)
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.cancel(sender)
             Toast.makeText(context, "Alarm canceled, ${alarm.id}", Toast.LENGTH_SHORT).show()

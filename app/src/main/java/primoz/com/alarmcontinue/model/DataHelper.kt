@@ -135,4 +135,12 @@ object DataHelper {
             )
         }
     }
+
+    fun shouldEnableAlarm(alarm: Alarm, isEnabled: Boolean) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransactionAsync({ alarm.isEnabled = isEnabled },
+            { realm.close() }, //Success
+            { realm.close() }  //Fail
+        )
+    }
 }
