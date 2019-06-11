@@ -136,9 +136,13 @@ object DataHelper {
         }
     }
 
-    fun shouldEnableAlarm(alarm: Alarm, isEnabled: Boolean) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransactionAsync({ alarm.isEnabled = isEnabled },
+    fun shouldEnableAlarm(alarm: Alarm, isEnabled: Boolean, shouldChooseNextSong: Boolean = false, realm: Realm?=null) {
+        realm?.executeTransactionAsync({
+            alarm.isEnabled = isEnabled
+            if (shouldChooseNextSong) {
+                alarm.currentlySelectedPath = alarm.songsList?.random()?.path
+            }
+        },
             { realm.close() }, //Success
             { realm.close() }  //Fail
         )

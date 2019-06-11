@@ -4,6 +4,7 @@ import io.realm.Realm
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.model.DataHelper
+import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
 
 class NewAlarmPresenter(private val view: NewAlarmContract.View) : NewAlarmContract.Presenter {
 
@@ -27,6 +28,7 @@ class NewAlarmPresenter(private val view: NewAlarmContract.View) : NewAlarmContr
         }
         DataHelper.addAlarmAsync(realm, hour, minute, selectedDays, songList, shouldResumePlaying, shouldVibrate)
         view.finish()
+
     }
 
     init {

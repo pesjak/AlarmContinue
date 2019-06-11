@@ -1,5 +1,6 @@
 package primoz.com.alarmcontinue.views.alarm.fragments.newAlarm
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
@@ -62,6 +63,10 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
     /*
     NewAlarmContract.View
      */
+
+    override fun viewActivity(): Activity? {
+        return activity
+    }
 
     override fun setPresenter(presenter: NewAlarmContract.Presenter) {
         this.mPresenter = presenter

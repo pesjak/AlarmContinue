@@ -31,8 +31,13 @@
         <activity
             android:name=".views.alarm.AlarmActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".libraries.filepicker.activity.AudioPickActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.alarm.TriggeredAlarmActivity"
+            android:excludeFromRecents="true"
             android:screenOrientation="portrait" />
 
         <provider

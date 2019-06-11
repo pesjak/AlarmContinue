@@ -65,7 +65,6 @@ class AlarmActivity : BaseActivity() {
     }
 
     companion object {
-
         const val ARG_ALARM_TYPE = "ARG_ALARM_TYPE"
         const val ARG_ALARM_ID = "ARG_ALARM_ID"
 

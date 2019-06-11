@@ -5,34 +5,35 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import primoz.com.alarmcontinue.model.Alarm
+import primoz.com.alarmcontinue.views.alarm.TriggeredAlarmActivity
 import java.util.*
 
 class MyAlarm : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        // Put here YOUR code.
-        val path = intent.extras?.getString("Path")
-        Toast.makeText(context, path, Toast.LENGTH_LONG).show() // For example
-        /*mp = MediaPlayer.create(context, Uri.parse());
-        mp?.isLooping = true
-        mp?.start()
-        */
-        Log.d("ALARM", "WORKING")
-
+        val alarmID = intent.extras?.getInt(ARG_ALARM_ID)
+        val path = intent.extras?.getString(ARG_PATH)
+        context.startActivity(TriggeredAlarmActivity.getIntent(context, alarmID, path))
     }
 
     companion object {
+        val ARG_ALARM_ID = "AlarmID"
+        val ARG_PATH = "Path"
         fun setAlarm(context: Context, alarm: Alarm) {
+            /*
+            TODO
+            - setRandomSongID as intent
+            - getRealm and getThatSong
+            - if the song is completed go next random
+              else just continue currently selected song
+             */
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(context, MyAlarm::class.java)
             if (alarm.songsList?.isNotEmpty() == true) {
-                val song = alarm.songsList?.get(0)
-                song?.let {
-                    intent.putExtra("Path", it.path)
-                }
+                intent.putExtra(ARG_ALARM_ID, alarm.id)
+                intent.putExtra(ARG_PATH, alarm.currentlySelectedPath)
             }
             val pendingIntent = PendingIntent.getBroadcast(context, alarm.id, intent, 0)
             // Set the alarm to start at 8:30 a.m.
@@ -44,7 +45,7 @@ class MyAlarm : BroadcastReceiver() {
             alarmManager.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,
-                1000 * 60 * 1,
+                1000 * 30 * 1, //30s
                 pendingIntent
             ) //TODO Change to Interval Days
             Toast.makeText(context, "Alarm set", Toast.LENGTH_SHORT).show()

@@ -35,6 +35,7 @@ open class Alarm : RealmObject() {
     var isEnabled: Boolean? = null
     var hourBedtimeSleep: Int? = null
     var minuteBedtimeSleep: Int? = null
+    var currentlySelectedPath: String? = null
 
     companion object {
         const val FIELD_ID = "id"
@@ -57,10 +58,13 @@ open class Alarm : RealmObject() {
             alarm.minuteAlarm = minuteAlarm
             alarm.daysList = daysList
             alarm.songsList = songList
+            if (songList.isNotEmpty()) {
+                alarm.currentlySelectedPath = songList.random()?.path
+            }
             alarm.shouldResumePlaying = shouldResumePlaying
             alarm.secondsPlayed = 0
             alarm.shouldVibrate = shouldVibrate
-            alarm.isEnabled = true
+            alarm.isEnabled = false
             alarm.hourBedtimeSleep = hourBedtimeSleep
             alarm.minuteBedtimeSleep = minuteBedtimeSleep
             alarmList?.add(alarm)
