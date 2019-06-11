@@ -5,6 +5,7 @@ import primoz.com.alarmcontinue.enums.AlarmType
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.AlarmList
 import primoz.com.alarmcontinue.views.alarm.AlarmActivity
+import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,11 +17,14 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
     }
 
     override fun enableAlarm(realm: Realm, alarm: Alarm, shouldEnable: Boolean) {
-
+        if (shouldEnable) {
+            MyAlarm.setAlarm(view.getActivity(), alarm)
+        } else {
+            MyAlarm.cancelAlarm(view.getActivity(), alarm)
+        }
     }
 
     override fun enableBedtime(realm: Realm, shouldEnable: Boolean) {
-
     }
 
     override fun showAddNewAlarmScreen() {
