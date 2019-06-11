@@ -59,4 +59,15 @@
         <item name="fontPath">fonts/Raleway-Thin.ttf</item>
     </style>
 
+    <!-- Drag App theme -->
+
+    <style name="AppTheme.Draggable" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 </resources>

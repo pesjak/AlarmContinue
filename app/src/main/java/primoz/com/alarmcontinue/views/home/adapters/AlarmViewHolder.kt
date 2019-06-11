@@ -31,7 +31,7 @@ class AlarmViewHolder(itemView: View, private val onAlarmListener: OnAlarmListen
         this.alarm = alarm
         itemView.textAlarm.text =
             "${alarm.hourAlarm.toString().padStart(2, '0')} : ${alarm.minuteAlarm.toString().padStart(2, '0')}"
-        isChecked = alarm.isEnabled ?: false
+        isChecked = alarm.isEnabled!!
         syncWithIsChecked()
         itemView.textNextDay.text = getAllDaysString(alarm)
     }

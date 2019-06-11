@@ -34,6 +34,8 @@ dependencies {
     implementation 'io.github.inflationx:calligraphy3:3.1.1'
     implementation 'io.github.inflationx:viewpump:2.0.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    //Permission
+    // Permission
     implementation 'pub.devrel:easypermissions:3.0.0'
+    // Swipe to dismiss library
+    implementation("com.github.thefuntasty.hauler:library:2.0.0")
 }

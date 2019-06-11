@@ -38,7 +38,8 @@
         <activity
             android:name=".views.alarm.TriggeredAlarmActivity"
             android:excludeFromRecents="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Draggable" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

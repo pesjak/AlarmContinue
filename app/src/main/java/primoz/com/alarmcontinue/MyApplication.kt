@@ -25,7 +25,7 @@ class MyApplication : Application() {
                 realm.createObject(SongList::class.java)
             }
             .build()
-        Realm.deleteRealm(realmConfig) // Delete Realm between app restarts.
+       // Realm.deleteRealm(realmConfig) // Delete Realm between app restarts.
         Realm.setDefaultConfiguration(realmConfig)
 
         ViewPump.init(

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import kotlinx.android.synthetic.main.activity_triggered_alarm.*
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.views.BaseActivity
 
@@ -31,6 +32,10 @@ class TriggeredAlarmActivity : BaseActivity() {
         setContentView(R.layout.activity_triggered_alarm)
 
         startPlayingSelectedSong()
+
+        haulerView.setOnDragDismissedListener {
+            finish() // finish activity when dismissed
+        }
 
         /*
         Toast.makeText(context, "Should play", Toast.LENGTH_LONG).show() // For example
@@ -60,7 +65,7 @@ class TriggeredAlarmActivity : BaseActivity() {
 
         fun getIntent(context: Context, alarmID: Int?, alarmPath: String?): Intent {
             val intent = Intent(context, TriggeredAlarmActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY) //If it doesn't hide in recent use or Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.putExtra(ARG_ALARM_ID, alarmID)
             intent.putExtra(ARG_PATH, alarmPath)
             return intent
