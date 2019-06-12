@@ -48,7 +48,7 @@ class MyAlarm : BroadcastReceiver() {
                 1000 * 30 * 1, //30s
                 pendingIntent
             ) //TODO Change to Interval Days
-            Toast.makeText(context, "Alarm set", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "Alarm set", Toast.LENGTH_SHORT).show()
         }
 
         fun cancelAlarm(context: Context, alarm: Alarm) {

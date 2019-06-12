@@ -19,6 +19,8 @@ import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import primoz.com.alarmcontinue.MyApplication
+import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
 
 
 open class Alarm : RealmObject() {
@@ -64,10 +66,12 @@ open class Alarm : RealmObject() {
             alarm.shouldResumePlaying = shouldResumePlaying
             alarm.secondsPlayed = 0
             alarm.shouldVibrate = shouldVibrate
-            alarm.isEnabled = false
+            alarm.isEnabled = true
             alarm.hourBedtimeSleep = hourBedtimeSleep
             alarm.minuteBedtimeSleep = minuteBedtimeSleep
             alarmList?.add(alarm)
+            
+            MyAlarm.setAlarm(MyApplication.appContext, alarm)
         }
 
         fun editAlarm(
