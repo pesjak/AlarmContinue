@@ -136,15 +136,18 @@ object DataHelper {
         }
     }
 
-    fun shouldEnableAlarm(alarm: Alarm, isEnabled: Boolean, shouldChooseNextSong: Boolean = false, realm: Realm?=null) {
-        realm?.executeTransactionAsync({
-            alarm.isEnabled = isEnabled
-            if (shouldChooseNextSong) {
-                alarm.currentlySelectedPath = alarm.songsList?.random()?.path
+    fun shouldEnableAlarm(alarmID: Int, isEnabled: Boolean, realm: Realm) {
+        realm.executeTransactionAsync {
+            it.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, alarmID).findFirst()?.let { alarm ->
+                alarm.isEnabled = isEnabled
+                if (alarm.songsList?.isNotEmpty() == true) {
+                    alarm.currentlySelectedPath = alarm.songsList?.random()?.path
+                }
             }
-        },
-            { realm.close() }, //Success
-            { realm.close() }  //Fail
-        )
+        }
+    }
+
+    fun getAlarm(realm: Realm, alarmID: Int): Alarm? {
+        return realm.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, alarmID).findFirst()
     }
 }

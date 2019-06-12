@@ -7,7 +7,6 @@ import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 import primoz.com.alarmcontinue.extensions.getFirst3Letters
 import primoz.com.alarmcontinue.model.Alarm
-import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.model.RealmDayOfWeek
 import primoz.com.alarmcontinue.views.home.listeners.OnAlarmListener
 
@@ -22,7 +21,6 @@ class AlarmViewHolder(itemView: View, private val onAlarmListener: OnAlarmListen
         itemView.switchAlarm.setOnClickListener { buttonView ->
             isChecked = !isChecked
             syncWithIsChecked()
-            DataHelper.shouldEnableAlarm(alarm, isChecked)
             onAlarmListener.onAlarmEnable(alarm, isChecked)
         }
     }
@@ -31,7 +29,7 @@ class AlarmViewHolder(itemView: View, private val onAlarmListener: OnAlarmListen
         this.alarm = alarm
         itemView.textAlarm.text =
             "${alarm.hourAlarm.toString().padStart(2, '0')} : ${alarm.minuteAlarm.toString().padStart(2, '0')}"
-        isChecked = alarm.isEnabled!!
+        isChecked = alarm.isEnabled
         syncWithIsChecked()
         itemView.textNextDay.text = getAllDaysString(alarm)
     }

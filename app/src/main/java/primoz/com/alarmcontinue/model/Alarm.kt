@@ -31,10 +31,10 @@ open class Alarm : RealmObject() {
     var minuteAlarm: Int? = null
     var daysList: RealmList<RealmDayOfWeek>? = null
     var songsList: RealmList<Song>? = null
-    var shouldResumePlaying: Boolean? = null
-    var secondsPlayed: Int? = null
-    var shouldVibrate: Boolean? = null
-    var isEnabled: Boolean? = null
+    var shouldResumePlaying: Boolean = false
+    var secondsPlayed: Int = 0
+    var shouldVibrate: Boolean = false
+    var isEnabled: Boolean = false
     var hourBedtimeSleep: Int? = null
     var minuteBedtimeSleep: Int? = null
     var currentlySelectedPath: String? = null
@@ -70,7 +70,7 @@ open class Alarm : RealmObject() {
             alarm.hourBedtimeSleep = hourBedtimeSleep
             alarm.minuteBedtimeSleep = minuteBedtimeSleep
             alarmList?.add(alarm)
-            
+
             MyAlarm.setAlarm(MyApplication.appContext, alarm)
         }
 

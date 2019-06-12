@@ -1,11 +1,10 @@
 package primoz.com.alarmcontinue.views.home
 
-import android.media.MediaPlayer
-import android.net.Uri
 import io.realm.Realm
 import primoz.com.alarmcontinue.enums.AlarmType
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.AlarmList
+import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.views.alarm.AlarmActivity
 import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
 import java.text.SimpleDateFormat
@@ -19,6 +18,7 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
     }
 
     override fun enableAlarm(realm: Realm, alarm: Alarm, shouldEnable: Boolean) {
+        DataHelper.shouldEnableAlarm(alarm.id, shouldEnable, realm)
         if (shouldEnable) {
             MyAlarm.setAlarm(view.getActivity(), alarm)
         } else {
