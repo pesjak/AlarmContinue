@@ -9,7 +9,6 @@ import primoz.com.alarmcontinue.views.BaseView
 interface MainActivityContract {
     interface View : BaseView<Presenter> {
         fun getActivity(): Activity
-        fun showDate(date: String)
         fun showAlarms(alarmList: RealmList<Alarm>)
         fun showEnabledBedtime(shouldEnable: Boolean = false)
     }

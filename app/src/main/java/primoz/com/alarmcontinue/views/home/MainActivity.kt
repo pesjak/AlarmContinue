@@ -70,10 +70,6 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
     View
      */
 
-    override fun showDate(date: String) {
-        tvCurrentDate.text = date
-    }
-
     override fun showEnabledBedtime(shouldEnable: Boolean) {
         switchBedtime.isChecked = shouldEnable
     }

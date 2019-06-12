@@ -8,6 +8,7 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.realm.Realm
@@ -82,6 +83,15 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
 
     private fun initUI() {
         timePicker.setIs24HourView(true)
+        scrollView.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+            if (v?.canScrollVertically(-1) == true) {
+                toolbar.elevation = 8F
+                line0.visibility = View.GONE
+            } else {
+                toolbar.elevation = 0F
+                line0.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun initOnClickListeners() {

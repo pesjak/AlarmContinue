@@ -7,8 +7,7 @@ import primoz.com.alarmcontinue.model.AlarmList
 import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.views.alarm.AlarmActivity
 import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
-import java.text.SimpleDateFormat
-import java.util.*
+
 
 class MainActivityPresenter(private val view: MainActivityContract.View) : MainActivityContract.Presenter {
 
@@ -24,6 +23,7 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
         } else {
             MyAlarm.cancelAlarm(view.getActivity(), alarm)
         }
+        loadCurrentTime()
     }
 
     override fun enableBedtime(realm: Realm, shouldEnable: Boolean) {
@@ -44,7 +44,7 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
     }
 
     override fun loadCurrentTime() {
-        view.showDate(SimpleDateFormat("EEE, MMMM d", Locale.getDefault()).format(Date()))
+        
     }
 
     init {
