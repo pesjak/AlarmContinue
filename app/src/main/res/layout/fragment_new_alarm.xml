@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"Y
+                android:clickable="true"
                 android:focusable="true"
                 android:padding="8dp"
                 android:src="@drawable/ic_change"
