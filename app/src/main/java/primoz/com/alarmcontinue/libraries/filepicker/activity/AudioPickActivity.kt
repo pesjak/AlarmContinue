@@ -18,7 +18,6 @@ import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.Directory
 import java.io.File
 
-
 class AudioPickActivity : BaseActivity() {
 
     private var mMaxNumber: Int = 0
@@ -81,6 +80,16 @@ class AudioPickActivity : BaseActivity() {
                 fileDialog.show()
             }
             tvFolder.text = resources.getString(R.string.all)
+        }
+
+        rvAudioPick.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (v?.canScrollVertically(-1) == true) {
+                toolbar.elevation = 8F
+                line0.visibility = View.GONE
+            } else {
+                toolbar.elevation = 0F
+                line0.visibility = View.VISIBLE
+            }
         }
     }
 

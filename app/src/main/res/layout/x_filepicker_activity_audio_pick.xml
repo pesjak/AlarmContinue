@@ -107,6 +107,15 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <include
+        android:id="@+id/line0"
+        layout="@layout/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAudioPick"
         android:layout_width="match_parent"
