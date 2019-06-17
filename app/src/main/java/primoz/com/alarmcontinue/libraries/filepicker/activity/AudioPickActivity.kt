@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.x_filepicker_activity_audio_pick.*
@@ -49,7 +50,11 @@ class AudioPickActivity : BaseActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         rvAudioPick.layoutManager = layoutManager
-        rvAudioPick.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        val dividerItemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        ContextCompat.getDrawable(baseContext, R.drawable.divider)?.let {
+            dividerItemDecoration.setDrawable(it)
+        }
+        rvAudioPick.addItemDecoration(dividerItemDecoration)
         mAdapter = AudioPickAdapter(this, mMaxNumber)
         rvAudioPick.adapter = mAdapter
 

@@ -2,6 +2,9 @@ package primoz.com.alarmcontinue.views.home
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.realm.Realm
@@ -30,12 +33,26 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
         setContentView(R.layout.activity_main)
 
         realm = Realm.getDefaultInstance()
+
+        initToolbar()
         initRecyclerView()
         initOnClickListeners()
 
         MainActivityPresenter(this)
         mPresenter.loadCurrentTime()
         mPresenter.loadAlarms(realm)
+    }
+
+    private fun initToolbar() {
+        nestedScrollView.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+            if (v?.canScrollVertically(-1) == true) {
+                toolbar.elevation = 8F
+                line0.visibility = View.GONE
+            } else {
+                toolbar.elevation = 0F
+                line0.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun initOnClickListeners() {
@@ -93,6 +110,10 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
 
     private fun initRecyclerView() {
         rvAlarms.layoutManager = LinearLayoutManager(this)
-        rvAlarms.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        val dividerItemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        ContextCompat.getDrawable(baseContext, R.drawable.divider)?.let {
+            dividerItemDecoration.setDrawable(it)
+        }
+        rvAlarms.addItemDecoration(dividerItemDecoration)
     }
 }

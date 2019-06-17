@@ -60,7 +60,7 @@ class AlarmActivity : BaseActivity() {
 
     private fun changeFragment(fragment: Fragment) {
         supportFragmentManager.inTransaction {
-            replace(container.id, fragment)
+            replace(nestedScrollView.id, fragment)
         }
     }
 

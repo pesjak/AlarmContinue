@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:id="@+id/container"
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
