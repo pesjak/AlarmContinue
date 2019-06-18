@@ -1,8 +1,6 @@
 package primoz.com.alarmcontinue.views.alarm.fragments.newAlarm
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Context
 import io.realm.Realm
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
@@ -22,7 +20,8 @@ interface NewAlarmContract {
             selectedDays: MutableList<EnumDayOfWeek>,
             songList: MutableList<AudioFile>,
             shouldResumePlaying: Boolean,
-            shouldVibrate: Boolean
+            shouldVibrate: Boolean,
+            isDefaultRingtone: Boolean
         )
     }
 }

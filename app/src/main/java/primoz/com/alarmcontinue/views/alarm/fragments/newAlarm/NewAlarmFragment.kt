@@ -3,6 +3,7 @@ package primoz.com.alarmcontinue.views.alarm.fragments.newAlarm
 import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
@@ -26,6 +27,7 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
     private lateinit var realm: Realm
 
     private var adapter: SelectedSongsRecyclerViewAdapter? = null
+    private var isDefaultRingtone = true
 
     /*
     LifeCycle
@@ -42,6 +44,7 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
         initUI()
         initRecyclerView()
         initOnClickListeners()
+        changeClearButtonVisibilityIfNeeded()
         NewAlarmPresenter(this)
     }
 
@@ -57,6 +60,8 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
                 tvRingtonesTitle.text = getString(R.string.ringtones)
                 adapter?.songList = songList
                 changeClearButtonVisibilityIfNeeded()
+                isDefaultRingtone = false
+                showCheckBoxResumePlaying(true)
             }
         }
     }
@@ -96,10 +101,10 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
 
     private fun initOnClickListeners() {
         dummyClickableContainerRingtones.setOnClickListener {
-            val intent3 = Intent(context, AudioPickActivity::class.java)
-            intent3.putExtra(Constant.MAX_NUMBER, 5)
-            intent3.putExtra(IS_NEED_FOLDER_LIST, true)
-            startActivityForResult(intent3, Constant.REQUEST_CODE_PICK_AUDIO)
+            val intentAudioPick = Intent(context, AudioPickActivity::class.java)
+            intentAudioPick.putExtra(Constant.MAX_NUMBER, 5)
+            intentAudioPick.putExtra(IS_NEED_FOLDER_LIST, true)
+            startActivityForResult(intentAudioPick, Constant.REQUEST_CODE_PICK_AUDIO)
         }
 
         ivClose.setOnClickListener {
@@ -114,7 +119,8 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
                 daySelectorView.getSelectedDays(),
                 adapter!!.songList,
                 cbPreferenceResumePlaying.isChecked,
-                cbPreferenceVibrate.isChecked
+                cbPreferenceVibrate.isChecked,
+                isDefaultRingtone
             )
         }
 
@@ -122,6 +128,8 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
             adapter?.songList?.clear()
             adapter?.notifyDataSetChanged()
             changeClearButtonVisibilityIfNeeded()
+            isDefaultRingtone = false
+            showCheckBoxResumePlaying(false)
         }
     }
 
@@ -135,8 +143,27 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
     private fun initRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(context)
         adapter = SelectedSongsRecyclerViewAdapter()
+        adapter?.songList = mutableListOf(getDefaultRingtone())
         rvRingtones.layoutManager = linearLayoutManager
         rvRingtones.adapter = adapter
+    }
+
+    private fun getDefaultRingtone(): AudioFile {
+        var alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        if (alarmTone == null) {
+            alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            if (alarmTone == null) {
+                alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+            }
+        }
+        val ringtoneAlarm = RingtoneManager.getRingtone(context, alarmTone)
+        val defaultRingtone = AudioFile()
+        defaultRingtone.name = ringtoneAlarm.getTitle(context)
+        return defaultRingtone
+    }
+
+    private fun showCheckBoxResumePlaying(shouldShow: Boolean) {
+        cbPreferenceResumePlaying.visibility = if (shouldShow) View.VISIBLE else View.GONE
     }
 
 }

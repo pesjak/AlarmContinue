@@ -3,6 +3,7 @@ package primoz.com.alarmcontinue.views.alarm
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
+import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -11,7 +12,6 @@ import android.os.Vibrator
 import android.util.Log
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_triggered_alarm.*
-import primoz.com.alarmcontinue.MyApplication
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.DataHelper
@@ -22,15 +22,13 @@ class TriggeredAlarmActivity : BaseActivity() {
     private lateinit var realm: Realm
     private lateinit var vibrator: Vibrator
     private var mediaPlayer: MediaPlayer? = null
-    private val pathOfSong: String?
-        get() {
-            return intent.extras?.getString(ARG_PATH)
-        }
 
     private val alarmID: Int
         get() {
             return intent.extras?.getInt(ARG_ALARM_ID)!!
         }
+
+    private var shouldResumePlaying: Boolean = false
 
     /*
     LifeCycle
@@ -45,13 +43,23 @@ class TriggeredAlarmActivity : BaseActivity() {
         Log.d("Triggered", "onCreated")
         DataHelper.getAlarm(realm, alarmID)?.let { alarm ->
             Log.d("Triggered", "Alarm - OK")
-            pathOfSong?.let {
+            if (alarm.useDefaultRingtone) {
+                var uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+                if (uri == null) {
+                    uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                    if (uri == null) {
+                        uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+                    }
+                }
+                mediaPlayer = MediaPlayer.create(this, uri)
+                mediaPlayer?.isLooping = true
+                mediaPlayer?.start()
+            } else {
                 initMediaPlayer(alarm)
             }
             if (alarm.shouldVibrate) {
                 startVibrating()
             }
-
         }
 
         haulerView.setOnDragDismissedListener {
@@ -71,27 +79,35 @@ class TriggeredAlarmActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d("Triggered", "onDestroy")
-            mediaPlayer?.stop()
-            vibrator.cancel()
-            realm.close()
+        if (shouldResumePlaying) {
+            mediaPlayer?.let {
+                DataHelper.updateProgress(alarmID, it.currentPosition)
+            }
+        }
+        mediaPlayer?.stop()
+        vibrator.cancel()
+        realm.close()
 
     }
 
     private fun initMediaPlayer(alarm: Alarm) {
-        mediaPlayer = MediaPlayer.create(this, Uri.parse(pathOfSong))
+        mediaPlayer = MediaPlayer.create(this, Uri.parse(alarm.currentlySelectedPath))
         mediaPlayer?.isLooping = false
         mediaPlayer?.setOnCompletionListener {
             it?.stop()
             it?.reset()
             it?.isLooping = false
-            it?.setDataSource(this, Uri.parse(alarm.songsList?.random()?.path))
+            val path = alarm.songsList?.random()?.path
+            it?.setDataSource(this, Uri.parse(path))
+            DataHelper.nextRandomSong(alarmID, path)
             it?.prepare()
             it?.start()
         }
+        shouldResumePlaying = alarm.shouldResumePlaying
         if (alarm.shouldResumePlaying) {
             mediaPlayer?.seekTo(alarm.secondsPlayed)
         }
-        startPlayingSelectedSong()
+        mediaPlayer?.start()
     }
 
     private fun startVibrating() {
@@ -103,20 +119,13 @@ class TriggeredAlarmActivity : BaseActivity() {
         }
     }
 
-    private fun startPlayingSelectedSong() {
-        pathOfSong ?: return
-        mediaPlayer?.start()
-    }
-
     companion object {
         const val ARG_ALARM_ID = "AlarmID"
-        const val ARG_PATH = "Path"
 
-        fun getIntent(context: Context, alarmID: Int?, alarmPath: String?): Intent {
+        fun getIntent(context: Context, alarmID: Int?): Intent {
             val intent = Intent(context, TriggeredAlarmActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY) //If it doesn't hide in recent use or Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.putExtra(ARG_ALARM_ID, alarmID)
-            intent.putExtra(ARG_PATH, alarmPath)
             return intent
         }
     }

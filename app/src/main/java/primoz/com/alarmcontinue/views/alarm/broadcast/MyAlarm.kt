@@ -10,17 +10,16 @@ import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.views.alarm.TriggeredAlarmActivity
 import java.util.*
 
+//TODO CHANGE TO NOTIFICATION
 class MyAlarm : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val alarmID = intent.extras?.getInt(ARG_ALARM_ID)
-        val path = intent.extras?.getString(ARG_PATH)
-        context.startActivity(TriggeredAlarmActivity.getIntent(context, alarmID, path))
+        context.startActivity(TriggeredAlarmActivity.getIntent(context, alarmID))
     }
 
     companion object {
         val ARG_ALARM_ID = "AlarmID"
-        val ARG_PATH = "Path"
         fun setAlarm(context: Context, alarm: Alarm) {
             /*
             TODO
@@ -33,21 +32,30 @@ class MyAlarm : BroadcastReceiver() {
             val intent = Intent(context, MyAlarm::class.java)
             if (alarm.songsList?.isNotEmpty() == true) {
                 intent.putExtra(ARG_ALARM_ID, alarm.id)
-                intent.putExtra(ARG_PATH, alarm.currentlySelectedPath)
             }
             val pendingIntent = PendingIntent.getBroadcast(context, alarm.id, intent, 0)
-            // Set the alarm to start at 8:30 a.m.
+
+            //TODO Add Days, and if today is already passed just set for tomrrow
+            //TODO Show toast when will it trigger
             val calendar: Calendar = Calendar.getInstance().apply {
                 timeInMillis = System.currentTimeMillis()
                 set(Calendar.HOUR_OF_DAY, alarm.hourAlarm!!)
                 set(Calendar.MINUTE, alarm.minuteAlarm!!)
             }
+            /*
             alarmManager.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,
                 1000 * 30 * 1, //30s
                 pendingIntent
             ) //TODO Change to Interval Days
+            */
+            val alarmClockInfo = AlarmManager.AlarmClockInfo(
+                calendar.timeInMillis,
+                pendingIntent
+            )
+            alarmManager.setAlarmClock(alarmClockInfo, pendingIntent)
+
             //Toast.makeText(context, "Alarm set", Toast.LENGTH_SHORT).show()
         }
 

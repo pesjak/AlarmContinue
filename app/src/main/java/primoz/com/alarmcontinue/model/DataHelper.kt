@@ -142,7 +142,7 @@ object DataHelper {
         realm.executeTransactionAsync {
             it.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, alarmID).findFirst()?.let { alarm ->
                 alarm.isEnabled = isEnabled
-                if (alarm.songsList?.isNotEmpty() == true) {
+                if (alarm.songsList?.isNotEmpty() == true && !alarm.shouldResumePlaying) { //TODO Maybe add if user wants to change the song with every on/off
                     alarm.currentlySelectedPath = alarm.songsList?.random()?.path
                 }
             }
@@ -151,5 +151,24 @@ object DataHelper {
 
     fun getAlarm(realm: Realm, alarmID: Int): Alarm? {
         return realm.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, alarmID).findFirst()
+    }
+
+    fun updateProgress(alarmID: Int, currentPosition: Int) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransactionAsync({
+            it.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, alarmID).findFirst()?.let { alarm ->
+                alarm.secondsPlayed = currentPosition
+            }
+        }, { realm.close() }, { realm.close() })
+    }
+
+    fun nextRandomSong(alarmID: Int, path: String?) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransactionAsync({
+            it.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, alarmID).findFirst()?.let { alarm ->
+                alarm.currentlySelectedPath = path
+                alarm.secondsPlayed = 0
+            }
+        }, { realm.close() }, { realm.close() })
     }
 }
