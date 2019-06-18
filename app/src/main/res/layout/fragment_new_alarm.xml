@@ -221,7 +221,9 @@
                     android:id="@+id/dummyClickableContainerRingtones"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:background="?attr/selectableItemBackground"
                     android:orientation="vertical"
+                    android:paddingBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -252,95 +254,51 @@
                 layout="@layout/view_line"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ringtoneContainer" />
 
-            <CheckBox
+            <primoz.com.alarmcontinue.views.home.customViews.MyCheckBox
                 android:id="@+id/cbPreferenceResumePlaying"
-                style="@style/TextAppearance.SemiBold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@null"
-                android:button="@null"
-                android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
-                android:paddingTop="16dp"
-                android:paddingBottom="8dp"
-                android:text="@string/resume_playing"
-                android:textSize="@dimen/subtitle"
+                app:isChecked="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line3" />
+                app:layout_constraintTop_toBottomOf="@+id/line3"
+                app:text="@string/resume_playing" />
 
             <include
                 android:id="@+id/line4"
                 layout="@layout/view_line"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cbPreferenceResumePlaying" />
 
-            <CheckBox
+            <primoz.com.alarmcontinue.views.home.customViews.MyCheckBox
                 android:id="@+id/cbPreferenceVibrate"
-                style="@style/TextAppearance.SemiBold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@null"
-                android:button="@null"
-                android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
-                android:paddingTop="16dp"
-                android:paddingBottom="8dp"
-                android:text="@string/vibrate"
-                android:textSize="@dimen/subtitle"
+                app:isChecked="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line4" />
+                app:layout_constraintTop_toBottomOf="@+id/line4"
+                app:text="@string/vibrate" />
 
             <include
                 android:id="@+id/line5"
                 layout="@layout/view_line"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cbPreferenceVibrate" />
 
-            <!--
-                    <include
-                        android:id="@+id/line5"
-                        layout="@layout/view_line"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0.5dp"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/cbPreferenceVibrate" />
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="56dp"
-                        android:layout_marginEnd="24dp"
-                        android:background="@color/colorAccent"
-                        android:foreground="?attr/selectableItemBackground"
-                        android:text="@string/delete"
-                        android:textAppearance="@style/TextAppearance.SemiBold"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/line5" />
-            -->
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

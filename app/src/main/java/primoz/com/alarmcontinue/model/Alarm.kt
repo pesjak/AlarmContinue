@@ -38,6 +38,7 @@ open class Alarm : RealmObject() {
     var hourBedtimeSleep: Int? = null
     var minuteBedtimeSleep: Int? = null
     var currentlySelectedPath: String? = null
+    var useDefaultRingtone: Boolean = false
 
     companion object {
         const val FIELD_ID = "id"
@@ -51,7 +52,8 @@ open class Alarm : RealmObject() {
             shouldResumePlaying: Boolean,
             shouldVibrate: Boolean,
             hourBedtimeSleep: Int? = null,
-            minuteBedtimeSleep: Int? = null
+            minuteBedtimeSleep: Int? = null,
+            isDefaultRingtone: Boolean = false
         ) {
             val parent = realm.where(AlarmList::class.java).findFirst()
             val alarmList = parent!!.alarmList
@@ -69,6 +71,7 @@ open class Alarm : RealmObject() {
             alarm.isEnabled = true
             alarm.hourBedtimeSleep = hourBedtimeSleep
             alarm.minuteBedtimeSleep = minuteBedtimeSleep
+            alarm.useDefaultRingtone = isDefaultRingtone
             alarmList?.add(alarm)
 
             MyAlarm.setAlarm(MyApplication.appContext, alarm)
@@ -112,10 +115,9 @@ open class Alarm : RealmObject() {
         private fun getNextID(realm: Realm): Int {
             return try {
                 val number = realm.where(Alarm::class.java).max(FIELD_ID)
-                if (number != null) {
-                    number.toInt() + 1
-                } else {
-                    0
+                when {
+                    number != null -> number.toInt() + 1
+                    else -> 0
                 }
             } catch (e: ArrayIndexOutOfBoundsException) {
                 0

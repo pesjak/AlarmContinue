@@ -31,7 +31,8 @@ object DataHelper {
         shouldResumePlaying: Boolean = false,
         shouldVibrate: Boolean = false,
         hourBedtimeSleep: Int? = null,
-        minuteBedtimeSleep: Int? = null
+        minuteBedtimeSleep: Int? = null,
+        useDefaultRingtone: Boolean = false
     ) {
         realm.executeTransactionAsync { realmInTransaction ->
             //Create Realm objects
@@ -69,7 +70,8 @@ object DataHelper {
                 shouldResumePlaying,
                 shouldVibrate,
                 hourBedtimeSleep,
-                minuteBedtimeSleep
+                minuteBedtimeSleep,
+                useDefaultRingtone
             )
         }
     }
