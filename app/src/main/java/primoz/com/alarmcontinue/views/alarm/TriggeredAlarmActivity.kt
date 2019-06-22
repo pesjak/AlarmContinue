@@ -16,6 +16,7 @@ import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.views.BaseActivity
+import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
 
 class TriggeredAlarmActivity : BaseActivity() {
 
@@ -43,6 +44,14 @@ class TriggeredAlarmActivity : BaseActivity() {
         Log.d("Triggered", "onCreated")
         DataHelper.getAlarm(realm, alarmID)?.let { alarm ->
             Log.d("Triggered", "Alarm - OK")
+            Log.d("Alarm Current", alarm.secondsPlayed.toString())
+
+            DataHelper.shouldEnableAlarm(alarmID, alarm.isEnabled, realm)
+            if (alarm.isEnabled) {
+                MyAlarm.setAlarm(baseContext, alarm)
+            } else {
+                MyAlarm.cancelAlarm(baseContext, alarm)
+            }
             if (alarm.useDefaultRingtone) {
                 var uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
                 if (uri == null) {
@@ -78,10 +87,10 @@ class TriggeredAlarmActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("Triggered", "onDestroy")
         if (shouldResumePlaying) {
             mediaPlayer?.let {
                 DataHelper.updateProgress(alarmID, it.currentPosition)
+                Log.d("Alarm Played", it.currentPosition.toString())
             }
         }
         mediaPlayer?.stop()

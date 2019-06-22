@@ -37,7 +37,7 @@ class MyAlarm : BroadcastReceiver() {
             if (alarm.songsList?.isNotEmpty() == true) {
                 intent.putExtra(ARG_ALARM_ID, alarm.id)
             }
-            val pendingIntent = PendingIntent.getBroadcast(context, alarm.id, intent, 0)
+            val pendingIntent = PendingIntent.getBroadcast(context, alarm.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
             //TODO Add Days, and if today is already passed just set for tomrrow
             //TODO Show toast when will it trigger
@@ -96,6 +96,9 @@ class MyAlarm : BroadcastReceiver() {
             realmDays: RealmList<RealmDayOfWeek>
         ): Calendar {
             val now = Calendar.getInstance()
+            now.add(Calendar.SECOND, 10)
+            return now
+
             val next = Calendar.getInstance()
 
             next.set(Calendar.HOUR_OF_DAY, hour)
