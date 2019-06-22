@@ -50,7 +50,7 @@ class TriggeredAlarmActivity : BaseActivity() {
             if (alarm.isEnabled) {
                 MyAlarm.setAlarm(baseContext, alarm)
             } else {
-                MyAlarm.cancelAlarm(baseContext, alarm)
+                MyAlarm.cancelAlarm(baseContext, alarm.id)
             }
             if (alarm.useDefaultRingtone) {
                 var uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)

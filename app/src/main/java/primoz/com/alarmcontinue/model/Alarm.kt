@@ -22,7 +22,6 @@ import io.realm.annotations.PrimaryKey
 import primoz.com.alarmcontinue.MyApplication
 import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
 
-
 open class Alarm : RealmObject() {
 
     @PrimaryKey
@@ -75,41 +74,6 @@ open class Alarm : RealmObject() {
             alarmList?.add(alarm)
 
             MyAlarm.setAlarm(MyApplication.appContext, alarm)
-        }
-
-        fun editAlarm(
-            id: Int,
-            realm: Realm,
-            isEnabled: Boolean,
-            hourAlarm: Int,
-            minuteAlarm: Int,
-            daysList: RealmList<RealmDayOfWeek>,
-            songList: RealmList<Song>,
-            shouldResumePlaying: Boolean,
-            shouldVibrate: Boolean,
-            secondsPlayed: Int,
-            hourBedtimeSleep: Int? = null,
-            minuteBedtimeSleep: Int? = null
-        ) {
-            /*
-            val alarm = realm.where(Alarm::class.java).equalTo(FIELD_ID, id).findFirst()
-            alarm?.let {
-                alarm.bedtimeAlarm = bedtimeAlarm
-                alarm.startTimeOfAlarm = startTimeOfAlarm
-                alarm.daysList = daysList
-                alarm.songsList = songList
-                alarm.shouldResumePlaying = shouldResumePlaying
-                alarm.secondsPlayed = secondsPlayed
-                alarm.shouldVibrate = shouldVibrate
-                alarm.isEnabled = isEnabled
-            }
-            */
-        }
-
-
-        internal fun delete(realm: Realm, id: Int) {
-            val alarm = realm.where(Alarm::class.java).equalTo(FIELD_ID, id).findFirst()
-            alarm?.deleteFromRealm()
         }
 
         private fun getNextID(realm: Realm): Int {

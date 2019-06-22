@@ -18,7 +18,6 @@
     <string name="clear">clear</string>
     <string name="resume_playing">Resume playing</string>
     <string name="vibrate">Vibrate</string>
-    <string name="delete">Delete</string>
 
     <string name="vw_confirm">Done</string>
     <string name="vw_no_video_play_app">No App exists for playing video!</string>
@@ -36,4 +35,5 @@
     <string name="alarm">Alarm</string>
     <string name="swipe_down_to_dismiss">Swipe down to dismiss</string>
     <string name="next_alarm_is_in">Next alarm is in</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -82,12 +82,12 @@ class MyAlarm : BroadcastReceiver() {
             //Toast.makeText(context, "Alarm set", Toast.LENGTH_SHORT).show()
         }
 
-        fun cancelAlarm(context: Context, alarm: Alarm) {
+        fun cancelAlarm(context: Context, alarmID: Int) {
             val intent = Intent(context, MyAlarm::class.java)
-            val sender = PendingIntent.getBroadcast(context, alarm.id, intent, 0)
+            val sender = PendingIntent.getBroadcast(context, alarmID, intent, 0)
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.cancel(sender)
-            Toast.makeText(context, "Alarm canceled, ${alarm.id}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Alarm canceled, $alarmID", Toast.LENGTH_SHORT).show()
         }
 
         private fun getNext(

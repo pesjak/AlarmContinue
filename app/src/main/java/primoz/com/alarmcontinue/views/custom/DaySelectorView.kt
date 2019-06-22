@@ -15,26 +15,29 @@ class DaySelectorView @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
 
-    private var selectedDays = mutableListOf<EnumDayOfWeek>()
+    var selectedDays: MutableList<EnumDayOfWeek> = mutableListOf()
+        set(value) {
+            field = value
+            setDay(day1, EnumDayOfWeek.MONDAY, selectedDays.contains(EnumDayOfWeek.MONDAY))
+            setDay(day2, EnumDayOfWeek.TUESDAY, selectedDays.contains(EnumDayOfWeek.TUESDAY))
+            setDay(day3, EnumDayOfWeek.WEDNESDAY, selectedDays.contains(EnumDayOfWeek.WEDNESDAY))
+            setDay(day4, EnumDayOfWeek.THURSDAY, selectedDays.contains(EnumDayOfWeek.THURSDAY))
+            setDay(day5, EnumDayOfWeek.FRIDAY, selectedDays.contains(EnumDayOfWeek.FRIDAY))
+            setDay(day6, EnumDayOfWeek.SATURDAY, selectedDays.contains(EnumDayOfWeek.SATURDAY))
+            setDay(day7, EnumDayOfWeek.SUNDAY, selectedDays.contains(EnumDayOfWeek.SUNDAY))
+        }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_select_day, this, true)
-
-        setDay(day1, EnumDayOfWeek.MONDAY)
-        setDay(day2, EnumDayOfWeek.TUESDAY)
-        setDay(day3, EnumDayOfWeek.WEDNESDAY)
-        setDay(day4, EnumDayOfWeek.THURSDAY)
-        setDay(day5, EnumDayOfWeek.FRIDAY)
-        setDay(day6, EnumDayOfWeek.SATURDAY)
-        setDay(day7, EnumDayOfWeek.SUNDAY)
+        selectedDays = mutableListOf()
     }
 
     /*
     Private
      */
 
-    private fun setDay(view: SelectDayItemView, text: EnumDayOfWeek) {
-        view.setData(text) { dayOfTheWeek, isChecked ->
+    private fun setDay(view: SelectDayItemView, text: EnumDayOfWeek, shouldCheck: Boolean = false) {
+        view.setData(text, shouldCheck) { dayOfTheWeek, isChecked ->
             if (isChecked) selectedDays.add(dayOfTheWeek)
             else selectedDays.remove(dayOfTheWeek)
             updateStatus()
@@ -52,14 +55,6 @@ class DaySelectorView @JvmOverloads constructor(
         } else {
             tvCurrentDaysOverall.text = context.getText(R.string.repeat)
         }
-    }
-
-    /*
-    Public
-     */
-
-    fun getSelectedDays(): MutableList<EnumDayOfWeek> {
-        return selectedDays
     }
 
 }

@@ -35,30 +35,11 @@ object DataHelper {
         useDefaultRingtone: Boolean = false
     ) {
         realm.executeTransactionAsync { realmInTransaction ->
-            //Create Realm objects
-            val realmDayOfTheWeekList = RealmList<RealmDayOfWeek>()
-            for (day in daysList) {
-                val realmDay = realmInTransaction.createObject(RealmDayOfWeek::class.java)
-                realmDay.saveNameOfDay(day)
-                realmDayOfTheWeekList.add(realmDay)
-            }
-
-            val realmSongList = RealmList<Song>()
-            for (audio in songList) {
-                realmSongList.add(
-                    Song.createSong(
-                        realmInTransaction,
-                        0,
-                        audio.name,
-                        audio.path,
-                        audio.size,
-                        audio.duration,
-                        audio.bucketId,
-                        audio.bucketName
-                    )
-                )
-            }
-
+            val (realmDayOfTheWeekList, realmSongList) = convertSelectedDaysAndSongsToRealmList(
+                daysList,
+                realmInTransaction,
+                songList
+            )
 
             //Save object
             Alarm.createAlarm(
@@ -76,11 +57,7 @@ object DataHelper {
         }
     }
 
-    fun deleteAlarmAsync(realm: Realm, id: Int) {
-        realm.executeTransactionAsync { realmInTransaction -> Alarm.delete(realmInTransaction, id) }
-    }
-
-    fun editAlarm(
+    fun editAlarmAsync(
         id: Int,
         realm: Realm,
         isEnabled: Boolean = false,
@@ -95,46 +72,26 @@ object DataHelper {
         minuteBedtimeSleep: Int? = null
     ) {
         realm.executeTransactionAsync { realmInTransaction ->
-
-            //Create Realm objects
-            val realmDayOfTheWeekList = RealmList<RealmDayOfWeek>()
-            for (day in daysList) {
-                val realmDay = realmInTransaction.createObject(RealmDayOfWeek::class.java)
-                realmDay.saveNameOfDay(day)
-                realmDayOfTheWeekList.add(realmDay)
-            }
-
-            //Save object
-            val realmSongList = RealmList<Song>()
-            for (audio in songList) {
-                realmSongList.add(
-                    Song.createSong(
-                        realmInTransaction,
-                        0,
-                        audio.name,
-                        audio.path,
-                        audio.size,
-                        audio.duration,
-                        audio.bucketId,
-                        audio.bucketName
-                    )
-                )
-            }
-
-            Alarm.editAlarm(
-                id,
+            val (realmDayOfTheWeekList, realmSongList) = convertSelectedDaysAndSongsToRealmList(
+                daysList,
                 realmInTransaction,
-                isEnabled,
-                hourAlarm,
-                minuteAlarm,
-                realmDayOfTheWeekList,
-                realmSongList,
-                shouldResumePlaying,
-                shouldVibrate,
-                secondsPlayed,
-                hourBedtimeSleep,
-                minuteBedtimeSleep
+                songList
             )
+
+            val alarm = realmInTransaction.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, id).findFirst()
+            alarm?.let {
+                alarm.hourAlarm = hourAlarm
+                alarm.minuteAlarm = minuteAlarm
+                alarm.daysList = realmDayOfTheWeekList
+                alarm.songsList = realmSongList
+                if (songList.isNotEmpty()) alarm.currentlySelectedPath = songList.random()?.path
+                alarm.shouldResumePlaying = shouldResumePlaying
+                alarm.secondsPlayed = secondsPlayed
+                alarm.shouldVibrate = shouldVibrate
+                alarm.isEnabled = isEnabled
+                alarm.hourBedtimeSleep = hourBedtimeSleep
+                alarm.minuteBedtimeSleep = minuteBedtimeSleep
+            }
         }
     }
 
@@ -147,10 +104,6 @@ object DataHelper {
                 }
             }
         }
-    }
-
-    fun getAlarm(realm: Realm, alarmID: Int): Alarm? {
-        return realm.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, alarmID).findFirst()
     }
 
     fun updateProgress(alarmID: Int, currentPosition: Int) {
@@ -170,5 +123,50 @@ object DataHelper {
                 alarm.secondsPlayed = 0
             }
         }, { realm.close() }, { realm.close() })
+    }
+
+    fun getAlarm(realm: Realm, alarmID: Int): Alarm? {
+        return realm.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, alarmID).findFirst()
+    }
+
+    fun deleteAlarmAsync(realm: Realm, id: Int) {
+        realm.executeTransactionAsync { realmInTransaction ->
+            val alarm = realmInTransaction.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, id).findFirst()
+            alarm?.deleteFromRealm()
+        }
+    }
+
+    /*
+    Private
+     */
+    private fun convertSelectedDaysAndSongsToRealmList(
+        daysList: MutableList<EnumDayOfWeek>,
+        realmInTransaction: Realm,
+        songList: MutableList<AudioFile>
+    ): Pair<RealmList<RealmDayOfWeek>, RealmList<Song>> {
+        //Create Realm objects
+        val realmDayOfTheWeekList = RealmList<RealmDayOfWeek>()
+        for (day in daysList) {
+            val realmDay = realmInTransaction.createObject(RealmDayOfWeek::class.java)
+            realmDay.saveNameOfDay(day)
+            realmDayOfTheWeekList.add(realmDay)
+        }
+
+        val realmSongList = RealmList<Song>()
+        for (audio in songList) {
+            realmSongList.add(
+                Song.createSong(
+                    realmInTransaction,
+                    0,
+                    audio.name,
+                    audio.path,
+                    audio.size,
+                    audio.duration,
+                    audio.bucketId,
+                    audio.bucketName
+                )
+            )
+        }
+        return Pair(realmDayOfTheWeekList, realmSongList)
     }
 }

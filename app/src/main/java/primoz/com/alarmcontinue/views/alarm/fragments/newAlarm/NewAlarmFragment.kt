@@ -13,7 +13,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.realm.Realm
-import kotlinx.android.synthetic.main.fragment_new_alarm.*
+import kotlinx.android.synthetic.main.layout_custom_alarm.*
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.libraries.filepicker.Constant
 import primoz.com.alarmcontinue.libraries.filepicker.activity.AudioPickActivity
@@ -34,7 +34,7 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
      */
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_new_alarm, container, false)
+        return inflater.inflate(R.layout.layout_custom_alarm, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,7 +116,7 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
                 realm,
                 timePicker.hour,
                 timePicker.minute,
-                daySelectorView.getSelectedDays(),
+                daySelectorView.selectedDays,
                 adapter!!.songList,
                 cbPreferenceResumePlaying.isChecked,
                 cbPreferenceVibrate.isChecked,

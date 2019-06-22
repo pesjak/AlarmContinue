@@ -15,16 +15,6 @@ import primoz.com.alarmcontinue.views.alarm.fragments.newAlarm.NewAlarmFragment
 
 class AlarmActivity : BaseActivity() {
 
-    private val newAlarmFragment: NewAlarmFragment by lazy {
-        NewAlarmFragment()
-    }
-    private val editAlarmFragment: EditAlarmFragment by lazy {
-        EditAlarmFragment()
-    }
-    private val bedtimeAlarmFragment: BedtimeAlarmFragment by lazy {
-        BedtimeAlarmFragment()
-    }
-
     private val alarmType: AlarmType
         get() {
             return intent.extras?.getSerializable(ARG_ALARM_TYPE) as AlarmType
@@ -34,6 +24,16 @@ class AlarmActivity : BaseActivity() {
         get() {
             return intent.extras?.getInt(ARG_ALARM_ID) ?: 0
         }
+
+    private val newAlarmFragment: NewAlarmFragment by lazy {
+        NewAlarmFragment()
+    }
+    private val editAlarmFragment: EditAlarmFragment by lazy {
+        EditAlarmFragment.getInstance(alarmID)
+    }
+    private val bedtimeAlarmFragment: BedtimeAlarmFragment by lazy {
+        BedtimeAlarmFragment()
+    }
 
     /*
     LifeCycle
@@ -60,7 +60,7 @@ class AlarmActivity : BaseActivity() {
 
     private fun changeFragment(fragment: Fragment) {
         supportFragmentManager.inTransaction {
-            replace(nestedScrollView.id, fragment)
+            replace(container.id, fragment)
         }
     }
 

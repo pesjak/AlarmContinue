@@ -21,7 +21,7 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
         if (shouldEnable) {
             MyAlarm.setAlarm(view.getActivity(), alarm)
         } else {
-            MyAlarm.cancelAlarm(view.getActivity(), alarm)
+            MyAlarm.cancelAlarm(view.getActivity(), alarm.id)
         }
         loadCurrentTime()
     }
