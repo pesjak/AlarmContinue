@@ -36,4 +36,6 @@
     <string name="swipe_down_to_dismiss">Swipe down to dismiss</string>
     <string name="next_alarm_is_in">Next alarm is in</string>
     <string name="delete">Delete</string>
+    <string name="triggered_in">Triggered in: %02dh %02dmin</string>
+    <string name="time_from_to">%02d:%02d - %02d:%02d</string>
 </resources>

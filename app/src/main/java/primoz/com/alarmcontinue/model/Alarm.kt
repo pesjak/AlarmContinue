@@ -41,6 +41,7 @@ open class Alarm : RealmObject() {
 
     companion object {
         const val FIELD_ID = "id"
+        const val FIELD_BEDTIME_HOUR = "hourBedtimeSleep"
 
         fun createAlarm(
             realm: Realm,
@@ -52,7 +53,8 @@ open class Alarm : RealmObject() {
             shouldVibrate: Boolean,
             hourBedtimeSleep: Int? = null,
             minuteBedtimeSleep: Int? = null,
-            isDefaultRingtone: Boolean = false
+            isDefaultRingtone: Boolean = false,
+            isEnabled: Boolean = true
         ) {
             val parent = realm.where(AlarmList::class.java).findFirst()
             val alarmList = parent!!.alarmList
@@ -67,13 +69,13 @@ open class Alarm : RealmObject() {
             alarm.shouldResumePlaying = shouldResumePlaying
             alarm.secondsPlayed = 0
             alarm.shouldVibrate = shouldVibrate
-            alarm.isEnabled = true
+            alarm.isEnabled = isEnabled
             alarm.hourBedtimeSleep = hourBedtimeSleep
             alarm.minuteBedtimeSleep = minuteBedtimeSleep
             alarm.useDefaultRingtone = isDefaultRingtone
             alarmList?.add(alarm)
 
-            MyAlarm.setAlarm(MyApplication.appContext, alarm)
+            if (isEnabled) MyAlarm.setAlarm(MyApplication.appContext, alarm)
         }
 
         private fun getNextID(realm: Realm): Int {
@@ -86,6 +88,36 @@ open class Alarm : RealmObject() {
             } catch (e: ArrayIndexOutOfBoundsException) {
                 0
             }
+        }
+
+        fun createBedtime(
+            realm: Realm,
+            hourAlarm: Int,
+            minuteAlarm: Int,
+            daysList: RealmList<RealmDayOfWeek>,
+            songList: RealmList<Song>,
+            shouldResumePlaying: Boolean,
+            shouldVibrate: Boolean,
+            hourBedtimeSleep: Int,
+            minuteBedtimeSleep: Int,
+            isDefaultRingtone: Boolean,
+            isEnabled: Boolean
+        ) {
+            val alarm = realm.createObject(Alarm::class.java, getNextID(realm))
+            alarm.hourAlarm = hourAlarm
+            alarm.minuteAlarm = minuteAlarm
+            alarm.daysList = daysList
+            alarm.songsList = songList
+            if (songList.isNotEmpty()) {
+                alarm.currentlySelectedPath = songList.random()?.path
+            }
+            alarm.shouldResumePlaying = shouldResumePlaying
+            alarm.secondsPlayed = 0
+            alarm.shouldVibrate = shouldVibrate
+            alarm.isEnabled = isEnabled
+            alarm.hourBedtimeSleep = hourBedtimeSleep
+            alarm.minuteBedtimeSleep = minuteBedtimeSleep
+            alarm.useDefaultRingtone = isDefaultRingtone
         }
     }
 }

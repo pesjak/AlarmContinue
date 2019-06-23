@@ -8,6 +8,7 @@ import io.github.inflationx.viewpump.ViewPump
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import primoz.com.alarmcontinue.model.AlarmList
+import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.model.SongList
 
 class MyApplication : Application() {
@@ -23,6 +24,7 @@ class MyApplication : Application() {
             .initialData { realm ->
                 realm.createObject(AlarmList::class.java)
                 realm.createObject(SongList::class.java)
+                DataHelper.createDefaultBedtimeAlarm(realm)
             }
             .build()
         Realm.deleteRealm(realmConfig) // Delete Realm between app restarts.

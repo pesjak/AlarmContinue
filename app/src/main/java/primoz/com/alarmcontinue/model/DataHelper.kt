@@ -15,8 +15,10 @@
  */
 package primoz.com.alarmcontinue.model
 
+import android.media.RingtoneManager
 import io.realm.Realm
 import io.realm.RealmList
+import primoz.com.alarmcontinue.MyApplication
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 
@@ -41,7 +43,7 @@ object DataHelper {
                 songList
             )
 
-            //Save object
+            //Save
             Alarm.createAlarm(
                 realmInTransaction,
                 hourAlarm,
@@ -129,6 +131,10 @@ object DataHelper {
         return realm.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, alarmID).findFirst()
     }
 
+    fun getBedtimeAlarm(realm: Realm): Alarm? {
+        return realm.where(Alarm::class.java).isNotNull(Alarm.FIELD_BEDTIME_HOUR).findFirst()
+    }
+
     fun deleteAlarmAsync(realm: Realm, id: Int) {
         realm.executeTransactionAsync { realmInTransaction ->
             val alarm = realmInTransaction.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, id).findFirst()
@@ -136,9 +142,56 @@ object DataHelper {
         }
     }
 
+    fun createDefaultBedtimeAlarm(realm: Realm) {
+        //Default ALL Days
+        val selectedDays = mutableListOf<EnumDayOfWeek>()
+        selectedDays.add(EnumDayOfWeek.MONDAY)
+        selectedDays.add(EnumDayOfWeek.TUESDAY)
+        selectedDays.add(EnumDayOfWeek.WEDNESDAY)
+        selectedDays.add(EnumDayOfWeek.THURSDAY)
+        selectedDays.add(EnumDayOfWeek.FRIDAY)
+        selectedDays.add(EnumDayOfWeek.SATURDAY)
+        selectedDays.add(EnumDayOfWeek.SUNDAY)
+
+        //Default alarm tone, so it is shown in fragment that default is selected
+        var alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        if (alarmTone == null) {
+            alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            if (alarmTone == null) {
+                alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+            }
+        }
+        val ringtoneAlarm = RingtoneManager.getRingtone(MyApplication.appContext, alarmTone)
+        val defaultRingtone = AudioFile()
+        defaultRingtone.name = ringtoneAlarm.getTitle(MyApplication.appContext)
+        val songList = mutableListOf(defaultRingtone)
+
+        val (realmDayOfTheWeekList, realmSongList) = convertSelectedDaysAndSongsToRealmList(
+            selectedDays,
+            realm,
+            songList
+        )
+
+        //Save
+        Alarm.createBedtime(
+            realm,
+            hourAlarm = 7,
+            minuteAlarm = 0,
+            daysList = realmDayOfTheWeekList,
+            songList = realmSongList,
+            shouldResumePlaying = true,
+            shouldVibrate = true,
+            hourBedtimeSleep = 23,
+            minuteBedtimeSleep = 0,
+            isDefaultRingtone = true,
+            isEnabled = false
+        )
+    }
+
     /*
     Private
      */
+
     private fun convertSelectedDaysAndSongsToRealmList(
         daysList: MutableList<EnumDayOfWeek>,
         realmInTransaction: Realm,

@@ -23,10 +23,18 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
         } else {
             MyAlarm.cancelAlarm(view.getActivity(), alarm.id)
         }
-        loadCurrentTime()
     }
 
     override fun enableBedtime(realm: Realm, shouldEnable: Boolean) {
+        DataHelper.getBedtimeAlarm(realm)?.let { bedtime ->
+            DataHelper.shouldEnableAlarm(bedtime.id, shouldEnable, realm)
+            if (shouldEnable) {
+                MyAlarm.setAlarm(view.getActivity(), bedtime)
+            } else {
+                MyAlarm.cancelAlarm(view.getActivity(), bedtime.id)
+            }
+            view.updateBedtime(bedtime, shouldEnable)
+        }
     }
 
     override fun showAddNewAlarmScreen() {
@@ -40,11 +48,14 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
     }
 
     override fun loadAlarms(realm: Realm) {
-        view.showAlarms(realm.where(AlarmList::class.java).findFirst()!!.alarmList!!)
+        val alarmList = realm.where(AlarmList::class.java).findFirst()?.alarmList!!
+        view.showAlarms(alarmList)
     }
 
-    override fun loadCurrentTime() {
-        
+    override fun loadBedtime(realm: Realm) {
+        DataHelper.getBedtimeAlarm(realm)?.let { bedtime ->
+            view.updateBedtime(bedtime, bedtime.isEnabled)
+        }
     }
 
     init {

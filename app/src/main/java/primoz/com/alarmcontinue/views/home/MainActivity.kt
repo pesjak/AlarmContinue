@@ -39,7 +39,7 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
         initOnClickListeners()
 
         MainActivityPresenter(this)
-        mPresenter.loadCurrentTime()
+        mPresenter.loadBedtime(realm)
         mPresenter.loadAlarms(realm)
     }
 
@@ -56,7 +56,9 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
     }
 
     private fun initOnClickListeners() {
-        switchBedtime.setOnCheckedChangeListener { buttonView, isChecked -> mPresenter.enableBedtime(realm, isChecked) }
+        switchBedtime.setOnCheckedChangeListener { buttonView, isChecked ->
+            mPresenter.enableBedtime(realm, isChecked)
+        }
         textBedtime.setOnClickListener {
             mPresenter.showBedtimeAlarmScreen()
         }
@@ -102,6 +104,22 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
     override fun showAlarms(alarmList: RealmList<Alarm>) {
         adapter = MyAlarmsRecyclerViewAdapter(alarmList, this)
         rvAlarms.adapter = adapter
+    }
+
+    override fun updateBedtime(bedtime: Alarm, shouldEnable: Boolean) {
+        switchBedtime.alpha = if (shouldEnable) 1f else 0.5f
+        textBedtime.alpha = if (shouldEnable) 1f else 0.2f
+        textTimeRemaining.alpha = if (shouldEnable) 1f else 0.2f
+        bedtimeTime.alpha = if (shouldEnable) 1f else 0.2f
+
+        bedtimeTime.text = getString(
+            R.string.time_from_to,
+            bedtime.hourBedtimeSleep,
+            bedtime.minuteBedtimeSleep,
+            bedtime.hourAlarm,
+            bedtime.minuteAlarm
+        )
+        textTimeRemaining.text = getString(R.string.triggered_in, 7, 10)
     }
 
     /*

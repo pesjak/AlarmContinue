@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textNextDay"
+        android:id="@+id/textTimeRemaining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.5"
@@ -30,7 +30,7 @@
         android:paddingTop="16dp"
         android:paddingEnd="24dp"
         android:paddingBottom="16dp"
-        android:text="Tomorrow"
+        android:text="@string/triggered_in"
         android:textSize="@dimen/subtitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textBedtime" />
@@ -52,7 +52,7 @@
         android:paddingTop="16dp"
         android:paddingEnd="16dp"
         android:scrollbarSize="@dimen/subtitle"
-        android:text="23:00 - 7:00"
+        tools:text="23:00 - 7:00"
         android:textSize="@dimen/subtitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textBedtime" />

@@ -11,15 +11,16 @@ interface MainActivityContract {
         fun getActivity(): Activity
         fun showAlarms(alarmList: RealmList<Alarm>)
         fun showEnabledBedtime(shouldEnable: Boolean = false)
+        fun updateBedtime(bedtime: Alarm, shouldEnable: Boolean)
     }
 
     interface Presenter {
         fun loadAlarms(realm: Realm)
-        fun loadCurrentTime()
         fun showEditAlarmScreen(alarm: Alarm)
         fun enableAlarm(realm: Realm, alarm: Alarm, shouldEnable: Boolean)
         fun enableBedtime(realm: Realm, shouldEnable: Boolean)
         fun showAddNewAlarmScreen()
         fun showBedtimeAlarmScreen()
+        fun loadBedtime(realm: Realm)
     }
 }
