@@ -103,6 +103,32 @@ class EditAlarmFragment : Fragment(), EditAlarmContract.View {
         }
         daySelectorView.selectedDays = selectedDays
 
+        //SongList
+        alarm.songsList?.let {
+            tvSongNone.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+            tvClear.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
+            if (alarm.useDefaultRingtone) {
+                adapter?.songList = mutableListOf(getDefaultRingtone())
+            } else {
+                if (it.isNotEmpty()) cbPreferenceResumePlaying.visibility = View.VISIBLE
+                val selectedSongList = mutableListOf<AudioFile>()
+                for (song in it) {
+                    val audioFile = AudioFile()
+                    audioFile.name = song.name
+                    song.duration?.let { duration -> audioFile.duration = duration }
+                    audioFile.path = song.path
+                    audioFile.bucketId = song.bucketId
+                    audioFile.bucketName = song.bucketName
+                    song.size?.let { size -> audioFile.size = size }
+                    selectedSongList.add(audioFile)
+                }
+                adapter?.songList = selectedSongList
+            }
+        }
+
+        cbPreferenceResumePlaying.isChecked = alarm.shouldResumePlaying
+        cbPreferenceVibrate.isChecked = alarm.shouldVibrate
+
     }
 
     override fun finish() {
@@ -175,7 +201,6 @@ class EditAlarmFragment : Fragment(), EditAlarmContract.View {
     private fun initRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(context)
         adapter = SelectedSongsRecyclerViewAdapter()
-        adapter?.songList = mutableListOf(getDefaultRingtone())
         rvRingtones.layoutManager = linearLayoutManager
         rvRingtones.adapter = adapter
     }

@@ -8,6 +8,8 @@ import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
 
 class EditAlarmPresenter(private val view: EditAlarmContract.View, var alarmID: Int) : EditAlarmContract.Presenter {
 
+    var secondsPlayed = 0
+
     override fun updateAlarm(
         realm: Realm,
         hour: Int,
@@ -37,7 +39,7 @@ class EditAlarmPresenter(private val view: EditAlarmContract.View, var alarmID: 
             songList,
             shouldResumePlaying,
             shouldVibrate,
-            0,
+            secondsPlayed,
             null,
             null
         )
@@ -46,7 +48,8 @@ class EditAlarmPresenter(private val view: EditAlarmContract.View, var alarmID: 
 
     override fun deleteAlarm(realm: Realm) {
         DataHelper.deleteAlarmAsync(realm, alarmID)
-        view.viewActivity()?.baseContext?.let { //Destroy an alarm if it is enabled
+        view.viewActivity()?.baseContext?.let {
+            //Destroy an alarm if it is enabled
             MyAlarm.cancelAlarm(it, alarmID)
         }
         view.finish()
@@ -54,6 +57,7 @@ class EditAlarmPresenter(private val view: EditAlarmContract.View, var alarmID: 
 
     override fun restoreUI(realm: Realm) {
         DataHelper.getAlarm(realm, alarmID)?.let { alarm ->
+            secondsPlayed = alarm.secondsPlayed
             view.updateUI(alarm)
         }
     }
