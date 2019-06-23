@@ -9,4 +9,6 @@
     <color name="colorText">@color/white</color>
     <color name="colorBackground">@color/colorPrimary</color>
     <color name="colorBackgroundTranslucent">#21222e</color>
+    <color name="colorBlack">#21222e</color>
+
 </resources>

@@ -37,5 +37,7 @@ dependencies {
     // Permission
     implementation 'pub.devrel:easypermissions:3.0.0'
     // Swipe to dismiss library
-    implementation("com.github.thefuntasty.hauler:library:2.0.0")
+    implementation 'com.github.thefuntasty.hauler:library:2.0.0'
+    // For Sleep Time
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
 }
