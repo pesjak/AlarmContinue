@@ -38,4 +38,5 @@
     <string name="delete">Delete</string>
     <string name="triggered_in">Triggered in: %02dh %02dmin</string>
     <string name="time_from_to">%02d:%02d - %02d:%02d</string>
+    <string name="hello_there">Hello there</string>
 </resources>

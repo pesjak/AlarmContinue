@@ -2,6 +2,7 @@ package primoz.com.alarmcontinue.views.home
 
 import android.app.Activity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -17,6 +18,7 @@ import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.views.BaseActivity
 import primoz.com.alarmcontinue.views.home.adapters.MyAlarmsRecyclerViewAdapter
 import primoz.com.alarmcontinue.views.home.listeners.OnAlarmListener
+import java.util.*
 
 class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener {
 
@@ -59,7 +61,7 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
         switchBedtime.setOnCheckedChangeListener { buttonView, isChecked ->
             mPresenter.enableBedtime(realm, isChecked)
         }
-        textBedtime.setOnClickListener {
+        bedtimeContainer.setOnClickListener {
             mPresenter.showBedtimeAlarmScreen()
         }
         ivAddAlarm.setOnClickListener {
@@ -119,7 +121,27 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
             bedtime.hourAlarm,
             bedtime.minuteAlarm
         )
-        textTimeRemaining.text = getString(R.string.triggered_in, 7, 10)
+
+        val now = Calendar.getInstance()
+        val next = Calendar.getInstance()
+        next.set(Calendar.HOUR_OF_DAY, bedtime.hourAlarm!!)
+        next.set(Calendar.MINUTE, bedtime.minuteAlarm!!)
+        next.set(Calendar.SECOND, 0)
+
+        if (now.after(next)) next.add(Calendar.DATE, 1)
+        val ms = (next.timeInMillis - now.timeInMillis)
+        val countDownTimer = object : CountDownTimer(ms, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val minutes = (millisUntilFinished / (1000 * 60) % 60).toInt()
+                val hours = (millisUntilFinished / (1000 * 60 * 60) % 24).toInt()
+                textTimeRemaining.text = getString(R.string.triggered_in, hours, minutes)
+            }
+
+            override fun onFinish() {
+                textTimeRemaining.text = getString(R.string.hello_there)
+            }
+        }
+        countDownTimer.start()
     }
 
     /*

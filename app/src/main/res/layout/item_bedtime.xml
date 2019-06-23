@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bedtimeContainer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true">
 
     <TextView
         android:id="@+id/textBedtime"
@@ -52,9 +54,9 @@
         android:paddingTop="16dp"
         android:paddingEnd="16dp"
         android:scrollbarSize="@dimen/subtitle"
-        tools:text="23:00 - 7:00"
         android:textSize="@dimen/subtitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textBedtime" />
+        app:layout_constraintTop_toBottomOf="@+id/textBedtime"
+        tools:text="23:00 - 7:00" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
