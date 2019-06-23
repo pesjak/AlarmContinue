@@ -27,7 +27,8 @@ class AlarmViewHolder(itemView: View, private val onAlarmListener: OnAlarmListen
 
     fun setData(alarm: Alarm) {
         this.alarm = alarm
-        itemView.textAlarm.text = "${alarm.hourAlarm.toString().padStart(2, '0')} : ${alarm.minuteAlarm.toString().padStart(2, '0')}"
+        itemView.textAlarm.text =
+            "${alarm.hourAlarm.toString().padStart(2, '0')} : ${alarm.minuteAlarm.toString().padStart(2, '0')}"
         isChecked = alarm.isEnabled
         syncWithIsChecked()
         itemView.textNextDay.text = getAllDaysString(alarm)
@@ -39,6 +40,9 @@ class AlarmViewHolder(itemView: View, private val onAlarmListener: OnAlarmListen
 
     private fun syncWithIsChecked() {
         itemView.switchAlarm.isChecked = isChecked
+        itemView.switchAlarm.alpha = if (isChecked) 1f else 0.5f
+        itemView.textAlarm.alpha = if (isChecked) 1f else 0.2f
+        itemView.textNextDay.alpha = if (isChecked) 1f else 0.2f
     }
 
     private fun getAllDaysString(alarm: Alarm): String {
