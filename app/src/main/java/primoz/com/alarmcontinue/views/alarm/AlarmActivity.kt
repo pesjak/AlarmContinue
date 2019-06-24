@@ -9,7 +9,7 @@ import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.enums.AlarmType
 import primoz.com.alarmcontinue.extensions.inTransaction
 import primoz.com.alarmcontinue.views.BaseActivity
-import primoz.com.alarmcontinue.views.alarm.fragments.bedtime.BedtimeAlarmFragment
+import primoz.com.alarmcontinue.views.alarm.fragments.bedtime.BedtimeFragment
 import primoz.com.alarmcontinue.views.alarm.fragments.editAlarm.EditAlarmFragment
 import primoz.com.alarmcontinue.views.alarm.fragments.newAlarm.NewAlarmFragment
 
@@ -31,8 +31,8 @@ class AlarmActivity : BaseActivity() {
     private val editAlarmFragment: EditAlarmFragment by lazy {
         EditAlarmFragment.getInstance(alarmID)
     }
-    private val bedtimeAlarmFragment: BedtimeAlarmFragment by lazy {
-        BedtimeAlarmFragment()
+    private val bedtimeAlarmFragment: BedtimeFragment by lazy {
+        BedtimeFragment()
     }
 
     /*

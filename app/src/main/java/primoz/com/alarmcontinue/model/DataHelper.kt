@@ -188,6 +188,31 @@ object DataHelper {
         )
     }
 
+    fun updateBedtime(
+        realm: Realm,
+        hourSleep: Int,
+        minuteSleep: Int,
+        hour: Int,
+        minute: Int,
+        songList: MutableList<AudioFile>,
+        shouldResumePlaying: Boolean,
+        shouldVibrate: Boolean,
+        defaultRingtone: Boolean
+    ) {
+        realm.executeTransactionAsync { realmInTransaction ->
+            getBedtimeAlarm(realmInTransaction)?.let { bedtimeAlarm ->
+                bedtimeAlarm.hourAlarm = hour
+                bedtimeAlarm.minuteAlarm = minute
+                bedtimeAlarm.hourBedtimeSleep = hourSleep
+                bedtimeAlarm.minuteBedtimeSleep = minuteSleep
+                bedtimeAlarm.songsList = convertSongListToRealm(songList, realmInTransaction)
+                bedtimeAlarm.shouldResumePlaying = shouldResumePlaying
+                bedtimeAlarm.shouldVibrate = shouldVibrate
+                bedtimeAlarm.useDefaultRingtone = defaultRingtone
+            }
+        }
+    }
+
     /*
     Private
      */
@@ -198,13 +223,15 @@ object DataHelper {
         songList: MutableList<AudioFile>
     ): Pair<RealmList<RealmDayOfWeek>, RealmList<Song>> {
         //Create Realm objects
-        val realmDayOfTheWeekList = RealmList<RealmDayOfWeek>()
-        for (day in daysList) {
-            val realmDay = realmInTransaction.createObject(RealmDayOfWeek::class.java)
-            realmDay.saveNameOfDay(day)
-            realmDayOfTheWeekList.add(realmDay)
-        }
+        val realmDayOfTheWeekList = convertDayListToRealm(daysList, realmInTransaction)
+        val realmSongList = convertSongListToRealm(songList, realmInTransaction)
+        return Pair(realmDayOfTheWeekList, realmSongList)
+    }
 
+    private fun convertSongListToRealm(
+        songList: MutableList<AudioFile>,
+        realmInTransaction: Realm
+    ): RealmList<Song> {
         val realmSongList = RealmList<Song>()
         for (audio in songList) {
             realmSongList.add(
@@ -220,6 +247,19 @@ object DataHelper {
                 )
             )
         }
-        return Pair(realmDayOfTheWeekList, realmSongList)
+        return realmSongList
+    }
+
+    private fun convertDayListToRealm(
+        daysList: MutableList<EnumDayOfWeek>,
+        realmInTransaction: Realm
+    ): RealmList<RealmDayOfWeek> {
+        val realmDayOfTheWeekList = RealmList<RealmDayOfWeek>()
+        for (day in daysList) {
+            val realmDay = realmInTransaction.createObject(RealmDayOfWeek::class.java)
+            realmDay.saveNameOfDay(day)
+            realmDayOfTheWeekList.add(realmDay)
+        }
+        return realmDayOfTheWeekList
     }
 }

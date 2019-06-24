@@ -1,8 +1,8 @@
 package primoz.com.alarmcontinue.views.home
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -18,7 +18,6 @@ import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.views.BaseActivity
 import primoz.com.alarmcontinue.views.home.adapters.MyAlarmsRecyclerViewAdapter
 import primoz.com.alarmcontinue.views.home.listeners.OnAlarmListener
-import java.util.*
 
 class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener {
 
@@ -29,6 +28,13 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
     /*
     LifeCycle
      */
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ARG_BEDTIME_SCREEN_REQUEST_CODE) {
+            mPresenter.loadBedtime(realm)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,37 +117,10 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
     override fun updateBedtime(bedtime: Alarm, shouldEnable: Boolean) {
         switchBedtime.alpha = if (shouldEnable) 1f else 0.5f
         textBedtime.alpha = if (shouldEnable) 1f else 0.2f
-        textTimeRemaining.alpha = if (shouldEnable) 1f else 0.2f
-        bedtimeTime.alpha = if (shouldEnable) 1f else 0.2f
-
-        bedtimeTime.text = getString(
-            R.string.time_from_to,
-            bedtime.hourBedtimeSleep,
-            bedtime.minuteBedtimeSleep,
-            bedtime.hourAlarm,
-            bedtime.minuteAlarm
-        )
-
-        val now = Calendar.getInstance()
-        val next = Calendar.getInstance()
-        next.set(Calendar.HOUR_OF_DAY, bedtime.hourAlarm!!)
-        next.set(Calendar.MINUTE, bedtime.minuteAlarm!!)
-        next.set(Calendar.SECOND, 0)
-
-        if (now.after(next)) next.add(Calendar.DATE, 1)
-        val ms = (next.timeInMillis - now.timeInMillis)
-        val countDownTimer = object : CountDownTimer(ms, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                val minutes = (millisUntilFinished / (1000 * 60) % 60).toInt()
-                val hours = (millisUntilFinished / (1000 * 60 * 60) % 24).toInt()
-                textTimeRemaining.text = getString(R.string.triggered_in, hours, minutes)
-            }
-
-            override fun onFinish() {
-                textTimeRemaining.text = getString(R.string.hello_there)
-            }
-        }
-        countDownTimer.start()
+        llBedTime.alpha = if (shouldEnable) 1f else 0.2f
+        llWakeUp.alpha = if (shouldEnable) 1f else 0.2f
+        tvBedTime.text = getString(R.string.hour_minutes, bedtime.hourBedtimeSleep, bedtime.minuteBedtimeSleep)
+        tvWakeTime.text = getString(R.string.hour_minutes, bedtime.hourAlarm, bedtime.minuteAlarm)
     }
 
     /*
@@ -155,5 +134,9 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
             dividerItemDecoration.setDrawable(it)
         }
         rvAlarms.addItemDecoration(dividerItemDecoration)
+    }
+
+    companion object {
+        var ARG_BEDTIME_SCREEN_REQUEST_CODE = 100
     }
 }

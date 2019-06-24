@@ -11,31 +11,17 @@
     <TextView
         android:id="@+id/textBedtime"
         style="@style/TextAppearance.SemiBold"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:gravity="center_vertical"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
         android:paddingEnd="16dp"
-        android:text="@string/bedtime"
+        android:paddingBottom="16dp"
+        android:text="@string/bedtime_alarm"
         android:textSize="@dimen/title"
-        app:layout_constraintEnd_toStartOf="@+id/switchBedtime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textTimeRemaining"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:alpha="0.5"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="24dp"
-        android:paddingBottom="16dp"
-        android:text="@string/triggered_in"
-        android:textSize="@dimen/subtitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textBedtime" />
 
     <Switch
         android:id="@+id/switchBedtime"
@@ -46,17 +32,66 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
-    <TextView
-        android:id="@+id/bedtimeTime"
+    <LinearLayout
+        android:id="@+id/llBedTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0.5"
-        android:paddingTop="16dp"
-        android:paddingEnd="16dp"
-        android:scrollbarSize="@dimen/subtitle"
-        android:textSize="@dimen/subtitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textBedtime"
-        tools:text="23:00 - 7:00" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/llWakeUp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textBedtime">
 
+        <TextView
+            android:id="@+id/tvBedTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_sleep"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:text="@string/bedtime"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvBedTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="42sp"
+            tools:text="12:15" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llWakeUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/llBedTime"
+        app:layout_constraintTop_toBottomOf="@+id/textBedtime">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_sun"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:text="@string/wake"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvWakeTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="42sp"
+            tools:text="07:45" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

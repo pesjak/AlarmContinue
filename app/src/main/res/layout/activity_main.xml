@@ -91,20 +91,11 @@
                 android:layout_height="wrap_content" />
 
             <include
-                layout="@layout/view_line"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textNextDay" />
-
-            <include
                 android:id="@+id/addAlarm"
                 layout="@layout/item_add_alarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="16dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvAlarms"

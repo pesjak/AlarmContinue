@@ -13,7 +13,10 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
 
     override fun showBedtimeAlarmScreen() {
         val activity = view.getActivity()
-        activity.startActivity(AlarmActivity.getIntent(activity, AlarmType.BEDTIME))
+        activity.startActivityForResult(
+            AlarmActivity.getIntent(activity, AlarmType.BEDTIME),
+            MainActivity.ARG_BEDTIME_SCREEN_REQUEST_CODE
+        )
     }
 
     override fun enableAlarm(realm: Realm, alarm: Alarm, shouldEnable: Boolean) {
