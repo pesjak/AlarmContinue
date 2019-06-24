@@ -77,8 +77,8 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
         activity?.finish()
     }
 
-    override fun viewActivity(): Activity? {
-        return activity
+    override fun getViewActivity(): Activity {
+        return activity!!
     }
 
     override fun updateUI(alarm: Alarm) {

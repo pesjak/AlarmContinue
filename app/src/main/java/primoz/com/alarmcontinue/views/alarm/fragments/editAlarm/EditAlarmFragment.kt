@@ -77,8 +77,8 @@ class EditAlarmFragment : Fragment(), EditAlarmContract.View {
     NewAlarmContract.View
      */
 
-    override fun viewActivity(): Activity? {
-        return activity
+    override fun getViewActivity(): Activity {
+        return activity as Activity
     }
 
     override fun setPresenter(presenter: EditAlarmContract.Presenter) {

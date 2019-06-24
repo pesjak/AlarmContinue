@@ -8,11 +8,10 @@ import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.views.alarm.AlarmActivity
 import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
 
-
 class MainActivityPresenter(private val view: MainActivityContract.View) : MainActivityContract.Presenter {
 
     override fun showBedtimeAlarmScreen() {
-        val activity = view.getActivity()
+        val activity = view.getViewActivity()
         activity.startActivityForResult(
             AlarmActivity.getIntent(activity, AlarmType.BEDTIME),
             MainActivity.ARG_BEDTIME_SCREEN_REQUEST_CODE
@@ -22,9 +21,9 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
     override fun enableAlarm(realm: Realm, alarm: Alarm, shouldEnable: Boolean) {
         DataHelper.shouldEnableAlarm(alarm.id, shouldEnable, realm)
         if (shouldEnable) {
-            MyAlarm.setAlarm(view.getActivity(), alarm)
+            MyAlarm.setAlarm(view.getViewActivity(), alarm)
         } else {
-            MyAlarm.cancelAlarm(view.getActivity(), alarm.id)
+            MyAlarm.cancelAlarm(view.getViewActivity(), alarm.id)
         }
     }
 
@@ -32,21 +31,21 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
         DataHelper.getBedtimeAlarm(realm)?.let { bedtime ->
             DataHelper.shouldEnableAlarm(bedtime.id, shouldEnable, realm)
             if (shouldEnable) {
-                MyAlarm.setAlarm(view.getActivity(), bedtime)
+                MyAlarm.setAlarm(view.getViewActivity(), bedtime)
             } else {
-                MyAlarm.cancelAlarm(view.getActivity(), bedtime.id)
+                MyAlarm.cancelAlarm(view.getViewActivity(), bedtime.id)
             }
             view.updateBedtime(bedtime, shouldEnable)
         }
     }
 
     override fun showAddNewAlarmScreen() {
-        val activity = view.getActivity()
+        val activity = view.getViewActivity()
         activity.startActivity(AlarmActivity.getIntent(activity, AlarmType.NEW_ALARM))
     }
 
     override fun showEditAlarmScreen(alarm: Alarm) {
-        val activity = view.getActivity()
+        val activity = view.getViewActivity()
         activity.startActivity(AlarmActivity.getIntent(activity, AlarmType.EDIT_ALARM, alarm.id))
     }
 

@@ -14,6 +14,7 @@ import primoz.com.alarmcontinue.model.RealmDayOfWeek
 import primoz.com.alarmcontinue.views.alarm.TriggeredAlarmActivity
 import java.util.*
 
+
 //TODO CHANGE TO NOTIFICATION
 class MyAlarm : BroadcastReceiver() {
 
@@ -71,15 +72,13 @@ class MyAlarm : BroadcastReceiver() {
             }
 
             val alarmClockInfo = AlarmManager.AlarmClockInfo(
-                getNext(hour, minute, days).timeInMillis,
+                getNextAlarmCalendar(hour, minute, days).timeInMillis,
                 pendingIntent
             )
 
             Log.d("TimeInMilis", alarmClockInfo.triggerTime.toString())
 
             alarmManager.setAlarmClock(alarmClockInfo, pendingIntent)
-
-            //Toast.makeText(context, "Alarm set", Toast.LENGTH_SHORT).show()
         }
 
         fun cancelAlarm(context: Context, alarmID: Int) {
@@ -90,7 +89,32 @@ class MyAlarm : BroadcastReceiver() {
             Toast.makeText(context, "Alarm canceled, $alarmID", Toast.LENGTH_SHORT).show()
         }
 
-        private fun getNext(
+        /*
+        private fun getTimeRemainingFormattedString(
+            context: Context,
+            hour: Int,
+            minute: Int,
+            realmDays: RealmList<RealmDayOfWeek>
+        ): String {
+            val now = Calendar.getInstance()
+            val nextAlarm = getNextAlarmCalendar(hour, minute, realmDays)
+            val ms = (nextAlarm.timeInMillis - now.timeInMillis)
+            now.add(Calendar.DATE, 1)
+            return if (now.after(nextAlarm)) {
+                val minutes = (ms / (1000 * 60) % 60).toInt()
+                val hours = (ms / (1000 * 60 * 60) % 24).toInt()
+                if (hours > 0) {
+                    context.getString(R.string.alarm_set_hour_minutes, hours, minutes)
+                } else {
+                    context.getString(R.string.alarm_set_minutes, minutes)
+                }
+            } else {
+                context.getString(R.string.alarm_set_in_week, now.getDateDiff(nextAlarm.timeInMillis, TimeUnit.DAYS))
+            }
+        }
+        */
+
+        private fun getNextAlarmCalendar(
             hour: Int,
             minute: Int,
             realmDays: RealmList<RealmDayOfWeek>
@@ -146,7 +170,6 @@ class MyAlarm : BroadcastReceiver() {
             next.set(Calendar.DAY_OF_WEEK, nextDayToSet) // + 1 = back to 1-7 range
 
             while (now.after(next)) next.add(Calendar.DATE, 7)
-
             return next
         }
     }

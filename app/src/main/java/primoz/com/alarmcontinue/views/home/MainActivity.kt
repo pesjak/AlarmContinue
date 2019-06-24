@@ -105,7 +105,7 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
         mPresenter = presenter
     }
 
-    override fun getActivity(): Activity {
+    override fun getViewActivity(): Activity {
         return this
     }
 

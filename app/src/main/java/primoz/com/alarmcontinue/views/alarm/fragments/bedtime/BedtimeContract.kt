@@ -9,7 +9,6 @@ import primoz.com.alarmcontinue.views.BaseView
 interface BedtimeContract {
     interface View : BaseView<Presenter> {
         fun finish()
-        fun viewActivity(): Activity?
         fun updateUI(alarm: Alarm)
     }
 

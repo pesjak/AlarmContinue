@@ -38,12 +38,11 @@ class NewAlarmPresenter(private val view: NewAlarmContract.View) : NewAlarmContr
             null,
             isDefaultRingtone
         )
-        view.finish()
 
+        view.finish()
     }
 
     init {
         view.setPresenter(this)
     }
-
 }

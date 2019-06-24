@@ -70,8 +70,8 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
     NewAlarmContract.View
      */
 
-    override fun viewActivity(): Activity? {
-        return activity
+    override fun getViewActivity(): Activity {
+        return activity!!
     }
 
     override fun setPresenter(presenter: NewAlarmContract.Presenter) {

@@ -48,7 +48,7 @@ class EditAlarmPresenter(private val view: EditAlarmContract.View, var alarmID: 
 
     override fun deleteAlarm(realm: Realm) {
         DataHelper.deleteAlarmAsync(realm, alarmID)
-        view.viewActivity()?.baseContext?.let {
+        view.getViewActivity().baseContext?.let {
             //Destroy an alarm if it is enabled
             MyAlarm.cancelAlarm(it, alarmID)
         }

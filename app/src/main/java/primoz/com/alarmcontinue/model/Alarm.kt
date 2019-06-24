@@ -15,6 +15,7 @@
  */
 package primoz.com.alarmcontinue.model
 
+import android.widget.Toast
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
@@ -75,18 +76,8 @@ open class Alarm : RealmObject() {
             alarm.useDefaultRingtone = isDefaultRingtone
             alarmList?.add(alarm)
 
-            if (isEnabled) MyAlarm.setAlarm(MyApplication.appContext, alarm)
-        }
-
-        private fun getNextID(realm: Realm): Int {
-            return try {
-                val number = realm.where(Alarm::class.java).max(FIELD_ID)
-                when {
-                    number != null -> number.toInt() + 1
-                    else -> 0
-                }
-            } catch (e: ArrayIndexOutOfBoundsException) {
-                0
+            if (isEnabled) {
+                MyAlarm.setAlarm(MyApplication.appContext, alarm)
             }
         }
 
@@ -118,6 +109,18 @@ open class Alarm : RealmObject() {
             alarm.hourBedtimeSleep = hourBedtimeSleep
             alarm.minuteBedtimeSleep = minuteBedtimeSleep
             alarm.useDefaultRingtone = isDefaultRingtone
+        }
+
+        private fun getNextID(realm: Realm): Int {
+            return try {
+                val number = realm.where(Alarm::class.java).max(FIELD_ID)
+                when {
+                    number != null -> number.toInt() + 1
+                    else -> 0
+                }
+            } catch (e: ArrayIndexOutOfBoundsException) {
+                0
+            }
         }
     }
 }

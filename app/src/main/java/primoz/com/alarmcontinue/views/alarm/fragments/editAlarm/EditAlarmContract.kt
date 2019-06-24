@@ -10,7 +10,6 @@ import primoz.com.alarmcontinue.views.BaseView
 interface EditAlarmContract {
     interface View : BaseView<Presenter> {
         fun finish()
-        fun viewActivity(): Activity?
         fun updateUI(alarm: Alarm)
     }
 
