@@ -18,7 +18,7 @@
         android:paddingTop="16dp"
         android:paddingEnd="16dp"
         android:paddingBottom="16dp"
-        android:text="@string/bedtime_alarm"
+        android:text="@string/bedtime"
         android:textSize="@dimen/title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

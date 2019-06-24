@@ -2,7 +2,6 @@
     <string name="app_name">Alarm Continue</string>
     <string name="current_time_title">Current time</string>
     <string name="bedtime">Bedtime</string>
-    <string name="bedtime_alarm">Bedtime alarm</string>
     <string name="remaining">remaining</string>
     <string name="other_alarms">Other Alarms</string>
 
