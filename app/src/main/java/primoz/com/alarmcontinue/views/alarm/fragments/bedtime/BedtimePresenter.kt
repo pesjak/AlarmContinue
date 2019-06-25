@@ -54,7 +54,7 @@ class BedtimePresenter(private val view: BedtimeContract.View) : BedtimeContract
             view.showNoneSelectedSongs(isEmpty)
             view.showTextSetDefaultButton(isEmpty)
             if (isEmpty) {
-                view.updateSongList(mutableListOf())y
+                view.updateSongList(mutableListOf())
                 buttonClearShown = !buttonClearShown
             } else {
                 view.updateSongList(selectedSongList)
