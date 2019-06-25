@@ -1,7 +1,9 @@
-package primoz.com.alarmcontinue.views.alarm
+package primoz.com.alarmcontinue.views.alarm.broadcast
 
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.net.Uri
@@ -16,10 +18,12 @@ import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.views.BaseActivity
-import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
+import java.util.*
+
 
 class TriggeredAlarmActivity : BaseActivity() {
 
+    private lateinit var timer: Timer
     private lateinit var realm: Realm
     private lateinit var vibrator: Vibrator
     private var mediaPlayer: MediaPlayer? = null
@@ -48,9 +52,9 @@ class TriggeredAlarmActivity : BaseActivity() {
 
             DataHelper.shouldEnableAlarm(alarmID, alarm.isEnabled, realm)
             if (alarm.isEnabled) {
-                MyAlarm.setAlarm(baseContext, alarm)
+                //MyAlarm.setAlarm(baseContext, alarm)
             } else {
-                MyAlarm.cancelAlarm(baseContext, alarm.id)
+                // MyAlarm.cancelAlarm(baseContext, alarm.id)
             }
             if (alarm.useDefaultRingtone) {
                 var uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
@@ -60,13 +64,18 @@ class TriggeredAlarmActivity : BaseActivity() {
                         uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
                     }
                 }
-                mediaPlayer = MediaPlayer.create(this, uri)
+                mediaPlayer = MediaPlayer()
+                mediaPlayer?.let { increaseVolumeOverTime(it) }
+                mediaPlayer?.setDataSource(this, uri)
                 mediaPlayer?.isLooping = true
                 shouldResumePlaying = alarm.shouldResumePlaying
-                if (alarm.shouldResumePlaying) {
-                    mediaPlayer?.seekTo(alarm.secondsPlayed)
+                mediaPlayer?.setOnPreparedListener {
+                    if (alarm.shouldResumePlaying) {
+                        mediaPlayer?.seekTo(alarm.secondsPlayed)
+                    }
+                    mediaPlayer?.start()
                 }
-                mediaPlayer?.start()
+                mediaPlayer?.prepareAsync()
             } else {
                 initMediaPlayer(alarm)
             }
@@ -89,6 +98,27 @@ class TriggeredAlarmActivity : BaseActivity() {
         //TODO Set another alarm if it DOESN'T have ON resumePlaying
     }
 
+    private fun increaseVolumeOverTime(mediaPlayer: MediaPlayer) {
+        val mAudioManager: AudioManager = baseContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        mediaPlayer.setAudioAttributes(
+            AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+        )
+        val streamMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM)
+        var currentVolume = 0
+        timer = Timer()
+        timer.scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, currentVolume, 0)
+                currentVolume += 1
+                Log.d("Alarm-Volume", currentVolume.toString())
+                if (currentVolume >= streamMaxVolume) this.cancel()
+            }
+        }, 0, 3500) //Alarm Repeats x7
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         if (shouldResumePlaying) {
@@ -97,6 +127,7 @@ class TriggeredAlarmActivity : BaseActivity() {
                 Log.d("Alarm Played", it.currentPosition.toString())
             }
         }
+        timer.cancel()
         mediaPlayer?.stop()
         vibrator.cancel()
         realm.close()
@@ -104,7 +135,9 @@ class TriggeredAlarmActivity : BaseActivity() {
     }
 
     private fun initMediaPlayer(alarm: Alarm) {
-        mediaPlayer = MediaPlayer.create(this, Uri.parse(alarm.currentlySelectedPath))
+        mediaPlayer = MediaPlayer()
+        mediaPlayer?.let { increaseVolumeOverTime(it) }
+        mediaPlayer?.setDataSource(this, Uri.parse(alarm.currentlySelectedPath))
         mediaPlayer?.isLooping = false
         mediaPlayer?.setOnCompletionListener {
             it?.stop()
@@ -113,14 +146,19 @@ class TriggeredAlarmActivity : BaseActivity() {
             val path = alarm.songsList?.random()?.path
             it?.setDataSource(this, Uri.parse(path))
             DataHelper.nextRandomSong(alarmID, path)
-            it?.prepare()
-            it?.start()
+            it?.setOnPreparedListener {
+                mediaPlayer?.start()
+            }
+            it?.prepareAsync()
         }
+        mediaPlayer?.setOnPreparedListener {
+            if (alarm.shouldResumePlaying) {
+                mediaPlayer?.seekTo(alarm.secondsPlayed)
+            }
+            mediaPlayer?.start()
+        }
+        mediaPlayer?.prepareAsync()
         shouldResumePlaying = alarm.shouldResumePlaying
-        if (alarm.shouldResumePlaying) {
-            mediaPlayer?.seekTo(alarm.secondsPlayed)
-        }
-        mediaPlayer?.start()
     }
 
     private fun startVibrating() {

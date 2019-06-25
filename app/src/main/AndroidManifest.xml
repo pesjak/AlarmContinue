@@ -36,7 +36,7 @@
             android:name=".libraries.filepicker.activity.AudioPickActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".views.alarm.TriggeredAlarmActivity"
+            android:name=".views.alarm.broadcast.TriggeredAlarmActivity"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Draggable" />

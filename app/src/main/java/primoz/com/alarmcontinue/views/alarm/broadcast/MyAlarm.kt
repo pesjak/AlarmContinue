@@ -9,7 +9,6 @@ import io.realm.RealmList
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.RealmDayOfWeek
-import primoz.com.alarmcontinue.views.alarm.TriggeredAlarmActivity
 import java.util.*
 
 
@@ -114,6 +113,9 @@ class MyAlarm : BroadcastReceiver() {
             realmDays: RealmList<RealmDayOfWeek>
         ): Calendar {
             val now = Calendar.getInstance()
+            now.add(Calendar.SECOND, 10)
+            return now
+
             val next = Calendar.getInstance()
 
             next.set(Calendar.HOUR_OF_DAY, hour)
