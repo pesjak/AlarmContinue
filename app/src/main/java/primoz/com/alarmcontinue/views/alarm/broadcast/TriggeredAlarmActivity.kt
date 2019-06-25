@@ -102,21 +102,20 @@ class TriggeredAlarmActivity : BaseActivity() {
         val mAudioManager: AudioManager = baseContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         mediaPlayer.setAudioAttributes(
             AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_ALARM)
+                .setUsage(AudioAttributes.USAGE_MEDIA)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build()
         )
-        val streamMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM)
+        val streamMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         var currentVolume = 0
         timer = Timer()
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
-                mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, currentVolume, 0)
+                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0)
                 currentVolume += 1
-                Log.d("Alarm-Volume", currentVolume.toString())
                 if (currentVolume >= streamMaxVolume) this.cancel()
             }
-        }, 0, 3500) //Alarm Repeats x7
+        }, 0, 2000) //Alarm Repeats x7
     }
 
     override fun onDestroy() {
