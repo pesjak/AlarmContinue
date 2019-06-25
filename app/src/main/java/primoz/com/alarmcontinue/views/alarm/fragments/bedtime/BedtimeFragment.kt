@@ -42,12 +42,7 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
         when (requestCode) {
             Constant.REQUEST_CODE_PICK_AUDIO -> if (resultCode == Activity.RESULT_OK) {
                 val songList = data?.getParcelableArrayListExtra<Parcelable>(Constant.RESULT_PICK_AUDIO) as ArrayList<AudioFile>
-                tvRingtonesTitle.text = getString(R.string.ringtones)
-                adapter?.songList = songList
-                buttonClearShown = true
-                shouldUseDefaultRingtone = false
-                btnDefaultAndClear.text = getString(R.string.clear)
-                tvSongNone.visibility = View.GONE
+                handleSelectedAudioFileList(songList)
             }
         }
     }
@@ -96,32 +91,14 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
         handleUpdate(timePicker.getBedTime(), timePicker.getWakeTime())
 
         //SongList
-        alarm.songsList?.let {
-            shouldUseDefaultRingtone = alarm.useDefaultRingtone
-            if (alarm.useDefaultRingtone) {
-                adapter?.songList = mutableListOf(getDefaultRingtone())
-                tvSongNone.visibility = View.GONE
-            } else {
-                val selectedSongList = mutableListOf<AudioFile>()
-                for (song in it) {
-                    val audioFile = AudioFile()
-                    audioFile.name = song.name
-                    song.duration?.let { duration -> audioFile.duration = duration }
-                    audioFile.path = song.path
-                    audioFile.bucketId = song.bucketId
-                    audioFile.bucketName = song.bucketName
-                    song.size?.let { size -> audioFile.size = size }
-                    selectedSongList.add(audioFile)
-                }
-                adapter?.songList = selectedSongList
-                if (selectedSongList.isEmpty()) {
-                    tvSongNone.visibility = View.VISIBLE
-                    btnDefaultAndClear.text = getString(R.string.set_default)
-                    buttonClearShown = false
-                } else {
-                    tvSongNone.visibility = View.GONE
-                }
-            }
+        shouldUseDefaultRingtone = alarm.useDefaultRingtone
+        if (shouldUseDefaultRingtone) {
+            adapter?.songList = mutableListOf(getDefaultRingtone())
+            shouldShowNone(false)
+        } else {
+            val selectedSongList = getAudioFilesListFrom(alarm)
+            shouldClearRingtoneList(selectedSongList.isEmpty())
+            adapter?.songList = selectedSongList
         }
 
         cbPreferenceResumePlaying.isChecked = alarm.shouldResumePlaying
@@ -176,20 +153,22 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
         }
 
         btnDefaultAndClear.setOnClickListener {
-            if (buttonClearShown) {
-                adapter?.songList?.clear()
-                tvSongNone.visibility = View.VISIBLE
-                btnDefaultAndClear.text = getString(R.string.set_default)
-                shouldUseDefaultRingtone = false
-            } else {
-                adapter?.songList = mutableListOf(getDefaultRingtone())
-                btnDefaultAndClear.text = getString(R.string.clear)
-                tvSongNone.visibility = View.GONE
-                shouldUseDefaultRingtone = true
-            }
-            adapter?.notifyDataSetChanged()
-            buttonClearShown = !buttonClearShown
+            shouldClearRingtoneList(buttonClearShown)
         }
+    }
+
+    private fun shouldClearRingtoneList(shouldClear: Boolean) {
+        shouldShowNone(shouldClear)
+        shouldUseDefaultRingtone = !shouldClear
+        if (shouldClear) {
+            adapter?.songList?.clear()
+            btnDefaultAndClear.text = getString(R.string.set_default)
+        } else {
+            adapter?.songList = mutableListOf(getDefaultRingtone())
+            btnDefaultAndClear.text = getString(R.string.clear)
+        }
+        adapter?.notifyDataSetChanged()
+        buttonClearShown = !buttonClearShown
     }
 
     private fun setOnScrollListener() {
@@ -235,4 +214,36 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
         if (minutes > 0) llMins.visibility = View.VISIBLE else llMins.visibility = View.GONE
     }
 
+    private fun getAudioFilesListFrom(alarm: Alarm): MutableList<AudioFile> {
+        val selectedSongList = mutableListOf<AudioFile>()
+        alarm.songsList?.let {
+            for (song in it) {
+                val audioFile = AudioFile()
+                audioFile.name = song.name
+                song.duration?.let { duration -> audioFile.duration = duration }
+                audioFile.path = song.path
+                audioFile.bucketId = song.bucketId
+                audioFile.bucketName = song.bucketName
+                song.size?.let { size -> audioFile.size = size }
+                selectedSongList.add(audioFile)
+            }
+        }
+        return selectedSongList
+    }
+
+    private fun shouldShowNone(shouldShow: Boolean) {
+        tvSongNone.visibility = if (shouldShow) View.VISIBLE else View.GONE
+    }
+
+    private fun handleSelectedAudioFileList(songList: ArrayList<AudioFile>) {
+        adapter?.songList = songList
+        shouldShowNone(songList.isEmpty())
+        buttonClearShown = songList.isNotEmpty()
+        if (buttonClearShown) {
+            btnDefaultAndClear.text = getString(R.string.clear)
+        } else {
+            btnDefaultAndClear.text = getString(R.string.set_default)
+        }
+        shouldUseDefaultRingtone = false
+    }
 }

@@ -264,7 +264,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:paddingTop="24dp"
-                    android:text="@string/ringtone"
+                    android:text="@string/ringtones"
                     android:textSize="@dimen/subtitle"
                     app:layout_constraintEnd_toStartOf="@+id/btnDefaultAndClear"
                     app:layout_constraintStart_toStartOf="parent"
