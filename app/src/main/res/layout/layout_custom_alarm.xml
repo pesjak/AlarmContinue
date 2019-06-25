@@ -165,6 +165,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
+                    android:alpha="0.5"
                     android:text="@string/none"
                     android:textSize="@dimen/subtitle"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -219,7 +220,6 @@
                     android:text="@string/clear"
                     android:textAllCaps="true"
                     android:textSize="14sp"
-                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

@@ -9,9 +9,13 @@ import primoz.com.alarmcontinue.views.alarm.BaseAlarmView
 
 interface BedtimeContract {
 
-    interface View : BaseView<Presenter>, BaseAlarmView
+    interface View : BaseView<Presenter>, BaseAlarmView{
+        fun updateUI(alarm: Alarm)
+    }
 
     interface Presenter: BaseAlarmPresenter {
+        fun restoreUI(realm: Realm)
+        fun loadSongList(alarm: Alarm)
         fun updateBedtime(
             realm: Realm,
             hourSleep: Int,

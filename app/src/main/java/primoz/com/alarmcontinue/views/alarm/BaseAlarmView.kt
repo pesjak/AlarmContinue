@@ -5,7 +5,6 @@ import primoz.com.alarmcontinue.model.Alarm
 
 interface BaseAlarmView {
     fun finish()
-    fun updateUI(alarm: Alarm)
     fun updateSongList(selectedSongList: MutableList<AudioFile>)
     fun showNoneSelectedSongs(shouldShow: Boolean = true)
     fun showTextSetDefaultButton(shouldShow: Boolean = true)

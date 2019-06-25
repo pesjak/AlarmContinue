@@ -1,12 +1,17 @@
 package primoz.com.alarmcontinue.views.alarm
 
+import android.app.Activity
+import android.media.RingtoneManager
 import io.realm.Realm
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.model.Alarm
 import java.util.ArrayList
 
 interface BaseAlarmPresenter {
-    fun restoreUI(realm: Realm)
+
+    fun handleSelectedAudioFileList(songList: ArrayList<AudioFile>)
+    fun clearOrSetDefaultSong()
+
     fun getAudioFilesListFrom(alarm: Alarm): MutableList<AudioFile> {
         val selectedSongList = mutableListOf<AudioFile>()
         alarm.songsList?.let {
@@ -23,7 +28,18 @@ interface BaseAlarmPresenter {
         }
         return selectedSongList
     }
-    fun loadSongList(alarm: Alarm)
-    fun handleSelectedAudioFileList(songList: ArrayList<AudioFile>)
-    fun clearOrSetDefaultSong()
+
+    fun getDefaultRingtone(activity:Activity): AudioFile {
+        var alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        if (alarmTone == null) {
+            alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            if (alarmTone == null) {
+                alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+            }
+        }
+        val ringtoneAlarm = RingtoneManager.getRingtone(activity, alarmTone)
+        val defaultRingtone = AudioFile()
+        defaultRingtone.name = ringtoneAlarm.getTitle(activity)
+        return defaultRingtone
+    }
 }

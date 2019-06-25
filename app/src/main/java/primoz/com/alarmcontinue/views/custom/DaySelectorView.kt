@@ -25,6 +25,7 @@ class DaySelectorView @JvmOverloads constructor(
             setDay(day5, EnumDayOfWeek.FRIDAY, selectedDays.contains(EnumDayOfWeek.FRIDAY))
             setDay(day6, EnumDayOfWeek.SATURDAY, selectedDays.contains(EnumDayOfWeek.SATURDAY))
             setDay(day7, EnumDayOfWeek.SUNDAY, selectedDays.contains(EnumDayOfWeek.SUNDAY))
+            updateStatus()
         }
 
     init {

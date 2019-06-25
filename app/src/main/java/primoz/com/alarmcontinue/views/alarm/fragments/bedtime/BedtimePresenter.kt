@@ -1,6 +1,5 @@
 package primoz.com.alarmcontinue.views.alarm.fragments.bedtime
 
-import android.media.RingtoneManager
 import io.realm.Realm
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.model.Alarm
@@ -10,7 +9,6 @@ class BedtimePresenter(private val view: BedtimeContract.View) : BedtimeContract
 
     var buttonClearShown = true
     var shouldUseDefaultRingtone = false
-    var secondsPlayed = 0
 
     override fun updateBedtime(
         realm: Realm,
@@ -38,7 +36,6 @@ class BedtimePresenter(private val view: BedtimeContract.View) : BedtimeContract
 
     override fun restoreUI(realm: Realm) {
         DataHelper.getBedtimeAlarm(realm)?.let { alarm ->
-            secondsPlayed = alarm.secondsPlayed
             view.updateUI(alarm)
         }
     }
@@ -46,7 +43,7 @@ class BedtimePresenter(private val view: BedtimeContract.View) : BedtimeContract
     override fun loadSongList(alarm: Alarm) {
         shouldUseDefaultRingtone = alarm.useDefaultRingtone
         if (shouldUseDefaultRingtone) {
-            view.updateSongList(mutableListOf(getDefaultRingtone()))
+            view.updateSongList(mutableListOf(getDefaultRingtone(view.getViewActivity())))
             view.showNoneSelectedSongs(false)
         } else {
             val selectedSongList = getAudioFilesListFrom(alarm)
@@ -73,23 +70,9 @@ class BedtimePresenter(private val view: BedtimeContract.View) : BedtimeContract
     override fun clearOrSetDefaultSong() {
         view.showTextSetDefaultButton(buttonClearShown)
         view.showNoneSelectedSongs(buttonClearShown)
-        view.updateSongList(if (buttonClearShown) mutableListOf() else mutableListOf(getDefaultRingtone()))
+        view.updateSongList(if (buttonClearShown) mutableListOf() else mutableListOf(getDefaultRingtone(view.getViewActivity())))
         buttonClearShown = !buttonClearShown
         shouldUseDefaultRingtone = buttonClearShown
-    }
-
-    private fun getDefaultRingtone(): AudioFile {
-        var alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-        if (alarmTone == null) {
-            alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            if (alarmTone == null) {
-                alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
-            }
-        }
-        val ringtoneAlarm = RingtoneManager.getRingtone(view.getViewActivity(), alarmTone)
-        val defaultRingtone = AudioFile()
-        defaultRingtone.name = ringtoneAlarm.getTitle(view.getViewActivity())
-        return defaultRingtone
     }
 
     init {

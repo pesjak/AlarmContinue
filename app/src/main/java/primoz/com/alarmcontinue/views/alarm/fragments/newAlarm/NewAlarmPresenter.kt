@@ -7,6 +7,9 @@ import primoz.com.alarmcontinue.model.DataHelper
 
 class NewAlarmPresenter(private val view: NewAlarmContract.View) : NewAlarmContract.Presenter {
 
+    var buttonClearShown = true
+    var shouldUseDefaultRingtone = false
+
     override fun saveAlarm(
         realm: Realm,
         hour: Int,
@@ -14,8 +17,7 @@ class NewAlarmPresenter(private val view: NewAlarmContract.View) : NewAlarmContr
         selectedDays: MutableList<EnumDayOfWeek>,
         songList: MutableList<AudioFile>,
         shouldResumePlaying: Boolean,
-        shouldVibrate: Boolean,
-        isDefaultRingtone: Boolean
+        shouldVibrate: Boolean
     ) {
         if (selectedDays.isEmpty()) {
             selectedDays.add(EnumDayOfWeek.MONDAY)
@@ -36,13 +38,36 @@ class NewAlarmPresenter(private val view: NewAlarmContract.View) : NewAlarmContr
             shouldVibrate,
             null,
             null,
-            isDefaultRingtone
+            shouldUseDefaultRingtone
         )
 
         view.finish()
     }
 
+    override fun loadSongList() {
+        shouldUseDefaultRingtone = true
+        view.updateSongList(mutableListOf(getDefaultRingtone(view.getViewActivity())))
+        view.showNoneSelectedSongs(false)
+    }
+
+    override fun handleSelectedAudioFileList(songList: ArrayList<AudioFile>) {
+        view.updateSongList(songList)
+        view.showNoneSelectedSongs(songList.isEmpty())
+        view.showTextSetDefaultButton(songList.isEmpty())
+        buttonClearShown = songList.isNotEmpty()
+        shouldUseDefaultRingtone = false
+    }
+
+    override fun clearOrSetDefaultSong() {
+        view.showTextSetDefaultButton(buttonClearShown)
+        view.showNoneSelectedSongs(buttonClearShown)
+        view.updateSongList(if (buttonClearShown) mutableListOf() else mutableListOf(getDefaultRingtone(view.getViewActivity())))
+        buttonClearShown = !buttonClearShown
+        shouldUseDefaultRingtone = buttonClearShown
+    }
+
     init {
         view.setPresenter(this)
+        view.showDefaultUI()
     }
 }

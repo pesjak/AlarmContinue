@@ -4,13 +4,17 @@ import io.realm.Realm
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.views.BaseView
+import primoz.com.alarmcontinue.views.alarm.BaseAlarmPresenter
+import primoz.com.alarmcontinue.views.alarm.BaseAlarmView
 
 interface NewAlarmContract {
-    interface View : BaseView<Presenter> {
-        fun finish()
+
+    interface View : BaseView<Presenter>, BaseAlarmView {
+        fun showDefaultUI()
     }
 
-    interface Presenter {
+    interface Presenter : BaseAlarmPresenter {
+        fun loadSongList()
         fun saveAlarm(
             realm: Realm,
             hour: Int,
@@ -18,8 +22,7 @@ interface NewAlarmContract {
             selectedDays: MutableList<EnumDayOfWeek>,
             songList: MutableList<AudioFile>,
             shouldResumePlaying: Boolean,
-            shouldVibrate: Boolean,
-            isDefaultRingtone: Boolean
+            shouldVibrate: Boolean
         )
     }
 }

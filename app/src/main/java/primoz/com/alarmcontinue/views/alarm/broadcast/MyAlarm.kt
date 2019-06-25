@@ -5,8 +5,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
-import android.widget.Toast
 import io.realm.RealmList
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 import primoz.com.alarmcontinue.model.Alarm
@@ -75,9 +73,6 @@ class MyAlarm : BroadcastReceiver() {
                 getNextAlarmCalendar(hour, minute, days).timeInMillis,
                 pendingIntent
             )
-
-            Log.d("TimeInMilis", alarmClockInfo.triggerTime.toString())
-
             alarmManager.setAlarmClock(alarmClockInfo, pendingIntent)
         }
 
@@ -86,7 +81,6 @@ class MyAlarm : BroadcastReceiver() {
             val sender = PendingIntent.getBroadcast(context, alarmID, intent, 0)
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.cancel(sender)
-            Toast.makeText(context, "Alarm canceled, $alarmID", Toast.LENGTH_SHORT).show()
         }
 
         /*
@@ -120,9 +114,6 @@ class MyAlarm : BroadcastReceiver() {
             realmDays: RealmList<RealmDayOfWeek>
         ): Calendar {
             val now = Calendar.getInstance()
-            now.add(Calendar.SECOND, 10)
-            return now
-
             val next = Calendar.getInstance()
 
             next.set(Calendar.HOUR_OF_DAY, hour)

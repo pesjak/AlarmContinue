@@ -22,7 +22,7 @@ import primoz.com.alarmcontinue.libraries.filepicker.activity.AudioPickActivity
 import primoz.com.alarmcontinue.libraries.filepicker.activity.BaseActivity
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.model.Alarm
-import primoz.com.alarmcontinue.views.alarm.fragments.newAlarm.adapters.SelectedSongsRecyclerViewAdapter
+import primoz.com.alarmcontinue.views.alarm.fragments.adapters.SelectedSongsRecyclerViewAdapter
 
 class BedtimeFragment : Fragment(), BedtimeContract.View {
 
@@ -69,11 +69,15 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
      */
 
     override fun finish() {
-        activity?.finish()
+        getViewActivity().finish()
     }
 
     override fun getViewActivity(): Activity {
         return activity!!
+    }
+
+    override fun setPresenter(presenter: BedtimeContract.Presenter) {
+        mPresenter = presenter
     }
 
     override fun updateUI(alarm: Alarm) {
@@ -105,10 +109,6 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
 
     override fun showTextSetDefaultButton(shouldShow: Boolean) {
         btnDefaultAndClear.text = if (shouldShow) getString(R.string.set_default) else getString(R.string.clear)
-    }
-
-    override fun setPresenter(presenter: BedtimeContract.Presenter) {
-        mPresenter = presenter
     }
 
     /*
