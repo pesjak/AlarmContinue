@@ -45,4 +45,5 @@
     <string name="wake_up">Wake up</string>
     <string name="wake">Wake</string>
     <string name="hour_minutes">%02d:%02d</string>
+    <string name="set_default">Set default</string>
 </resources>

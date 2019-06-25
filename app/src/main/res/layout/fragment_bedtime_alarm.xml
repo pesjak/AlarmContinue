@@ -266,7 +266,7 @@
                     android:paddingTop="24dp"
                     android:text="@string/ringtone"
                     android:textSize="@dimen/subtitle"
-                    app:layout_constraintEnd_toStartOf="@+id/tvClear"
+                    app:layout_constraintEnd_toStartOf="@+id/btnDefaultAndClear"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -318,7 +318,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvClear"
+                    android:id="@+id/btnDefaultAndClear"
                     style="@style/TextAppearance.SemiBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -331,7 +331,6 @@
                     android:text="@string/clear"
                     android:textAllCaps="true"
                     android:textSize="14sp"
-                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:visibility="visible" />

@@ -71,7 +71,8 @@ object DataHelper {
         shouldVibrate: Boolean = false,
         secondsPlayed: Int = 0,
         hourBedtimeSleep: Int? = null,
-        minuteBedtimeSleep: Int? = null
+        minuteBedtimeSleep: Int? = null,
+        useDefaultRingtone: Boolean = false
     ) {
         realm.executeTransactionAsync { realmInTransaction ->
             val (realmDayOfTheWeekList, realmSongList) = convertSelectedDaysAndSongsToRealmList(
@@ -93,6 +94,7 @@ object DataHelper {
                 alarm.isEnabled = isEnabled
                 alarm.hourBedtimeSleep = hourBedtimeSleep
                 alarm.minuteBedtimeSleep = minuteBedtimeSleep
+                alarm.useDefaultRingtone = useDefaultRingtone
             }
         }
     }

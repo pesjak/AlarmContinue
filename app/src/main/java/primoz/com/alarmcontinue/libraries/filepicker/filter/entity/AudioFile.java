@@ -10,6 +10,27 @@ import android.os.Parcelable;
  */
 
 public class AudioFile extends BaseFile implements Parcelable {
+    public static final Creator<AudioFile> CREATOR = new Creator<AudioFile>() {
+        @Override
+        public AudioFile[] newArray(int size) {
+            return new AudioFile[size];
+        }
+
+        @Override
+        public AudioFile createFromParcel(Parcel in) {
+            AudioFile file = new AudioFile();
+            file.setId(in.readLong());
+            file.setName(in.readString());
+            file.setPath(in.readString());
+            file.setSize(in.readLong());
+            file.setBucketId(in.readString());
+            file.setBucketName(in.readString());
+            file.setDate(in.readLong());
+            file.setSelected(in.readByte() != 0);
+            file.setDuration(in.readLong());
+            return file;
+        }
+    };
     private long duration;
 
     public long getDuration() {
@@ -37,26 +58,4 @@ public class AudioFile extends BaseFile implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<AudioFile> CREATOR = new Creator<AudioFile>() {
-        @Override
-        public AudioFile[] newArray(int size) {
-            return new AudioFile[size];
-        }
-
-        @Override
-        public AudioFile createFromParcel(Parcel in) {
-            AudioFile file = new AudioFile();
-            file.setId(in.readLong());
-            file.setName(in.readString());
-            file.setPath(in.readString());
-            file.setSize(in.readLong());
-            file.setBucketId(in.readString());
-            file.setBucketName(in.readString());
-            file.setDate(in.readLong());
-            file.setSelected(in.readByte() != 0);
-            file.setDuration(in.readLong());
-            return file;
-        }
-    };
 }

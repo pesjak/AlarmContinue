@@ -15,7 +15,6 @@
  */
 package primoz.com.alarmcontinue.model
 
-import android.widget.Toast
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject

@@ -41,7 +41,8 @@ class EditAlarmPresenter(private val view: EditAlarmContract.View, var alarmID: 
             shouldVibrate,
             secondsPlayed,
             null,
-            null
+            null,
+            isDefaultRingtone
         )
         view.finish()
     }

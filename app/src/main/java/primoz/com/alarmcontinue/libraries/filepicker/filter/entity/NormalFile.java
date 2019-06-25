@@ -10,6 +10,27 @@ import android.os.Parcelable;
  */
 
 public class NormalFile extends BaseFile implements Parcelable {
+    public static final Creator<NormalFile> CREATOR = new Creator<NormalFile>() {
+        @Override
+        public NormalFile[] newArray(int size) {
+            return new NormalFile[size];
+        }
+
+        @Override
+        public NormalFile createFromParcel(Parcel in) {
+            NormalFile file = new NormalFile();
+            file.setId(in.readLong());
+            file.setName(in.readString());
+            file.setPath(in.readString());
+            file.setSize(in.readLong());
+            file.setBucketId(in.readString());
+            file.setBucketName(in.readString());
+            file.setDate(in.readLong());
+            file.setSelected(in.readByte() != 0);
+            file.setMimeType(in.readString());
+            return file;
+        }
+    };
     private String mimeType;
 
     public String getMimeType() {
@@ -37,26 +58,4 @@ public class NormalFile extends BaseFile implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<NormalFile> CREATOR = new Creator<NormalFile>() {
-        @Override
-        public NormalFile[] newArray(int size) {
-            return new NormalFile[size];
-        }
-
-        @Override
-        public NormalFile createFromParcel(Parcel in) {
-            NormalFile file = new NormalFile();
-            file.setId(in.readLong());
-            file.setName(in.readString());
-            file.setPath(in.readString());
-            file.setSize(in.readLong());
-            file.setBucketId(in.readString());
-            file.setBucketName(in.readString());
-            file.setDate(in.readLong());
-            file.setSelected(in.readByte() != 0);
-            file.setMimeType(in.readString());
-            return file;
-        }
-    };
 }

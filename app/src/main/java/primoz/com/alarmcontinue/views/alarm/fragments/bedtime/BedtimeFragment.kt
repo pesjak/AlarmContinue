@@ -27,10 +27,12 @@ import primoz.com.alarmcontinue.views.alarm.fragments.newAlarm.adapters.Selected
 
 class BedtimeFragment : Fragment(), BedtimeContract.View {
 
-    private var adapter: SelectedSongsRecyclerViewAdapter? = null
     private lateinit var realm: Realm
     private lateinit var mPresenter: BedtimeContract.Presenter
-    private var isDefaultRingtone = true
+
+    private var adapter: SelectedSongsRecyclerViewAdapter? = null
+    private var buttonClearShown = true
+    private var shouldUseDefaultRingtone = false
 
     /*
     LifeCycle
@@ -42,8 +44,10 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
                 val songList = data?.getParcelableArrayListExtra<Parcelable>(Constant.RESULT_PICK_AUDIO) as ArrayList<AudioFile>
                 tvRingtonesTitle.text = getString(R.string.ringtones)
                 adapter?.songList = songList
-                changeClearButtonVisibilityIfNeeded()
-                isDefaultRingtone = false
+                buttonClearShown = true
+                shouldUseDefaultRingtone = false
+                btnDefaultAndClear.text = getString(R.string.clear)
+                tvSongNone.visibility = View.GONE
             }
         }
     }
@@ -93,12 +97,11 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
 
         //SongList
         alarm.songsList?.let {
-            tvSongNone.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
-            tvClear.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
+            shouldUseDefaultRingtone = alarm.useDefaultRingtone
             if (alarm.useDefaultRingtone) {
                 adapter?.songList = mutableListOf(getDefaultRingtone())
+                tvSongNone.visibility = View.GONE
             } else {
-                if (it.isNotEmpty()) cbPreferenceResumePlaying.visibility = View.VISIBLE
                 val selectedSongList = mutableListOf<AudioFile>()
                 for (song in it) {
                     val audioFile = AudioFile()
@@ -111,6 +114,13 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
                     selectedSongList.add(audioFile)
                 }
                 adapter?.songList = selectedSongList
+                if (selectedSongList.isEmpty()) {
+                    tvSongNone.visibility = View.VISIBLE
+                    btnDefaultAndClear.text = getString(R.string.set_default)
+                    buttonClearShown = false
+                } else {
+                    tvSongNone.visibility = View.GONE
+                }
             }
         }
 
@@ -161,15 +171,24 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
                 adapter!!.songList,
                 cbPreferenceResumePlaying.isChecked,
                 cbPreferenceVibrate.isChecked,
-                isDefaultRingtone
+                shouldUseDefaultRingtone
             )
         }
 
-        tvClear.setOnClickListener {
-            adapter?.songList?.clear()
+        btnDefaultAndClear.setOnClickListener {
+            if (buttonClearShown) {
+                adapter?.songList?.clear()
+                tvSongNone.visibility = View.VISIBLE
+                btnDefaultAndClear.text = getString(R.string.set_default)
+                shouldUseDefaultRingtone = false
+            } else {
+                adapter?.songList = mutableListOf(getDefaultRingtone())
+                btnDefaultAndClear.text = getString(R.string.clear)
+                tvSongNone.visibility = View.GONE
+                shouldUseDefaultRingtone = true
+            }
             adapter?.notifyDataSetChanged()
-            changeClearButtonVisibilityIfNeeded()
-            isDefaultRingtone = false
+            buttonClearShown = !buttonClearShown
         }
     }
 
@@ -182,13 +201,6 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
                 toolbar.elevation = 0F
                 line0.visibility = View.VISIBLE
             }
-        }
-    }
-
-    private fun changeClearButtonVisibilityIfNeeded() {
-        adapter?.let {
-            tvSongNone.visibility = if (it.songList.isEmpty()) View.VISIBLE else View.GONE
-            tvClear.visibility = if (it.songList.isEmpty()) View.GONE else View.VISIBLE
         }
     }
 

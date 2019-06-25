@@ -46,10 +46,8 @@ class EditAlarmFragment : Fragment(), EditAlarmContract.View {
         super.onViewCreated(view, savedInstanceState)
 
         realm = Realm.getDefaultInstance()
+
         initUI()
-        initRecyclerView()
-        initOnClickListeners()
-        changeClearButtonVisibilityIfNeeded()
 
         EditAlarmPresenter(this, alarmID)
         mPresenter.restoreUI(realm)
@@ -105,7 +103,7 @@ class EditAlarmFragment : Fragment(), EditAlarmContract.View {
         //SongList
         alarm.songsList?.let {
             tvSongNone.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
-            tvClear.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
+            btnDefaultAndClear.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
             if (alarm.useDefaultRingtone) {
                 adapter?.songList = mutableListOf(getDefaultRingtone())
             } else {
@@ -139,6 +137,10 @@ class EditAlarmFragment : Fragment(), EditAlarmContract.View {
      */
 
     private fun initUI() {
+        initRecyclerView()
+        initOnClickListeners()
+        changeClearButtonVisibilityIfNeeded()
+
         btnDelete.visibility = View.VISIBLE
         timePicker.setIs24HourView(true)
         scrollView.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
@@ -177,7 +179,7 @@ class EditAlarmFragment : Fragment(), EditAlarmContract.View {
             )
         }
 
-        tvClear.setOnClickListener {
+        btnDefaultAndClear.setOnClickListener {
             adapter?.songList?.clear()
             adapter?.notifyDataSetChanged()
             changeClearButtonVisibilityIfNeeded()
@@ -192,7 +194,7 @@ class EditAlarmFragment : Fragment(), EditAlarmContract.View {
     private fun changeClearButtonVisibilityIfNeeded() {
         adapter?.let {
             tvSongNone.visibility = if (it.songList.isEmpty()) View.VISIBLE else View.GONE
-            tvClear.visibility = if (it.songList.isEmpty()) View.GONE else View.VISIBLE
+            btnDefaultAndClear.visibility = if (it.songList.isEmpty()) View.GONE else View.VISIBLE
         }
     }
 

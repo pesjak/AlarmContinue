@@ -12,12 +12,12 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
+import org.threeten.bp.LocalTime
+import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.libraries.sleepTimePicker.Utils.Companion.angleBetweenVectors
 import primoz.com.alarmcontinue.libraries.sleepTimePicker.Utils.Companion.angleToMins
 import primoz.com.alarmcontinue.libraries.sleepTimePicker.Utils.Companion.snapMinutes
 import primoz.com.alarmcontinue.libraries.sleepTimePicker.Utils.Companion.to_0_720
-import org.threeten.bp.LocalTime
-import primoz.com.alarmcontinue.R
 import java.util.*
 import kotlin.math.*
 

@@ -123,7 +123,7 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
             )
         }
 
-        tvClear.setOnClickListener {
+        btnDefaultAndClear.setOnClickListener {
             adapter?.songList?.clear()
             adapter?.notifyDataSetChanged()
             changeClearButtonVisibilityIfNeeded()
@@ -134,7 +134,7 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
     private fun changeClearButtonVisibilityIfNeeded() {
         adapter?.let {
             tvSongNone.visibility = if (it.songList.isEmpty()) View.VISIBLE else View.GONE
-            tvClear.visibility = if (it.songList.isEmpty()) View.GONE else View.VISIBLE
+            btnDefaultAndClear.visibility = if (it.songList.isEmpty()) View.GONE else View.VISIBLE
         }
     }
 
