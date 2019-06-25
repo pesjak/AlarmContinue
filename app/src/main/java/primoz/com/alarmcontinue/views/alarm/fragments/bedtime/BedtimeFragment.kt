@@ -2,7 +2,6 @@ package primoz.com.alarmcontinue.views.alarm.fragments.bedtime
 
 import android.app.Activity
 import android.content.Intent
-import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
@@ -31,9 +30,6 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
     private lateinit var mPresenter: BedtimeContract.Presenter
 
     private var adapter: SelectedSongsRecyclerViewAdapter? = null
-    private var buttonClearShown = true
-    private var shouldUseDefaultRingtone = false
-
     /*
     LifeCycle
      */
@@ -42,7 +38,7 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
         when (requestCode) {
             Constant.REQUEST_CODE_PICK_AUDIO -> if (resultCode == Activity.RESULT_OK) {
                 val songList = data?.getParcelableArrayListExtra<Parcelable>(Constant.RESULT_PICK_AUDIO) as ArrayList<AudioFile>
-                handleSelectedAudioFileList(songList)
+                mPresenter.handleSelectedAudioFileList(songList)
             }
         }
     }
@@ -91,18 +87,23 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
         handleUpdate(timePicker.getBedTime(), timePicker.getWakeTime())
 
         //SongList
-        shouldUseDefaultRingtone = alarm.useDefaultRingtone
-        if (shouldUseDefaultRingtone) {
-            adapter?.songList = mutableListOf(getDefaultRingtone())
-            shouldShowNone(false)
-        } else {
-            val selectedSongList = getAudioFilesListFrom(alarm)
-            shouldClearRingtoneList(selectedSongList.isEmpty())
-            adapter?.songList = selectedSongList
-        }
+        mPresenter.loadSongList(alarm)
 
+        //Checkboxes
         cbPreferenceResumePlaying.isChecked = alarm.shouldResumePlaying
         cbPreferenceVibrate.isChecked = alarm.shouldVibrate
+    }
+
+    override fun updateSongList(selectedSongList: MutableList<AudioFile>) {
+        adapter?.songList = selectedSongList
+    }
+
+    override fun showNoneSelectedSongs(shouldShow: Boolean) {
+        tvSongNone.visibility = if (shouldShow) View.VISIBLE else View.GONE
+    }
+
+    override fun showTextSetDefaultButton(shouldShow: Boolean) {
+        btnDefaultAndClear.text = if (shouldShow) getString(R.string.set_default) else getString(R.string.clear)
     }
 
     override fun setPresenter(presenter: BedtimeContract.Presenter) {
@@ -147,28 +148,13 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
                 timePicker.getWakeTime().minute,
                 adapter!!.songList,
                 cbPreferenceResumePlaying.isChecked,
-                cbPreferenceVibrate.isChecked,
-                shouldUseDefaultRingtone
+                cbPreferenceVibrate.isChecked
             )
         }
 
         btnDefaultAndClear.setOnClickListener {
-            shouldClearRingtoneList(buttonClearShown)
+            mPresenter.clearOrSetDefaultSong()
         }
-    }
-
-    private fun shouldClearRingtoneList(shouldClear: Boolean) {
-        shouldShowNone(shouldClear)
-        shouldUseDefaultRingtone = !shouldClear
-        if (shouldClear) {
-            adapter?.songList?.clear()
-            btnDefaultAndClear.text = getString(R.string.set_default)
-        } else {
-            adapter?.songList = mutableListOf(getDefaultRingtone())
-            btnDefaultAndClear.text = getString(R.string.clear)
-        }
-        adapter?.notifyDataSetChanged()
-        buttonClearShown = !buttonClearShown
     }
 
     private fun setOnScrollListener() {
@@ -181,20 +167,6 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
                 line0.visibility = View.VISIBLE
             }
         }
-    }
-
-    private fun getDefaultRingtone(): AudioFile {
-        var alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-        if (alarmTone == null) {
-            alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            if (alarmTone == null) {
-                alarmTone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
-            }
-        }
-        val ringtoneAlarm = RingtoneManager.getRingtone(context, alarmTone)
-        val defaultRingtone = AudioFile()
-        defaultRingtone.name = ringtoneAlarm.getTitle(context)
-        return defaultRingtone
     }
 
     private fun handleUpdate(bedTime: LocalTime, wakeTime: LocalTime) {
@@ -212,38 +184,5 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
         tvMins.text = minutes.toString()
 
         if (minutes > 0) llMins.visibility = View.VISIBLE else llMins.visibility = View.GONE
-    }
-
-    private fun getAudioFilesListFrom(alarm: Alarm): MutableList<AudioFile> {
-        val selectedSongList = mutableListOf<AudioFile>()
-        alarm.songsList?.let {
-            for (song in it) {
-                val audioFile = AudioFile()
-                audioFile.name = song.name
-                song.duration?.let { duration -> audioFile.duration = duration }
-                audioFile.path = song.path
-                audioFile.bucketId = song.bucketId
-                audioFile.bucketName = song.bucketName
-                song.size?.let { size -> audioFile.size = size }
-                selectedSongList.add(audioFile)
-            }
-        }
-        return selectedSongList
-    }
-
-    private fun shouldShowNone(shouldShow: Boolean) {
-        tvSongNone.visibility = if (shouldShow) View.VISIBLE else View.GONE
-    }
-
-    private fun handleSelectedAudioFileList(songList: ArrayList<AudioFile>) {
-        adapter?.songList = songList
-        shouldShowNone(songList.isEmpty())
-        buttonClearShown = songList.isNotEmpty()
-        if (buttonClearShown) {
-            btnDefaultAndClear.text = getString(R.string.clear)
-        } else {
-            btnDefaultAndClear.text = getString(R.string.set_default)
-        }
-        shouldUseDefaultRingtone = false
     }
 }
