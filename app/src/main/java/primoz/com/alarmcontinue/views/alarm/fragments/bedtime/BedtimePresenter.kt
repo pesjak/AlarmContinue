@@ -53,8 +53,12 @@ class BedtimePresenter(private val view: BedtimeContract.View) : BedtimeContract
             val isEmpty = selectedSongList.isEmpty()
             view.showNoneSelectedSongs(isEmpty)
             view.showTextSetDefaultButton(isEmpty)
-            view.updateSongList(if (isEmpty) mutableListOf() else selectedSongList)
-            buttonClearShown = !buttonClearShown
+            if (isEmpty) {
+                view.updateSongList(mutableListOf())y
+                buttonClearShown = !buttonClearShown
+            } else {
+                view.updateSongList(selectedSongList)
+            }
         }
     }
 
@@ -71,6 +75,7 @@ class BedtimePresenter(private val view: BedtimeContract.View) : BedtimeContract
         view.showNoneSelectedSongs(buttonClearShown)
         view.updateSongList(if (buttonClearShown) mutableListOf() else mutableListOf(getDefaultRingtone()))
         buttonClearShown = !buttonClearShown
+        shouldUseDefaultRingtone = buttonClearShown
     }
 
     private fun getDefaultRingtone(): AudioFile {

@@ -30,6 +30,7 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
     private lateinit var mPresenter: BedtimeContract.Presenter
 
     private var adapter: SelectedSongsRecyclerViewAdapter? = null
+
     /*
     LifeCycle
      */
