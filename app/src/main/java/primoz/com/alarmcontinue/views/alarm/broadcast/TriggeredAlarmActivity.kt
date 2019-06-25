@@ -20,7 +20,6 @@ import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.views.BaseActivity
 import java.util.*
 
-
 class TriggeredAlarmActivity : BaseActivity() {
 
     private lateinit var timer: Timer
@@ -111,11 +110,11 @@ class TriggeredAlarmActivity : BaseActivity() {
         timer = Timer()
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
-                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0)
+                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, AudioManager.FLAG_PLAY_SOUND)
                 currentVolume += 1
                 if (currentVolume >= streamMaxVolume) this.cancel()
             }
-        }, 0, 2000) //Alarm Repeats x7
+        }, 0, 2000)
     }
 
     override fun onDestroy() {
