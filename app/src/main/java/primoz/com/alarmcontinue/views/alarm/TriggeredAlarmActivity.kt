@@ -62,6 +62,10 @@ class TriggeredAlarmActivity : BaseActivity() {
                 }
                 mediaPlayer = MediaPlayer.create(this, uri)
                 mediaPlayer?.isLooping = true
+                shouldResumePlaying = alarm.shouldResumePlaying
+                if (alarm.shouldResumePlaying) {
+                    mediaPlayer?.seekTo(alarm.secondsPlayed)
+                }
                 mediaPlayer?.start()
             } else {
                 initMediaPlayer(alarm)

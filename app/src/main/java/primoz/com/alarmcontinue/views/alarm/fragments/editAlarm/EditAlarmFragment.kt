@@ -68,7 +68,6 @@ class EditAlarmFragment : Fragment(), EditAlarmContract.View {
                 adapter?.songList = songList
                 changeClearButtonVisibilityIfNeeded()
                 isDefaultRingtone = false
-                showCheckBoxResumePlaying(true)
             }
         }
     }
@@ -183,7 +182,6 @@ class EditAlarmFragment : Fragment(), EditAlarmContract.View {
             adapter?.notifyDataSetChanged()
             changeClearButtonVisibilityIfNeeded()
             isDefaultRingtone = false
-            showCheckBoxResumePlaying(false)
         }
 
         btnDelete.setOnClickListener {
@@ -217,10 +215,6 @@ class EditAlarmFragment : Fragment(), EditAlarmContract.View {
         val defaultRingtone = AudioFile()
         defaultRingtone.name = ringtoneAlarm.getTitle(context)
         return defaultRingtone
-    }
-
-    private fun showCheckBoxResumePlaying(shouldShow: Boolean) {
-        cbPreferenceResumePlaying.visibility = if (shouldShow) View.VISIBLE else View.GONE
     }
 
     companion object {

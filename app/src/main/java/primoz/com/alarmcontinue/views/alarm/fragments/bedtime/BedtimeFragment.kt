@@ -44,7 +44,6 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
                 adapter?.songList = songList
                 changeClearButtonVisibilityIfNeeded()
                 isDefaultRingtone = false
-                showCheckBoxResumePlaying(true)
             }
         }
     }
@@ -171,7 +170,6 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
             adapter?.notifyDataSetChanged()
             changeClearButtonVisibilityIfNeeded()
             isDefaultRingtone = false
-            showCheckBoxResumePlaying(false)
         }
     }
 
@@ -206,10 +204,6 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
         val defaultRingtone = AudioFile()
         defaultRingtone.name = ringtoneAlarm.getTitle(context)
         return defaultRingtone
-    }
-
-    private fun showCheckBoxResumePlaying(shouldShow: Boolean) {
-        cbPreferenceResumePlaying.visibility = if (shouldShow) View.VISIBLE else View.GONE
     }
 
     private fun handleUpdate(bedTime: LocalTime, wakeTime: LocalTime) {

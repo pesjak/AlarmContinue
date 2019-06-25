@@ -61,7 +61,6 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
                 adapter?.songList = songList
                 changeClearButtonVisibilityIfNeeded()
                 isDefaultRingtone = false
-                showCheckBoxResumePlaying(true)
             }
         }
     }
@@ -129,7 +128,6 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
             adapter?.notifyDataSetChanged()
             changeClearButtonVisibilityIfNeeded()
             isDefaultRingtone = false
-            showCheckBoxResumePlaying(false)
         }
     }
 
@@ -160,10 +158,6 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
         val defaultRingtone = AudioFile()
         defaultRingtone.name = ringtoneAlarm.getTitle(context)
         return defaultRingtone
-    }
-
-    private fun showCheckBoxResumePlaying(shouldShow: Boolean) {
-        cbPreferenceResumePlaying.visibility = if (shouldShow) View.VISIBLE else View.GONE
     }
 
 }
