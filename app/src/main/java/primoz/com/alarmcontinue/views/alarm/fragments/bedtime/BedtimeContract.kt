@@ -5,16 +5,11 @@ import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.views.BaseView
 import primoz.com.alarmcontinue.views.alarm.BaseAlarmPresenter
-import java.util.*
+import primoz.com.alarmcontinue.views.alarm.BaseAlarmView
 
 interface BedtimeContract {
-    interface View : BaseView<Presenter> {
-        fun finish()
-        fun updateUI(alarm: Alarm)
-        fun updateSongList(selectedSongList: MutableList<AudioFile>)
-        fun showNoneSelectedSongs(shouldShow: Boolean = true)
-        fun showTextSetDefaultButton(shouldShow: Boolean = true)
-    }
+
+    interface View : BaseView<Presenter>, BaseAlarmView
 
     interface Presenter: BaseAlarmPresenter {
         fun updateBedtime(
