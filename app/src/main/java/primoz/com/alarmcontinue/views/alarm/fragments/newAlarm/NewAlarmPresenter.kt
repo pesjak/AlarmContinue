@@ -28,7 +28,7 @@ class NewAlarmPresenter(private val view: NewAlarmContract.View) : NewAlarmContr
             selectedDays.add(EnumDayOfWeek.SATURDAY)
             selectedDays.add(EnumDayOfWeek.SUNDAY)
         }
-        DataHelper.addAlarmAsync(
+        DataHelper.addAlarm(
             realm,
             hour,
             minute,
@@ -40,7 +40,6 @@ class NewAlarmPresenter(private val view: NewAlarmContract.View) : NewAlarmContr
             null,
             shouldUseDefaultRingtone
         )
-
         view.finish()
     }
 

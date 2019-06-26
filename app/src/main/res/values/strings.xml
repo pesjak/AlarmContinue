@@ -36,6 +36,7 @@
     <string name="swipe_down_to_dismiss">Swipe down to dismiss</string>
     <string name="delete">Delete</string>
     <string name="alarm_set_hour_minutes">Alarm set for %dh %dmin left from now</string>
+    <string name="alarm_set_hour">Alarm set for %dh from now</string>
     <string name="alarm_set_minutes">Alarm set for %dmin left from now</string>
     <string name="alarm_set_in_week">Alarm set for %d days from now</string>
     <string name="time_from_to">%02d:%02d - %02d:%02d</string>

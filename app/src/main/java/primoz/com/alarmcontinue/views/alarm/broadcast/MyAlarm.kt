@@ -5,8 +5,11 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import io.realm.RealmList
+import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
+import primoz.com.alarmcontinue.extensions.getDateDiff
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.RealmDayOfWeek
 import java.util.*
@@ -73,6 +76,8 @@ class MyAlarm : BroadcastReceiver() {
                 pendingIntent
             )
             alarmManager.setAlarmClock(alarmClockInfo, pendingIntent)
+
+            Toast.makeText(context, getTimeRemainingFormattedString(context, hour, minute, days), Toast.LENGTH_SHORT).show()
         }
 
         fun cancelAlarm(context: Context, alarmID: Int) {
@@ -82,7 +87,6 @@ class MyAlarm : BroadcastReceiver() {
             alarmManager.cancel(sender)
         }
 
-        /*
         private fun getTimeRemainingFormattedString(
             context: Context,
             hour: Int,
@@ -90,22 +94,27 @@ class MyAlarm : BroadcastReceiver() {
             realmDays: RealmList<RealmDayOfWeek>
         ): String {
             val now = Calendar.getInstance()
+            now.set(Calendar.SECOND, 0) //Set Seconds to 0, because they don't matter
             val nextAlarm = getNextAlarmCalendar(hour, minute, realmDays)
             val ms = (nextAlarm.timeInMillis - now.timeInMillis)
-            now.add(Calendar.DATE, 1)
+            now.add(Calendar.DATE, 1) //Temp Add
             return if (now.after(nextAlarm)) {
                 val minutes = (ms / (1000 * 60) % 60).toInt()
                 val hours = (ms / (1000 * 60 * 60) % 24).toInt()
                 if (hours > 0) {
-                    context.getString(R.string.alarm_set_hour_minutes, hours, minutes)
+                    if (minutes == 0) {
+                        context.getString(R.string.alarm_set_hour, hours)
+                    } else {
+                        context.getString(R.string.alarm_set_hour_minutes, hours, minutes)
+                    }
                 } else {
                     context.getString(R.string.alarm_set_minutes, minutes)
                 }
             } else {
-                context.getString(R.string.alarm_set_in_week, now.getDateDiff(nextAlarm.timeInMillis, TimeUnit.DAYS))
+                now.add(Calendar.DATE, -1) //Remove Temp add
+                context.getString(R.string.alarm_set_in_week, now.getDateDiff(nextAlarm))
             }
         }
-        */
 
         private fun getNextAlarmCalendar(
             hour: Int,
@@ -113,8 +122,8 @@ class MyAlarm : BroadcastReceiver() {
             realmDays: RealmList<RealmDayOfWeek>
         ): Calendar {
             val now = Calendar.getInstance()
-            now.add(Calendar.SECOND, 10)
-            return now
+/*            now.add(Calendar.SECOND, 10)
+            return now*/
 
             val next = Calendar.getInstance()
 

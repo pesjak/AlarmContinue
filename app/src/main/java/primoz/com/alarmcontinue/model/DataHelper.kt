@@ -21,10 +21,11 @@ import io.realm.RealmList
 import primoz.com.alarmcontinue.MyApplication
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
+import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
 
 object DataHelper {
 
-    fun addAlarmAsync(
+    fun addAlarm(
         realm: Realm,
         hourAlarm: Int,
         minuteAlarm: Int,
@@ -36,7 +37,7 @@ object DataHelper {
         minuteBedtimeSleep: Int? = null,
         useDefaultRingtone: Boolean = false
     ) {
-        realm.executeTransactionAsync { realmInTransaction ->
+        realm.executeTransaction { realmInTransaction ->
             val (realmDayOfTheWeekList, realmSongList) = convertSelectedDaysAndSongsToRealmList(
                 daysList,
                 realmInTransaction,
@@ -74,7 +75,7 @@ object DataHelper {
         minuteBedtimeSleep: Int? = null,
         useDefaultRingtone: Boolean = false
     ) {
-        realm.executeTransactionAsync { realmInTransaction ->
+        realm.executeTransaction { realmInTransaction ->
             val (realmDayOfTheWeekList, realmSongList) = convertSelectedDaysAndSongsToRealmList(
                 daysList,
                 realmInTransaction,
@@ -95,6 +96,9 @@ object DataHelper {
                 alarm.hourBedtimeSleep = hourBedtimeSleep
                 alarm.minuteBedtimeSleep = minuteBedtimeSleep
                 alarm.useDefaultRingtone = useDefaultRingtone
+                if (isEnabled) {
+                    MyAlarm.setAlarm(MyApplication.appContext, alarm)
+                }
             }
         }
     }
