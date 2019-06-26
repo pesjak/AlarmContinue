@@ -104,7 +104,7 @@ object DataHelper {
     }
 
     fun shouldEnableAlarm(alarmID: Int, isEnabled: Boolean, realm: Realm) {
-        realm.executeTransactionAsync {
+        realm.executeTransaction {
             it.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, alarmID).findFirst()?.let { alarm ->
                 alarm.isEnabled = isEnabled
                 if (alarm.songsList?.isNotEmpty() == true && !alarm.shouldResumePlaying) { //TODO Maybe add if user wants to change the song with every on/off
@@ -205,7 +205,7 @@ object DataHelper {
         shouldVibrate: Boolean,
         defaultRingtone: Boolean
     ) {
-        realm.executeTransactionAsync { realmInTransaction ->
+        realm.executeTransaction { realmInTransaction ->
             getBedtimeAlarm(realmInTransaction)?.let { bedtimeAlarm ->
                 bedtimeAlarm.hourAlarm = hour
                 bedtimeAlarm.minuteAlarm = minute
@@ -215,6 +215,9 @@ object DataHelper {
                 bedtimeAlarm.shouldResumePlaying = shouldResumePlaying
                 bedtimeAlarm.shouldVibrate = shouldVibrate
                 bedtimeAlarm.useDefaultRingtone = defaultRingtone
+                if (bedtimeAlarm.isEnabled) {
+                    MyAlarm.setAlarm(MyApplication.appContext, bedtimeAlarm)
+                }
             }
         }
     }
