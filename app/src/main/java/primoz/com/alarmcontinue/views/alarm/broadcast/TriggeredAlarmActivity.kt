@@ -22,17 +22,22 @@ import java.util.*
 
 class TriggeredAlarmActivity : BaseActivity() {
 
+    private var currentUserVolume: Int = 0
     private lateinit var timer: Timer
     private lateinit var realm: Realm
     private lateinit var vibrator: Vibrator
     private var mediaPlayer: MediaPlayer? = null
+    private var shouldResumePlaying: Boolean = false
 
     private val alarmID: Int
         get() {
             return intent.extras?.getInt(ARG_ALARM_ID)!!
         }
 
-    private var shouldResumePlaying: Boolean = false
+    private val mAudioManager: AudioManager by lazy {
+        baseContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    }
+
 
     /*
     LifeCycle
@@ -98,7 +103,6 @@ class TriggeredAlarmActivity : BaseActivity() {
     }
 
     private fun increaseVolumeOverTime(mediaPlayer: MediaPlayer) {
-        val mAudioManager: AudioManager = baseContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         mediaPlayer.setAudioAttributes(
             AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -106,6 +110,7 @@ class TriggeredAlarmActivity : BaseActivity() {
                 .build()
         )
         val streamMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        currentUserVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         var currentVolume = 0
         timer = Timer()
         timer.scheduleAtFixedRate(object : TimerTask() {
@@ -125,6 +130,7 @@ class TriggeredAlarmActivity : BaseActivity() {
                 Log.d("Alarm Played", it.currentPosition.toString())
             }
         }
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentUserVolume, AudioManager.FLAG_PLAY_SOUND)
         timer.cancel()
         mediaPlayer?.stop()
         vibrator.cancel()
