@@ -116,6 +116,7 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
 
     override fun updateBedtime(bedtime: Alarm, shouldEnable: Boolean) {
         switchBedtime.alpha = if (shouldEnable) 1f else 0.5f
+        switchBedtime.isChecked = shouldEnable
         textBedtime.alpha = if (shouldEnable) 1f else 0.2f
         llBedTime.alpha = if (shouldEnable) 1f else 0.2f
         llWakeUp.alpha = if (shouldEnable) 1f else 0.2f
