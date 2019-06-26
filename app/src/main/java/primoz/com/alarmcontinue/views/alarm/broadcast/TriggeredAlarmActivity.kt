@@ -114,7 +114,7 @@ class TriggeredAlarmActivity : BaseActivity() {
                 currentVolume += 1
                 if (currentVolume >= streamMaxVolume) this.cancel()
             }
-        }, 0, 2000)
+        }, 0, 1000)
     }
 
     override fun onDestroy() {

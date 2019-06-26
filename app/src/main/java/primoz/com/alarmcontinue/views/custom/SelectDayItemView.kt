@@ -42,11 +42,11 @@ class SelectDayItemView @JvmOverloads constructor(
         dayText = day
         isChecked = shouldCheck
 
-        nestedScrollView.setOnClickListener {
+        containerText.setOnClickListener {
             changeCheckedState()
-
             listener.invoke(dayText, isChecked)
         }
+
     }
 
     fun changeCheckedState() {

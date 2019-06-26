@@ -91,7 +91,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TimePicker
+            <primoz.com.alarmcontinue.views.custom.CustomTimePicker
                 android:id="@+id/timePicker"
                 style="@style/MyTimePicker"
                 android:layout_width="0dp"
@@ -99,7 +99,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/line0" />
 
             <FrameLayout
                 android:id="@+id/hideKeyboardSwitch"

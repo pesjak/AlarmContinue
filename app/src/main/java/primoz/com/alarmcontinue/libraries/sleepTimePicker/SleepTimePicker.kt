@@ -56,7 +56,7 @@ class SleepTimePicker @JvmOverloads constructor(
     private var wakeAngle = 225.0
     private var draggingSleep = false
     private var draggingWake = false
-    private val stepMinutes = 15
+    private val stepMinutes = 5
     private val textRect = Rect()
     private val calendar = Calendar.getInstance()
 
