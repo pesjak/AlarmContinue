@@ -19,6 +19,7 @@ import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.views.BaseActivity
 import java.util.*
+import kotlin.math.roundToInt
 
 class TriggeredAlarmActivity : BaseActivity() {
 
@@ -69,7 +70,7 @@ class TriggeredAlarmActivity : BaseActivity() {
                     }
                 }
                 mediaPlayer = MediaPlayer()
-                mediaPlayer?.let { increaseVolumeOverTime(it) }
+                mediaPlayer?.let { increaseVolumeOverTime(it, alarm.shouldVibrate) }
                 mediaPlayer?.setDataSource(this, uri)
                 mediaPlayer?.isLooping = true
                 shouldResumePlaying = alarm.shouldResumePlaying
@@ -83,9 +84,11 @@ class TriggeredAlarmActivity : BaseActivity() {
             } else {
                 initMediaPlayer(alarm)
             }
+
             if (alarm.shouldVibrate) {
                 startVibrating()
             }
+
         }
 
         haulerView.setOnDragDismissedListener {
@@ -102,26 +105,6 @@ class TriggeredAlarmActivity : BaseActivity() {
         //TODO Set another alarm if it DOESN'T have ON resumePlaying
     }
 
-    private fun increaseVolumeOverTime(mediaPlayer: MediaPlayer) {
-        mediaPlayer.setAudioAttributes(
-            AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build()
-        )
-        val streamMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-        currentUserVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
-        var currentVolume = 0
-        timer = Timer()
-        timer.scheduleAtFixedRate(object : TimerTask() {
-            override fun run() {
-                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, AudioManager.FLAG_PLAY_SOUND)
-                currentVolume += 1
-                if (currentVolume >= streamMaxVolume) this.cancel()
-            }
-        }, 0, 1000)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         if (shouldResumePlaying) {
@@ -135,12 +118,53 @@ class TriggeredAlarmActivity : BaseActivity() {
         mediaPlayer?.stop()
         vibrator.cancel()
         realm.close()
+    }
 
+    private fun increaseVolumeOverTime(mediaPlayer: MediaPlayer, shouldVibrate: Boolean) {
+        mediaPlayer.setAudioAttributes(
+            AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build()
+        )
+
+        currentUserVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+        var currentVolume = 1
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, AudioManager.FLAG_PLAY_SOUND)
+
+        if (shouldVibrate) {
+            startVibrating()
+        }
+
+        timer = Timer()
+        timer.scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                currentVolume += 1
+                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, AudioManager.FLAG_PLAY_SOUND)
+                if (currentVolume % 5 == 0) {
+                    if (shouldVibrate) {
+                        startVibrating(currentVolume)
+                    }
+                }
+
+                if (currentVolume >= 90) this.cancel()
+            }
+        }, 0, 1000)
+    }
+
+    private fun startVibrating(currentVolume: Int = 10) {
+        val vibratorLength = ((30 * currentVolume) / 1.2).roundToInt().toLong()
+        val patternShort = longArrayOf(1200, vibratorLength)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createWaveform(patternShort, 0))
+        } else {
+            vibrator.vibrate(patternShort, 0)
+        }
     }
 
     private fun initMediaPlayer(alarm: Alarm) {
         mediaPlayer = MediaPlayer()
-        mediaPlayer?.let { increaseVolumeOverTime(it) }
+        mediaPlayer?.let { increaseVolumeOverTime(it, alarm.shouldVibrate) }
         mediaPlayer?.setDataSource(this, Uri.parse(alarm.currentlySelectedPath))
         mediaPlayer?.isLooping = false
         mediaPlayer?.setOnCompletionListener {
@@ -163,15 +187,6 @@ class TriggeredAlarmActivity : BaseActivity() {
         }
         mediaPlayer?.prepareAsync()
         shouldResumePlaying = alarm.shouldResumePlaying
-    }
-
-    private fun startVibrating() {
-        val pattern = longArrayOf(500, 500, 500, 500)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createWaveform(pattern, 0))
-        } else {
-            vibrator.vibrate(pattern, 0)
-        }
     }
 
     companion object {

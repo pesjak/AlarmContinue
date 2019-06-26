@@ -122,8 +122,8 @@ class MyAlarm : BroadcastReceiver() {
             realmDays: RealmList<RealmDayOfWeek>
         ): Calendar {
             val now = Calendar.getInstance()
-/*            now.add(Calendar.SECOND, 10)
-            return now*/
+            now.add(Calendar.SECOND, 10)
+            return now
 
             val next = Calendar.getInstance()
 
