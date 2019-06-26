@@ -4,6 +4,7 @@ import io.realm.Realm
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.model.DataHelper
+import java.util.*
 
 class NewAlarmPresenter(private val view: NewAlarmContract.View) : NewAlarmContract.Presenter {
 
@@ -19,15 +20,6 @@ class NewAlarmPresenter(private val view: NewAlarmContract.View) : NewAlarmContr
         shouldResumePlaying: Boolean,
         shouldVibrate: Boolean
     ) {
-        if (selectedDays.isEmpty()) {
-            selectedDays.add(EnumDayOfWeek.MONDAY)
-            selectedDays.add(EnumDayOfWeek.TUESDAY)
-            selectedDays.add(EnumDayOfWeek.WEDNESDAY)
-            selectedDays.add(EnumDayOfWeek.THURSDAY)
-            selectedDays.add(EnumDayOfWeek.FRIDAY)
-            selectedDays.add(EnumDayOfWeek.SATURDAY)
-            selectedDays.add(EnumDayOfWeek.SUNDAY)
-        }
         DataHelper.addAlarm(
             realm,
             hour,

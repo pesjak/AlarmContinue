@@ -9,6 +9,7 @@ import primoz.com.alarmcontinue.extensions.getFirst3Letters
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.RealmDayOfWeek
 import primoz.com.alarmcontinue.views.home.listeners.OnAlarmListener
+import java.util.*
 
 class AlarmViewHolder(itemView: View, private val onAlarmListener: OnAlarmListener) :
     RecyclerView.ViewHolder(itemView) {
@@ -56,6 +57,22 @@ class AlarmViewHolder(itemView: View, private val onAlarmListener: OnAlarmListen
         val friday = realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.FRIDAY.toString()).findFirst()
         val saturday = realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.SATURDAY.toString()).findFirst()
         val sunday = realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.SUNDAY.toString()).findFirst()
+
+        if (realmDaysList.isEmpty()) {
+            //Either TODAY or Tomorrow 1 time thing
+            val now = Calendar.getInstance()
+            now.set(Calendar.SECOND, 0)
+            val next = Calendar.getInstance()
+            next.set(Calendar.HOUR_OF_DAY, alarm.hourAlarm!!)
+            next.set(Calendar.MINUTE, alarm.minuteAlarm!!)
+            next.set(Calendar.SECOND, 0)
+
+            return if (now.after(next)) {
+                itemView.context.getString(R.string.tomorrow)
+            } else {
+                itemView.context.getString(R.string.today)
+            }
+        }
 
         if (realmDaysList.size == 7) {
             return itemView.context.getString(R.string.every_day)

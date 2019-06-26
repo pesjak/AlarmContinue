@@ -22,15 +22,6 @@ class EditAlarmPresenter(private val view: EditAlarmContract.View, var alarmID: 
         shouldResumePlaying: Boolean,
         shouldVibrate: Boolean
     ) {
-        if (selectedDays.isEmpty()) {
-            selectedDays.add(EnumDayOfWeek.MONDAY)
-            selectedDays.add(EnumDayOfWeek.TUESDAY)
-            selectedDays.add(EnumDayOfWeek.WEDNESDAY)
-            selectedDays.add(EnumDayOfWeek.THURSDAY)
-            selectedDays.add(EnumDayOfWeek.FRIDAY)
-            selectedDays.add(EnumDayOfWeek.SATURDAY)
-            selectedDays.add(EnumDayOfWeek.SUNDAY)
-        }
         DataHelper.editAlarmAsync(
             alarmID,
             realm,

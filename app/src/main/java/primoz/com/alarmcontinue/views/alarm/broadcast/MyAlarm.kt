@@ -58,15 +58,6 @@ class MyAlarm : BroadcastReceiver() {
             alarm.hourAlarm?.let {
                 hour = it
             }
-
-            alarm.hourBedtimeSleep?.let {
-                hour = it
-            }
-
-            alarm.minuteBedtimeSleep?.let {
-                minute = it
-            }
-
             alarm.minuteAlarm?.let {
                 minute = it
             }
@@ -122,9 +113,6 @@ class MyAlarm : BroadcastReceiver() {
             realmDays: RealmList<RealmDayOfWeek>
         ): Calendar {
             val now = Calendar.getInstance()
-            now.add(Calendar.SECOND, 10)
-            return now
-
             val next = Calendar.getInstance()
 
             next.set(Calendar.HOUR_OF_DAY, hour)
@@ -141,7 +129,6 @@ class MyAlarm : BroadcastReceiver() {
             }
 
             //Set next available day
-
             val monday = realmDays.where().equalTo("nameOfDayEnum", EnumDayOfWeek.MONDAY.toString()).findFirst()
             val tuesday = realmDays.where().equalTo("nameOfDayEnum", EnumDayOfWeek.TUESDAY.toString()).findFirst()
             val wednesday = realmDays.where().equalTo("nameOfDayEnum", EnumDayOfWeek.WEDNESDAY.toString()).findFirst()
