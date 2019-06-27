@@ -25,7 +25,7 @@ class MyAlarm : BroadcastReceiver() {
 
     companion object {
         val ARG_ALARM_ID = "AlarmID"
-        fun setAlarm(context: Context, alarm: Alarm) {
+        fun setAlarm(context: Context, alarm: Alarm, showToast: Boolean = true) {
             /*
             TODO
             - setRandomSongID as intent
@@ -68,7 +68,11 @@ class MyAlarm : BroadcastReceiver() {
             )
             alarmManager.setAlarmClock(alarmClockInfo, pendingIntent)
 
-            Toast.makeText(context, getTimeRemainingFormattedString(context, hour, minute, days), Toast.LENGTH_SHORT).show()
+            if (showToast) Toast.makeText(
+                context,
+                getTimeRemainingFormattedString(context, hour, minute, days),
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         fun cancelAlarm(context: Context, alarmID: Int) {
@@ -113,6 +117,8 @@ class MyAlarm : BroadcastReceiver() {
             realmDays: RealmList<RealmDayOfWeek>
         ): Calendar {
             val now = Calendar.getInstance()
+            now.add(Calendar.SECOND, 10)
+            return now
             val next = Calendar.getInstance()
 
             next.set(Calendar.HOUR_OF_DAY, hour)

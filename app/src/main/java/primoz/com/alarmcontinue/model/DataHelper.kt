@@ -211,10 +211,14 @@ object DataHelper {
                 bedtimeAlarm.minuteAlarm = minute
                 bedtimeAlarm.hourBedtimeSleep = hourSleep
                 bedtimeAlarm.minuteBedtimeSleep = minuteSleep
-                bedtimeAlarm.songsList = convertSongListToRealm(songList, realmInTransaction)
                 bedtimeAlarm.shouldResumePlaying = shouldResumePlaying
                 bedtimeAlarm.shouldVibrate = shouldVibrate
                 bedtimeAlarm.useDefaultRingtone = defaultRingtone
+
+                val convertSongListToRealm = convertSongListToRealm(songList, realmInTransaction)
+                if (songList.isNotEmpty()) bedtimeAlarm.currentlySelectedPath = convertSongListToRealm.random().path
+                bedtimeAlarm.songsList = convertSongListToRealm
+
                 if (bedtimeAlarm.isEnabled) {
                     MyAlarm.setAlarm(MyApplication.appContext, bedtimeAlarm)
                 }

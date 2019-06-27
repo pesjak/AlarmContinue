@@ -63,9 +63,7 @@ open class Alarm : RealmObject() {
             alarm.minuteAlarm = minuteAlarm
             alarm.daysList = daysList
             alarm.songsList = songList
-            if (songList.isNotEmpty()) {
-                alarm.currentlySelectedPath = songList.random()?.path
-            }
+            if (songList.isNotEmpty()) alarm.currentlySelectedPath = songList.random()?.path
             alarm.shouldResumePlaying = shouldResumePlaying
             alarm.secondsPlayed = 0
             alarm.shouldVibrate = shouldVibrate
@@ -98,9 +96,7 @@ open class Alarm : RealmObject() {
             alarm.minuteAlarm = minuteAlarm
             alarm.daysList = daysList
             alarm.songsList = songList
-            if (songList.isNotEmpty()) {
-                alarm.currentlySelectedPath = songList.random()?.path
-            }
+            if (songList.isNotEmpty()) alarm.currentlySelectedPath = songList.random()?.path
             alarm.shouldResumePlaying = shouldResumePlaying
             alarm.secondsPlayed = 0
             alarm.shouldVibrate = shouldVibrate

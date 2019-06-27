@@ -51,14 +51,22 @@ class TriggeredAlarmActivity : BaseActivity() {
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         Log.d("Triggered", "onCreated")
-        DataHelper.getAlarm(realm, alarmID)?.let { alarm ->
+
+        val alarmFromRealm = DataHelper.getAlarm(realm, alarmID)
+        var showToast = true
+        if (alarmFromRealm == null) {
+            DataHelper.getBedtimeAlarm(realm)
+            showToast = false
+        }
+
+        alarmFromRealm?.let { alarm ->
             Log.d("Triggered", "Alarm - OK")
             Log.d("Alarm Current", alarm.secondsPlayed.toString())
 
             val shouldEnableAlarm = alarm.isEnabled && alarm.daysList!!.isNotEmpty()
             DataHelper.shouldEnableAlarm(alarmID, shouldEnableAlarm, realm)
             if (shouldEnableAlarm) {
-                MyAlarm.setAlarm(baseContext, alarm)
+                MyAlarm.setAlarm(baseContext, alarm, showToast)
             } else {
                 MyAlarm.cancelAlarm(baseContext, alarm.id)
             }
@@ -85,12 +93,8 @@ class TriggeredAlarmActivity : BaseActivity() {
             } else {
                 initMediaPlayer(alarm)
             }
-
-            if (alarm.shouldVibrate) {
-                startVibrating()
-            }
-
         }
+
 
         haulerView.setOnDragDismissedListener {
             finish() // finish activity when dismissed
@@ -142,7 +146,7 @@ class TriggeredAlarmActivity : BaseActivity() {
             override fun run() {
                 currentVolume += 1
                 mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, AudioManager.FLAG_PLAY_SOUND)
-                if (currentVolume % 5 == 0) {
+                if (currentVolume % 10 == 0) {
                     if (shouldVibrate) {
                         startVibrating(currentVolume)
                     }
@@ -150,11 +154,11 @@ class TriggeredAlarmActivity : BaseActivity() {
 
                 if (currentVolume >= 90) this.cancel()
             }
-        }, 0, 1000)
+        }, 0, 2000)
     }
 
     private fun startVibrating(currentVolume: Int = 10) {
-        val vibratorLength = ((30 * currentVolume) / 1.2).roundToInt().toLong()
+        val vibratorLength = ((50 * currentVolume) / 1.2).roundToInt().toLong()
         val patternShort = longArrayOf(1200, vibratorLength)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createWaveform(patternShort, 0))
