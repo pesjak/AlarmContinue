@@ -35,7 +35,7 @@ class MyApplication : Application() {
             ViewPump.builder().addInterceptor(
                 CalligraphyInterceptor(
                     CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Raleway-Regular.ttf")
+                        .setDefaultFontPath("fonts/Lato-Regular.ttf")
                         .setFontAttrId(R.attr.fontPath).build()
                 )
             ).build()
