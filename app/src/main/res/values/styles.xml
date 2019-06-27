@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/white</item>
         <item name="android:textColor">@color/colorText</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:navigationBarColor">@color/colorBackgroundTranslucent</item>
@@ -19,6 +19,8 @@
     <!-- Time Picker -->
     <style name="MyTimePicker" parent="@android:style/Widget.Material.Light.TimePicker">
         <item name="colorAccent">@color/colorAccent</item> <!-- colorAccent here seems to work just fine? -->
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:numbersSelectorColor">@color/colorAccent</item>
         <item name="android:headerTimeTextAppearance">@style/TextAppearance.TimePickerDialogStyle.TimeLabel</item>
         <item name="android:headerBackground">@color/colorBackground</item>
         <item name="android:numbersTextColor">@color/white</item>
@@ -44,6 +46,7 @@
     <style name="TextAppearance.RegularNumber" parent="android:TextAppearance">
         <item name="fontPath">fonts/Raleway-Regular.ttf</item>
     </style>
+
     <style name="TextAppearance.Regular" parent="android:TextAppearance">
         <item name="fontPath">fonts/Lato-Regular.ttf</item>
     </style>
