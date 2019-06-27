@@ -74,21 +74,21 @@
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-            <include
-                android:id="@+id/line0"
-                layout="@layout/view_line"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:ignore="RtlSymmetry">
 
             <primoz.com.alarmcontinue.views.home.customViews.BedtimeItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/line1"
+                layout="@layout/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
 
             <include
                 android:id="@+id/addAlarm"
@@ -97,12 +97,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
 
+            <TextView
+                android:id="@+id/errorEmptyState"
+                style="@style/TextAppearance.Light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:text="@string/no_alarms_added_yet"
+                android:textSize="16sp" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvAlarms"
+                android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:nestedScrollingEnabled="false" />
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

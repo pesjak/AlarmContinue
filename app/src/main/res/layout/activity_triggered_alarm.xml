@@ -31,7 +31,7 @@
 
             <TextClock
                 android:id="@+id/tvCurrentTimeActual"
-                style="@style/TextAppearance.SemiBoldNumber"
+                style="@style/TextAppearance.SemiBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

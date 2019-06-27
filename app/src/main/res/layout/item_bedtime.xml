@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/textBedtime"
-        style="@style/TextAppearance.SemiBold"
+        style="@style/TextAppearance.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -27,7 +27,8 @@
         android:id="@+id/switchBedtime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="24dp"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
@@ -40,6 +41,7 @@
         android:layout_marginBottom="16dp"
         android:gravity="center"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/llWakeUp"
         app:layout_constraintHorizontal_bias="0.5"
@@ -58,7 +60,7 @@
 
         <TextView
             android:id="@+id/tvBedTime"
-            style="@style/TextAppearance.SemiBoldNumber"
+            style="@style/TextAppearance.SemiBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -73,12 +75,14 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/llBedTime"
         app:layout_constraintTop_toBottomOf="@+id/textBedtime">
 
         <TextView
+            android:id="@+id/tvTitleWake"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_sun"
@@ -89,11 +93,18 @@
 
         <TextView
             android:id="@+id/tvWakeTime"
-            style="@style/TextAppearance.SemiBoldNumber"
+            style="@style/TextAppearance.SemiBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="42sp"
             tools:text="07:45" />
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.Group
+    android:id="@+id/timeClockViewGroup"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:constraint_referenced_ids="llWakeUp,llBedTime" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

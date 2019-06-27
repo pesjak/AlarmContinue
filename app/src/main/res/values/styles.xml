@@ -30,7 +30,6 @@
 
     <style name="TextAppearance.TimePickerDialogStyle.TimeLabel" parent="@android:style/TextAppearance.Material">
         <item name="android:textColor">@color/white</item>
-        <item name="fontPath">fonts/Raleway-SemiBold.ttf</item>
     </style>
 
     <!-- Fonts -->
@@ -39,24 +38,16 @@
         <item name="fontPath">fonts/Lato-Bold.ttf</item>
     </style>
 
-    <style name="TextAppearance.BoldNumber" parent="android:TextAppearance">
-        <item name="fontPath">fonts/Raleway-Bold.ttf</item>
-    </style>
-
-    <style name="TextAppearance.RegularNumber" parent="android:TextAppearance">
-        <item name="fontPath">fonts/Raleway-Regular.ttf</item>
-    </style>
-
     <style name="TextAppearance.Regular" parent="android:TextAppearance">
         <item name="fontPath">fonts/Lato-Regular.ttf</item>
     </style>
 
-    <style name="TextAppearance.SemiBoldNumber" parent="android:TextAppearance">
-        <item name="fontPath">fonts/Raleway-SemiBold.ttf</item>
-    </style>
-
     <style name="TextAppearance.SemiBold" parent="android:TextAppearance">
         <item name="fontPath">fonts/Lato-SemiBold.ttf</item>
+    </style>
+
+    <style name="TextAppearance.Light" parent="android:TextAppearance">
+        <item name="fontPath">fonts/Lato-Light.ttf</item>
     </style>
 
     <!-- Drag App theme -->

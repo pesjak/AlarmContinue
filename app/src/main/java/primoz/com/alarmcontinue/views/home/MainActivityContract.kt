@@ -10,6 +10,8 @@ interface MainActivityContract {
         fun showAlarms(alarmList: RealmList<Alarm>)
         fun showEnabledBedtime(shouldEnable: Boolean = false)
         fun updateBedtime(bedtime: Alarm, shouldEnable: Boolean)
+        fun showEmptyState(shouldShow: Boolean)
+        fun showBedtimeClocks(shouldShow: Boolean)
     }
 
     interface Presenter {

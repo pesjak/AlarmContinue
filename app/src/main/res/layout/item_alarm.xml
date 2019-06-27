@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/textAlarm"
-        style="@style/TextAppearance.BoldNumber"
+        style="@style/TextAppearance.SemiBold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="16dp"

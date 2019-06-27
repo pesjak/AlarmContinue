@@ -117,7 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    style="@style/TextAppearance.SemiBoldNumber"
+                    style="@style/TextAppearance.SemiBold"
                     android:textSize="42sp"
                     tools:text="12:15" />
             </LinearLayout>
@@ -145,7 +145,7 @@
                 <TextView
                     android:id="@+id/tvWakeTime"
                     android:layout_width="wrap_content"
-                    style="@style/TextAppearance.SemiBoldNumber"
+                    style="@style/TextAppearance.SemiBold"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textSize="42sp"
@@ -192,7 +192,7 @@
                         android:id="@+id/tvHours"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/TextAppearance.SemiBoldNumber"
+                        style="@style/TextAppearance.SemiBold"
                         android:textColor="@color/white"
                         android:textSize="32sp"
                         tools:text="7" />
@@ -220,7 +220,7 @@
                         android:id="@+id/tvMins"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/TextAppearance.SemiBoldNumber"
+                        style="@style/TextAppearance.SemiBold"
                         android:layout_marginStart="4dp"
                         android:textColor="@color/white"
                         android:textSize="32sp"

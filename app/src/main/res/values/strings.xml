@@ -49,4 +49,5 @@
     <string name="set_default">Set default</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="today">Today</string>
+    <string name="no_alarms_added_yet">No alarms added yet</string>
 </resources>

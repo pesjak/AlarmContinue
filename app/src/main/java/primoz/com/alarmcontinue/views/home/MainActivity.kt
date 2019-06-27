@@ -3,6 +3,7 @@ package primoz.com.alarmcontinue.views.home
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -55,10 +56,8 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
         nestedScrollView.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
             if (v?.canScrollVertically(-1) == true) {
                 toolbar.elevation = 8F
-                line0.visibility = View.GONE
             } else {
                 toolbar.elevation = 0F
-                line0.visibility = View.VISIBLE
             }
         }
     }
@@ -109,17 +108,27 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
         return this
     }
 
+    override fun showEmptyState(shouldShow: Boolean) {
+        errorEmptyState.visibility = if (shouldShow) View.VISIBLE else View.GONE
+    }
+
     override fun showAlarms(alarmList: RealmList<Alarm>) {
         adapter = MyAlarmsRecyclerViewAdapter(alarmList, this)
         rvAlarms.adapter = adapter
+    }
+
+    override fun showBedtimeClocks(shouldShow: Boolean) {
+        TransitionManager.beginDelayedTransition(bedtimeContainer)
+        timeClockViewGroup.visibility = if (shouldShow) View.VISIBLE else View.GONE
     }
 
     override fun updateBedtime(bedtime: Alarm, shouldEnable: Boolean) {
         switchBedtime.alpha = if (shouldEnable) 1f else 0.5f
         switchBedtime.isChecked = shouldEnable
         textBedtime.alpha = if (shouldEnable) 1f else 0.2f
-        llBedTime.alpha = if (shouldEnable) 1f else 0.2f
-        llWakeUp.alpha = if (shouldEnable) 1f else 0.2f
+
+        showBedtimeClocks(shouldEnable)
+
         tvBedTime.text = getString(R.string.hour_minutes, bedtime.hourBedtimeSleep, bedtime.minuteBedtimeSleep)
         tvWakeTime.text = getString(R.string.hour_minutes, bedtime.hourAlarm, bedtime.minuteAlarm)
     }

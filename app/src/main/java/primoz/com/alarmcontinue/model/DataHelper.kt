@@ -148,7 +148,7 @@ object DataHelper {
         }
     }
 
-    fun createDefaultBedtimeAlarm(realm: Realm) {
+    fun createDefaultBedtimeAlarm(realmInTransaction: Realm) {
         //Default ALL Days
         val selectedDays = mutableListOf<EnumDayOfWeek>()
         selectedDays.add(EnumDayOfWeek.MONDAY)
@@ -174,13 +174,13 @@ object DataHelper {
 
         val (realmDayOfTheWeekList, realmSongList) = convertSelectedDaysAndSongsToRealmList(
             selectedDays,
-            realm,
+            realmInTransaction,
             songList
         )
 
         //Save
         Alarm.createBedtime(
-            realm,
+            realmInTransaction,
             hourAlarm = 7,
             minuteAlarm = 0,
             daysList = realmDayOfTheWeekList,
