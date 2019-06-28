@@ -45,11 +45,12 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
 
         initToolbar()
         initRecyclerView()
-        initOnClickListeners()
 
         MainActivityPresenter(this)
         mPresenter.loadBedtime(realm)
         mPresenter.loadAlarms(realm)
+
+        initOnClickListeners()
     }
 
     private fun initToolbar() {

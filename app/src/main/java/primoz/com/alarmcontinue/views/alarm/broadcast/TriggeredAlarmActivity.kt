@@ -39,7 +39,6 @@ class TriggeredAlarmActivity : BaseActivity() {
         baseContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     }
 
-
     /*
     LifeCycle
      */
@@ -47,8 +46,10 @@ class TriggeredAlarmActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_triggered_alarm)
+
         realm = Realm.getDefaultInstance()
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
 
         Log.d("Triggered", "onCreated")
 
@@ -66,9 +67,9 @@ class TriggeredAlarmActivity : BaseActivity() {
             val shouldEnableAlarm = alarm.isEnabled && alarm.daysList!!.isNotEmpty()
             DataHelper.shouldEnableAlarm(alarmID, shouldEnableAlarm, realm)
             if (shouldEnableAlarm) {
-                MyAlarm.setAlarm(baseContext, alarm, showToast)
+                // MyAlarm.setAlarm(baseContext, alarm, showToast)
             } else {
-                MyAlarm.cancelAlarm(baseContext, alarm.id)
+                //  MyAlarm.cancelAlarm(baseContext, alarm.id)
             }
             if (alarm.useDefaultRingtone) {
                 var uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)

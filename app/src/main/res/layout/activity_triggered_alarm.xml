@@ -13,21 +13,37 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/colorBackground"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvAlarm"
-                style="@style/TextAppearance.SemiBold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/alarm"
-                android:textSize="14sp"
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="32dp"
+                android:padding="4dp"
+                android:src="@drawable/ic_logo_test"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCurrentTimeActual" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/messageLottie"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:clickable="false"
+                android:focusable="false"
+                app:layout_constraintBottom_toTopOf="@+id/tvCurrentTimeActual"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivLogo"
+                app:lottie_autoPlay="true"
+                app:lottie_colorFilter="@color/white"
+                app:lottie_fileName="lottie/pinguin.json"
+                app:lottie_loop="true" />
 
             <TextClock
                 android:id="@+id/tvCurrentTimeActual"
@@ -35,42 +51,44 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textSize="56sp"
+                android:textSize="96sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.15"
+                app:layout_constraintVertical_bias="0.4"
                 tools:text="12:00" />
 
             <TextView
-                android:id="@+id/tvCurrentDate"
+                android:id="@+id/tvHint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:alpha="0.75"
+                android:layout_marginTop="56dp"
+                android:alpha="0.5"
+                style="@style/TextAppearance.Light"
                 android:text="@string/swipe_down_to_dismiss"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/imageView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCurrentTimeActual" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:background="@drawable/circle"
-                android:padding="24dp"
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_view"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_marginBottom="8dp"
+                android:alpha="0.3"
+                android:rotation="90"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.8"
-                app:srcCompat="@drawable/ic_logo_test" />
+                app:layout_constraintTop_toBottomOf="@+id/tvHint"
+                app:layout_constraintVertical_bias="0.3"
+                app:lottie_autoPlay="true"
+                app:lottie_colorFilter="@color/white"
+                app:lottie_fileName="lottie/right_a.json"
+                app:lottie_loop="true" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
-
 </com.thefuntasty.hauler.HaulerView>
