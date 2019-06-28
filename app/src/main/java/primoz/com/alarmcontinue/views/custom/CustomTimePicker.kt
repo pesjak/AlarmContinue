@@ -17,7 +17,6 @@ class CustomTimePicker : TimePicker {
         when (ev.actionMasked) {
             MotionEvent.ACTION_DOWN -> parent?.requestDisallowInterceptTouchEvent(true)
         }
-
         return false
     }
 }

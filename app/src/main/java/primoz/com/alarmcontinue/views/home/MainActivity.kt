@@ -118,7 +118,7 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
     }
 
     override fun showBedtimeClocks(shouldShow: Boolean) {
-        TransitionManager.beginDelayedTransition(bedtimeContainer)
+        TransitionManager.beginDelayedTransition(container)
         timeClockViewGroup.visibility = if (shouldShow) View.VISIBLE else View.GONE
     }
 
