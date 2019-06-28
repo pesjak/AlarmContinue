@@ -50,19 +50,12 @@ class TriggeredAlarmActivity : BaseActivity() {
         realm = Realm.getDefaultInstance()
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
-        Log.d("Triggered", "onCreated")
-
         val alarmFromRealm = DataHelper.getAlarm(realm, alarmID)
-        var showToast = true
         if (alarmFromRealm == null) {
             DataHelper.getBedtimeAlarm(realm)
-            showToast = false
         }
 
         alarmFromRealm?.let { alarm ->
-            Log.d("Triggered", "Alarm - OK")
-            Log.d("Alarm Current", alarm.secondsPlayed.toString())
-
             val shouldEnableAlarm = alarm.isEnabled && alarm.daysList!!.isNotEmpty()
             DataHelper.shouldEnableAlarm(alarmID, shouldEnableAlarm, realm)
             if (shouldEnableAlarm) {
@@ -99,15 +92,6 @@ class TriggeredAlarmActivity : BaseActivity() {
         haulerView.setOnDragDismissedListener {
             finish() // finish activity when dismissed
         }
-
-        /*
-        Toast.makeText(context, "Should play", Toast.LENGTH_LONG).show() // For example
-        path?.let {
-            val mediaPlayer = MediaPlayer.create(context, Uri.parse(path))
-            mediaPlayer?.isLooping = true
-            mediaPlayer?.start()
-        }*/
-        //TODO Set another alarm if it DOESN'T have ON resumePlaying
     }
 
     override fun onDestroy() {
@@ -115,7 +99,6 @@ class TriggeredAlarmActivity : BaseActivity() {
         if (shouldResumePlaying) {
             mediaPlayer?.let {
                 DataHelper.updateProgress(alarmID, it.currentPosition)
-                Log.d("Alarm Played", it.currentPosition.toString())
             }
         }
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentUserVolume, AudioManager.FLAG_PLAY_SOUND)

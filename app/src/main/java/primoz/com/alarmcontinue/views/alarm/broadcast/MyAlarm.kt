@@ -14,7 +14,6 @@ import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.RealmDayOfWeek
 import java.util.*
 
-
 //TODO CHANGE TO NOTIFICATION
 class MyAlarm : BroadcastReceiver() {
 
@@ -24,32 +23,16 @@ class MyAlarm : BroadcastReceiver() {
     }
 
     companion object {
-        val ARG_ALARM_ID = "AlarmID"
+
+        const val ARG_ALARM_ID = "AlarmID"
+
         fun setAlarm(context: Context, alarm: Alarm, showToast: Boolean = true) {
-            /*
-            TODO
-            - setRandomSongID as intent
-            - getRealm and getThatSong
-            - if the song is completed go next random
-              else just continue currently selected song
-             */
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(context, MyAlarm::class.java)
             if (alarm.songsList?.isNotEmpty() == true) {
                 intent.putExtra(ARG_ALARM_ID, alarm.id)
             }
             val pendingIntent = PendingIntent.getBroadcast(context, alarm.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-            //TODO Add Days, and if today is already passed just set for tomrrow
-            //TODO Show toast when will it trigger
-            /*
-            alarmManager.setInexactRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                1000 * 30 * 1, //30s
-                pendingIntent
-            ) //TODO Change to Interval Days
-            */
 
             var hour = 0
             var minute = 0
@@ -117,8 +100,8 @@ class MyAlarm : BroadcastReceiver() {
             realmDays: RealmList<RealmDayOfWeek>
         ): Calendar {
             val now = Calendar.getInstance()
-            now.add(Calendar.SECOND, 3)
-            return now
+            //now.add(Calendar.SECOND, 3)
+            //return now
             val next = Calendar.getInstance()
 
             next.set(Calendar.HOUR_OF_DAY, hour)
@@ -161,7 +144,7 @@ class MyAlarm : BroadcastReceiver() {
                 nextDay %= 7
                 i++
             }
-            var nextDayToSet = nextDay + 2 //TODO Works but needs further testing
+            val nextDayToSet = nextDay + 2 //TODO Works but needs further testing
             next.set(Calendar.DAY_OF_WEEK, nextDayToSet) // + 1 = back to 1-7 range
 
             while (now.after(next)) next.add(Calendar.DATE, 7)

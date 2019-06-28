@@ -131,7 +131,7 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
     private fun initOnClickListeners() {
         dummyClickableContainerRingtones.setOnClickListener {
             val intentAudioPick = Intent(context, AudioPickActivity::class.java)
-            intentAudioPick.putExtra(Constant.MAX_NUMBER, 5)
+            intentAudioPick.putExtra(Constant.MAX_NUMBER,  AudioPickActivity.DEFAULT_MAX_NUMBER)
             intentAudioPick.putExtra(BaseActivity.IS_NEED_FOLDER_LIST, true)
             startActivityForResult(intentAudioPick, Constant.REQUEST_CODE_PICK_AUDIO)
         }

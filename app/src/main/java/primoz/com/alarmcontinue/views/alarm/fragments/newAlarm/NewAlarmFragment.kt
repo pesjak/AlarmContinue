@@ -122,7 +122,7 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
     private fun initOnClickListeners() {
         dummyClickableContainerRingtones.setOnClickListener {
             val intentAudioPick = Intent(context, AudioPickActivity::class.java)
-            intentAudioPick.putExtra(Constant.MAX_NUMBER, 5)
+            intentAudioPick.putExtra(Constant.MAX_NUMBER, AudioPickActivity.DEFAULT_MAX_NUMBER)
             intentAudioPick.putExtra(IS_NEED_FOLDER_LIST, true)
             startActivityForResult(intentAudioPick, Constant.REQUEST_CODE_PICK_AUDIO)
         }
