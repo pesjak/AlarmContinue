@@ -40,5 +40,6 @@ dependencies {
     implementation 'com.github.thefuntasty.hauler:library:2.0.0'
     // For Sleep Time
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
+    // Animations
     implementation 'com.airbnb.android:lottie:3.0.7'
 }

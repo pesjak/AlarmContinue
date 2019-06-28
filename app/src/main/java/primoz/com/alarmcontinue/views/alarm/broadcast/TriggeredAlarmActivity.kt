@@ -50,7 +50,6 @@ class TriggeredAlarmActivity : BaseActivity() {
         realm = Realm.getDefaultInstance()
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
-
         Log.d("Triggered", "onCreated")
 
         val alarmFromRealm = DataHelper.getAlarm(realm, alarmID)

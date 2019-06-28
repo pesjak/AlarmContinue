@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="16dp"
                 android:clickable="false"
                 android:focusable="false"
                 app:layout_constraintBottom_toTopOf="@+id/tvCurrentTimeActual"
@@ -61,11 +61,11 @@
 
             <TextView
                 android:id="@+id/tvHint"
+                style="@style/TextAppearance.Light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="56dp"
                 android:alpha="0.5"
-                style="@style/TextAppearance.Light"
                 android:text="@string/swipe_down_to_dismiss"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
