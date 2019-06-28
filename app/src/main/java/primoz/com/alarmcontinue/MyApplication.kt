@@ -28,7 +28,7 @@ class MyApplication : Application() {
                 DataHelper.createDefaultBedtimeAlarm(realm)
             }
             .build()
-        Realm.deleteRealm(realmConfig) // Delete Realm between app restarts.
+        //Realm.deleteRealm(realmConfig) // Delete Realm between app restarts.
         Realm.setDefaultConfiguration(realmConfig)
 
         ViewPump.init(
