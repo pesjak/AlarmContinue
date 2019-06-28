@@ -144,6 +144,7 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
             dividerItemDecoration.setDrawable(it)
         }
         rvAlarms.addItemDecoration(dividerItemDecoration)
+        rvAlarms.itemAnimator = null
     }
 
     companion object {
