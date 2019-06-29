@@ -56,7 +56,7 @@ class MyNotification : BroadcastReceiver() {
                 intent.putExtra(ARG_NOTIFICATION_ALARM_ID, alarm.id)
                 intent.putExtra(
                     ARG_NOTIFICATION,
-                    getNotification(context, alarm.hourBedtimeSleep, alarm.minuteBedtimeSleep)
+                    getNotification(context, alarm.notificationTime!!.notificationTimeString.realName)
                 )
                 val pendingIntent = PendingIntent.getBroadcast(
                     context,
@@ -88,7 +88,7 @@ class MyNotification : BroadcastReceiver() {
         Private
          */
 
-        private fun getNotification(context: Context, hour: Int?, minute: Int?): Notification {
+        private fun getNotification(context: Context, timeLeft: String): Notification {
             val notificationBuilder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
 
             notificationBuilder.setAutoCancel(true)
@@ -97,7 +97,7 @@ class MyNotification : BroadcastReceiver() {
                 .setSmallIcon(R.drawable.ic_logo_test)
                 .setTicker(context.getString(R.string.bedtime))
                 .setContentTitle(context.getString(R.string.bedtime_reminder))
-                .setContentText(context.getString(R.string.bedtime_description, hour, minute))
+                .setContentText(context.getString(R.string.bedtime_description, timeLeft))
             return notificationBuilder.build()
         }
 
