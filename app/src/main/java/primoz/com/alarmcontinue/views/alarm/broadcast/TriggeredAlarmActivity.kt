@@ -69,9 +69,9 @@ class TriggeredAlarmActivity : BaseActivity() {
             val shouldEnableAlarm = alarm.isEnabled && alarm.daysList!!.isNotEmpty()
             DataHelper.shouldEnableAlarm(alarmID, shouldEnableAlarm, realm)
             if (shouldEnableAlarm) {
-                //MyAlarm.setAlarm(baseContext, alarm, showToast)
+                MyAlarm.setAlarm(baseContext, alarm, showToast)
             } else {
-                // MyAlarm.cancelAlarm(baseContext, alarm.id)
+                MyAlarm.cancelAlarm(baseContext, alarm.id)
             }
             if (alarm.useDefaultRingtone) {
                 var uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)

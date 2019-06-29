@@ -14,7 +14,6 @@ import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.RealmDayOfWeek
 import java.util.*
 
-//TODO CHANGE TO NOTIFICATION
 class MyAlarm : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -100,8 +99,8 @@ class MyAlarm : BroadcastReceiver() {
             realmDays: RealmList<RealmDayOfWeek>
         ): Calendar {
             val now = Calendar.getInstance()
-            now.add(Calendar.SECOND, 3)
-            return now
+           // now.add(Calendar.SECOND, 3)
+           // return now
             val next = Calendar.getInstance()
 
             next.set(Calendar.HOUR_OF_DAY, hour)
