@@ -2,6 +2,8 @@ package primoz.com.alarmcontinue.views.alarm.broadcast
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -11,7 +13,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.util.Log
+import com.airbnb.lottie.LottieProperty
+import com.airbnb.lottie.model.KeyPath
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_triggered_alarm.*
 import primoz.com.alarmcontinue.R
@@ -20,6 +23,7 @@ import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.views.BaseActivity
 import java.util.*
 import kotlin.math.roundToInt
+
 
 class TriggeredAlarmActivity : BaseActivity() {
 
@@ -47,11 +51,15 @@ class TriggeredAlarmActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_triggered_alarm)
 
+        showDanceAnimation()
+
         realm = Realm.getDefaultInstance()
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         val alarmFromRealm = DataHelper.getAlarm(realm, alarmID)
+        var showToast = true
         if (alarmFromRealm == null) {
+            showToast = false
             DataHelper.getBedtimeAlarm(realm)
         }
 
@@ -59,9 +67,9 @@ class TriggeredAlarmActivity : BaseActivity() {
             val shouldEnableAlarm = alarm.isEnabled && alarm.daysList!!.isNotEmpty()
             DataHelper.shouldEnableAlarm(alarmID, shouldEnableAlarm, realm)
             if (shouldEnableAlarm) {
-                // MyAlarm.setAlarm(baseContext, alarm, showToast)
+                //MyAlarm.setAlarm(baseContext, alarm, showToast)
             } else {
-                //  MyAlarm.cancelAlarm(baseContext, alarm.id)
+                // MyAlarm.cancelAlarm(baseContext, alarm.id)
             }
             if (alarm.useDefaultRingtone) {
                 var uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
@@ -106,6 +114,27 @@ class TriggeredAlarmActivity : BaseActivity() {
         mediaPlayer?.stop()
         vibrator.cancel()
         realm.close()
+    }
+
+    /*
+    Private
+     */
+
+    private fun showDanceAnimation() {
+        //TODO White or not white that is the question
+        val lottieFiles = mutableListOf(
+            "lottie/dance/chicken.json", //NOT WHITE
+            "lottie/dance/sound.json",  //White
+            "lottie/dance/pinguin.json" //White
+        )
+        val file = lottieFiles.random()
+        messageLottie.setAnimation(file)
+            messageLottie.addValueCallback(
+                KeyPath("**"), LottieProperty.COLOR_FILTER,
+                { PorterDuffColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_ATOP) }
+            )
+
+        messageLottie.playAnimation()
     }
 
     private fun increaseVolumeOverTime(mediaPlayer: MediaPlayer, shouldVibrate: Boolean) {
