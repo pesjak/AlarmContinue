@@ -20,6 +20,7 @@ import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import primoz.com.alarmcontinue.MyApplication
+import primoz.com.alarmcontinue.enums.EnumNotificationTime
 import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
 
 open class Alarm : RealmObject() {
@@ -38,6 +39,7 @@ open class Alarm : RealmObject() {
     var minuteBedtimeSleep: Int? = null
     var currentlySelectedPath: String? = null
     var useDefaultRingtone: Boolean = false
+    var notificationTime: RealmNotificationTime? = null
 
     companion object {
         const val FIELD_ID = "id"
@@ -71,6 +73,12 @@ open class Alarm : RealmObject() {
             alarm.hourBedtimeSleep = hourBedtimeSleep
             alarm.minuteBedtimeSleep = minuteBedtimeSleep
             alarm.useDefaultRingtone = isDefaultRingtone
+
+            //Notify before triggering
+            val notificationTime = realm.createObject(RealmNotificationTime::class.java)
+            notificationTime.saveNotificationTime(EnumNotificationTime.NONE)
+            alarm.notificationTime = notificationTime
+
             alarmList?.add(alarm)
 
             if (isEnabled) {
@@ -104,6 +112,11 @@ open class Alarm : RealmObject() {
             alarm.hourBedtimeSleep = hourBedtimeSleep
             alarm.minuteBedtimeSleep = minuteBedtimeSleep
             alarm.useDefaultRingtone = isDefaultRingtone
+
+            //Notify before triggering
+            val notificationTime = realm.createObject(RealmNotificationTime::class.java)
+            notificationTime.saveNotificationTime(EnumNotificationTime.NONE)
+            alarm.notificationTime = notificationTime
         }
 
         private fun getNextID(realm: Realm): Int {

@@ -17,7 +17,7 @@ interface BedtimeContract {
     interface Presenter: BaseAlarmPresenter {
         fun restoreUI(realm: Realm)
         fun loadSongList(alarm: Alarm)
-        fun loadReminderOptions()
+        fun loadReminderOptions(realm: Realm)
         fun updateBedtime(
             realm: Realm,
             hourSleep: Int,

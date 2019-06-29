@@ -60,6 +60,9 @@
         <receiver
             android:name=".views.alarm.broadcast.MyAlarm"
             android:exported="true" />
+        <receiver
+            android:name=".views.alarm.broadcast.MyNotification"
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import primoz.com.alarmcontinue.model.AlarmList
 import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.views.alarm.AlarmActivity
 import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
+import primoz.com.alarmcontinue.views.alarm.broadcast.MyNotification
 import primoz.com.alarmcontinue.views.settings.SettingsActivity
 
 class MainActivityPresenter(private val view: MainActivityContract.View) : MainActivityContract.Presenter {
@@ -20,7 +21,7 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
     }
 
     override fun enableAlarm(realm: Realm, alarm: Alarm, shouldEnable: Boolean) {
-        DataHelper.shouldEnableAlarm(alarm.id, shouldEnable, realm)
+        DataHelper.enableAlarm(alarm.id, shouldEnable, realm)
         if (shouldEnable) {
             MyAlarm.setAlarm(view.getViewActivity(), alarm)
         } else {
@@ -31,11 +32,13 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
     override fun enableBedtime(realm: Realm, shouldEnable: Boolean) {
         val bedtimeAlarm = DataHelper.getBedtimeAlarm(realm)
         bedtimeAlarm?.let { bedtime ->
-            DataHelper.shouldEnableAlarm(bedtime.id, shouldEnable, realm)
+            DataHelper.enableAlarm(bedtime.id, shouldEnable, realm)
             if (shouldEnable) {
                 MyAlarm.setAlarm(view.getViewActivity(), bedtime)
+                MyNotification.enableNotification(view.getViewActivity(), bedtime)
             } else {
                 MyAlarm.cancelAlarm(view.getViewActivity(), bedtime.id)
+                MyNotification.cancelNotification(view.getViewActivity(), bedtime)
             }
             view.updateBedtime(bedtime, shouldEnable)
         }

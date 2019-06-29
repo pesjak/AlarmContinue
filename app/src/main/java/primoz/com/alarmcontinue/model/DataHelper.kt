@@ -20,8 +20,10 @@ import io.realm.Realm
 import io.realm.RealmList
 import primoz.com.alarmcontinue.MyApplication
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
+import primoz.com.alarmcontinue.enums.EnumNotificationTime
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
+import primoz.com.alarmcontinue.views.alarm.broadcast.MyNotification
 
 object DataHelper {
 
@@ -103,7 +105,7 @@ object DataHelper {
         }
     }
 
-    fun shouldEnableAlarm(alarmID: Int, isEnabled: Boolean, realm: Realm) {
+    fun enableAlarm(alarmID: Int, isEnabled: Boolean, realm: Realm) {
         realm.executeTransaction {
             it.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, alarmID).findFirst()?.let { alarm ->
                 alarm.isEnabled = isEnabled
@@ -203,7 +205,8 @@ object DataHelper {
         songList: MutableList<AudioFile>,
         shouldResumePlaying: Boolean,
         shouldVibrate: Boolean,
-        defaultRingtone: Boolean
+        defaultRingtone: Boolean,
+        enumNotificationTime: EnumNotificationTime
     ) {
         realm.executeTransaction { realmInTransaction ->
             getBedtimeAlarm(realmInTransaction)?.let { bedtimeAlarm ->
@@ -215,12 +218,18 @@ object DataHelper {
                 bedtimeAlarm.shouldVibrate = shouldVibrate
                 bedtimeAlarm.useDefaultRingtone = defaultRingtone
 
+                //Notify before triggering
+                val notificationTime = realm.createObject(RealmNotificationTime::class.java)
+                notificationTime.saveNotificationTime(enumNotificationTime)
+                bedtimeAlarm.notificationTime = notificationTime
+
                 val convertSongListToRealm = convertSongListToRealm(songList, realmInTransaction)
                 if (songList.isNotEmpty()) bedtimeAlarm.currentlySelectedPath = convertSongListToRealm.random().path
                 bedtimeAlarm.songsList = convertSongListToRealm
 
                 if (bedtimeAlarm.isEnabled) {
                     MyAlarm.setAlarm(MyApplication.appContext, bedtimeAlarm)
+                    MyNotification.enableNotification(MyApplication.appContext, bedtimeAlarm)
                 }
             }
         }

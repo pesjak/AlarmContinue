@@ -158,7 +158,7 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
         }
 
         containerPreferenceNotifyMeBeforeBed.setOnClickListener {
-            mPresenter.loadReminderOptions()
+            mPresenter.loadReminderOptions(realm)
         }
 
         btnDefaultAndClear.setOnClickListener {

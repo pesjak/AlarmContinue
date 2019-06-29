@@ -9,6 +9,7 @@ import android.widget.Toast
 import io.realm.RealmList
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
+import primoz.com.alarmcontinue.enums.EnumNotificationTime
 import primoz.com.alarmcontinue.extensions.getDateDiff
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.RealmDayOfWeek
@@ -28,7 +29,7 @@ class MyAlarm : BroadcastReceiver() {
         fun setAlarm(context: Context, alarm: Alarm, showToast: Boolean = true) {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(context, MyAlarm::class.java)
-            if (alarm.songsList?.isNotEmpty() == true) {
+            if (alarm.songsList?.isNotEmpty() == true) { //TODO Chcek this why you did this
                 intent.putExtra(ARG_ALARM_ID, alarm.id)
             }
             val pendingIntent = PendingIntent.getBroadcast(context, alarm.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -63,6 +64,10 @@ class MyAlarm : BroadcastReceiver() {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.cancel(sender)
         }
+
+        /*
+        Private
+         */
 
         private fun getTimeRemainingFormattedString(
             context: Context,
@@ -99,8 +104,10 @@ class MyAlarm : BroadcastReceiver() {
             realmDays: RealmList<RealmDayOfWeek>
         ): Calendar {
             val now = Calendar.getInstance()
-           // now.add(Calendar.SECOND, 3)
-           // return now
+            //
+            //
+            //now.add(Calendar.SECOND, 3)
+            // return now
             val next = Calendar.getInstance()
 
             next.set(Calendar.HOUR_OF_DAY, hour)
@@ -149,5 +156,6 @@ class MyAlarm : BroadcastReceiver() {
             while (now.after(next)) next.add(Calendar.DATE, 7)
             return next
         }
+
     }
 }

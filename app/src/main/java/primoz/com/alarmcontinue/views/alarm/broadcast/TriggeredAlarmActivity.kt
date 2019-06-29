@@ -67,7 +67,7 @@ class TriggeredAlarmActivity : BaseActivity() {
 
         alarmFromRealm?.let { alarm ->
             val shouldEnableAlarm = alarm.isEnabled && alarm.daysList!!.isNotEmpty()
-            DataHelper.shouldEnableAlarm(alarmID, shouldEnableAlarm, realm)
+            DataHelper.enableAlarm(alarmID, shouldEnableAlarm, realm)
             if (shouldEnableAlarm) {
                 MyAlarm.setAlarm(baseContext, alarm, showToast)
             } else {
