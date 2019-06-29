@@ -13,7 +13,6 @@
     <!-- Alert dialog -->
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColor">@color/colorBackground</item>
-        <item name="android:background">@color/white</item>
     </style>
 
     <!-- Time Picker -->

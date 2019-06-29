@@ -41,11 +41,11 @@
 
             <TextView
                 android:id="@+id/tvCount"
+                style="@style/TextAppearance.SemiBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="8dp"
-                style="@style/TextAppearance.SemiBold"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/subtitle"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -56,9 +56,12 @@
             <LinearLayout
                 android:id="@+id/llFolder"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"

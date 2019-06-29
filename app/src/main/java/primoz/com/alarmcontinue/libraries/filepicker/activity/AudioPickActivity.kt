@@ -124,7 +124,9 @@ class AudioPickActivity : BaseActivity() {
         }
         val directoryCharSequenceList =
             tempStringDirectoryArray.toArray(arrayOfNulls<CharSequence>(tempStringDirectoryArray.size))
-        fileDialog.setItems(directoryCharSequenceList) { dialog, which ->
+
+
+        fileDialog.setSingleChoiceItems(directoryCharSequenceList, -1) { dialog, which ->
             val directory = listDirectories[which]
             tvFolder.text = directory.name
             mAll?.let {
@@ -141,6 +143,7 @@ class AudioPickActivity : BaseActivity() {
                     }
                 }
             }
+            dialog.dismiss()
         }
     }
 
