@@ -69,7 +69,7 @@ class TriggeredAlarmActivity : BaseActivity() {
             if (shouldEnableAlarm) {
                 //MyAlarm.setAlarm(baseContext, alarm, showToast)
             } else {
-                // MyAlarm.cancelAlarm(baseContext, alarm.id)
+               // MyAlarm.cancelAlarm(baseContext, alarm.id)
             }
             if (alarm.useDefaultRingtone) {
                 var uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
@@ -121,19 +121,21 @@ class TriggeredAlarmActivity : BaseActivity() {
      */
 
     private fun showDanceAnimation() {
-        //TODO White or not white that is the question
         val lottieFiles = mutableListOf(
-            "lottie/dance/chicken.json", //NOT WHITE
+            "lottie/dance/chicken_6.json",
             "lottie/dance/sound.json",  //White
             "lottie/dance/pinguin.json" //White
         )
         val file = lottieFiles.random()
         messageLottie.setAnimation(file)
+        if (file == "lottie/dance/pinguin.json"
+            || file == "lottie/dance/sound.json"
+        ) {
             messageLottie.addValueCallback(
                 KeyPath("**"), LottieProperty.COLOR_FILTER,
                 { PorterDuffColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_ATOP) }
             )
-
+        }
         messageLottie.playAnimation()
     }
 
