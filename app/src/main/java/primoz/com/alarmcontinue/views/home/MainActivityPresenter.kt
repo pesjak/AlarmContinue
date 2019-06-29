@@ -7,6 +7,7 @@ import primoz.com.alarmcontinue.model.AlarmList
 import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.views.alarm.AlarmActivity
 import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
+import primoz.com.alarmcontinue.views.settings.SettingsActivity
 
 class MainActivityPresenter(private val view: MainActivityContract.View) : MainActivityContract.Presenter {
 
@@ -56,6 +57,11 @@ class MainActivityPresenter(private val view: MainActivityContract.View) : MainA
     override fun showEditAlarmScreen(alarm: Alarm) {
         val activity = view.getViewActivity()
         activity.startActivity(AlarmActivity.getIntent(activity, AlarmType.EDIT_ALARM, alarm.id))
+    }
+
+    override fun showSettingsScreen() {
+        val activity = view.getViewActivity()
+        activity.startActivity(SettingsActivity.getIntent(activity))
     }
 
     override fun loadAlarms(realm: Realm) {

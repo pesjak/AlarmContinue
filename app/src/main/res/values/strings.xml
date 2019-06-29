@@ -50,4 +50,13 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="today">Today</string>
     <string name="no_alarms_added_yet">No alarms added yet</string>
+    <string name="themes">Themes</string>
+    <string name="settings_light_theme">Light theme</string>
+    <string name="alarms">Alarms</string>
+    <string name="settings_power_off_alarm">Power off alarm</string>
+    <string name="settings_power_off_alarm_description">Alarm will trigger even when the device is off</string>
+    <string name="about">About</string>
+    <string name="contact_me">Contact me</string>
+    <string name="acknowledgements">Acknowledgement</string>
+    <string name="settings">Settings</string>
 </resources>

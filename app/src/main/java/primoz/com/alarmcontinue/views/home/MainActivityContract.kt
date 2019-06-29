@@ -22,5 +22,6 @@ interface MainActivityContract {
         fun showAddNewAlarmScreen()
         fun showBedtimeAlarmScreen()
         fun loadBedtime(realm: Realm)
+        fun showSettingsScreen()
     }
 }

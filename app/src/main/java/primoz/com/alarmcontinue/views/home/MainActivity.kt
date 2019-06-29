@@ -73,6 +73,10 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
         ivAddAlarm.setOnClickListener {
             mPresenter.showAddNewAlarmScreen()
         }
+
+        ivSettings.setOnClickListener {
+            mPresenter.showSettingsScreen()
+        }
     }
 
     override fun onDestroy() {
