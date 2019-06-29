@@ -1,5 +1,6 @@
 package primoz.com.alarmcontinue.views.alarm.broadcast
 
+import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
@@ -13,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.view.WindowManager
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
 import io.realm.Realm
@@ -23,7 +25,6 @@ import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.views.BaseActivity
 import java.util.*
 import kotlin.math.roundToInt
-
 
 class TriggeredAlarmActivity : BaseActivity() {
 
@@ -51,6 +52,7 @@ class TriggeredAlarmActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_triggered_alarm)
 
+        showIfScreenIsLocked()
         showDanceAnimation()
 
         realm = Realm.getDefaultInstance()
@@ -69,7 +71,7 @@ class TriggeredAlarmActivity : BaseActivity() {
             if (shouldEnableAlarm) {
                 //MyAlarm.setAlarm(baseContext, alarm, showToast)
             } else {
-               // MyAlarm.cancelAlarm(baseContext, alarm.id)
+                // MyAlarm.cancelAlarm(baseContext, alarm.id)
             }
             if (alarm.useDefaultRingtone) {
                 var uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
@@ -119,6 +121,22 @@ class TriggeredAlarmActivity : BaseActivity() {
     /*
     Private
      */
+
+    private fun showIfScreenIsLocked() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setShowWhenLocked(true)
+            setTurnScreenOn(true)
+            val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            keyguardManager.requestDismissKeyguard(this, null)
+        } else {
+            window.addFlags(
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
+                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+            )
+        }
+    }
 
     private fun showDanceAnimation() {
         val lottieFiles = mutableListOf(
