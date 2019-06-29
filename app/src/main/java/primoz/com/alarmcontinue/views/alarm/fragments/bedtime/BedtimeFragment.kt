@@ -111,6 +111,10 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
         btnDefaultAndClear.text = if (shouldShow) getString(R.string.set_default) else getString(R.string.clear)
     }
 
+    override fun showReminder(reminder: CharSequence) {
+        reminderBedtime.text = reminder
+    }
+
     /*
     Private
      */
@@ -131,7 +135,7 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
     private fun initOnClickListeners() {
         dummyClickableContainerRingtones.setOnClickListener {
             val intentAudioPick = Intent(context, AudioPickActivity::class.java)
-            intentAudioPick.putExtra(Constant.MAX_NUMBER,  AudioPickActivity.DEFAULT_MAX_NUMBER)
+            intentAudioPick.putExtra(Constant.MAX_NUMBER, AudioPickActivity.DEFAULT_MAX_NUMBER)
             intentAudioPick.putExtra(BaseActivity.IS_NEED_FOLDER_LIST, true)
             startActivityForResult(intentAudioPick, Constant.REQUEST_CODE_PICK_AUDIO)
         }
@@ -151,6 +155,10 @@ class BedtimeFragment : Fragment(), BedtimeContract.View {
                 cbPreferenceResumePlaying.isChecked,
                 cbPreferenceVibrate.isChecked
             )
+        }
+
+        containerPreferenceNotifyMeBeforeBed.setOnClickListener {
+            mPresenter.loadReminderOptions()
         }
 
         btnDefaultAndClear.setOnClickListener {

@@ -114,10 +114,10 @@
 
                 <TextView
                     android:id="@+id/tvBedTime"
+                    style="@style/TextAppearance.SemiBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    style="@style/TextAppearance.SemiBold"
                     android:textSize="42sp"
                     tools:text="12:15" />
             </LinearLayout>
@@ -144,8 +144,8 @@
 
                 <TextView
                     android:id="@+id/tvWakeTime"
-                    android:layout_width="wrap_content"
                     style="@style/TextAppearance.SemiBold"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textSize="42sp"
@@ -190,9 +190,9 @@
 
                     <TextView
                         android:id="@+id/tvHours"
+                        style="@style/TextAppearance.SemiBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/TextAppearance.SemiBold"
                         android:textColor="@color/white"
                         android:textSize="32sp"
                         tools:text="7" />
@@ -218,9 +218,9 @@
 
                     <TextView
                         android:id="@+id/tvMins"
+                        style="@style/TextAppearance.SemiBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/TextAppearance.SemiBold"
                         android:layout_marginStart="4dp"
                         android:textColor="@color/white"
                         android:textSize="32sp"
@@ -251,12 +251,65 @@
                 app:layout_constraintTop_toBottomOf="@id/timePicker" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerPreferenceNotifyMeBeforeBed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line5">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="24dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="24dp"
+                    android:text="@string/bedtime_reminder"
+                    android:textSize="@dimen/subtitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/reminderBedtime"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/reminderBedtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Never"
+                    style="@style/TextAppearance.Bold"
+                    android:textAllCaps="true"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <include
+                android:id="@+id/line8"
+                layout="@layout/view_line"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/containerPreferenceNotifyMeBeforeBed" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ringtoneContainer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/line5">
+                app:layout_constraintTop_toBottomOf="@id/line8">
 
                 <TextView
                     android:id="@+id/tvRingtonesTitle"
@@ -352,7 +405,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ringtoneContainer" />
 
-            <primoz.com.alarmcontinue.views.home.customViews.MyCheckBox
+            <primoz.com.alarmcontinue.views.custom.MyCheckBox
                 android:id="@+id/cbPreferenceResumePlaying"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -372,7 +425,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cbPreferenceResumePlaying" />
 
-            <primoz.com.alarmcontinue.views.home.customViews.MyCheckBox
+            <primoz.com.alarmcontinue.views.custom.MyCheckBox
                 android:id="@+id/cbPreferenceVibrate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

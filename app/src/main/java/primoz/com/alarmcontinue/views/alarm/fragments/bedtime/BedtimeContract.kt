@@ -11,11 +11,13 @@ interface BedtimeContract {
 
     interface View : BaseView<Presenter>, BaseAlarmView{
         fun updateUI(alarm: Alarm)
+        fun showReminder(reminder: CharSequence)
     }
 
     interface Presenter: BaseAlarmPresenter {
         fun restoreUI(realm: Realm)
         fun loadSongList(alarm: Alarm)
+        fun loadReminderOptions()
         fun updateBedtime(
             realm: Realm,
             hourSleep: Int,

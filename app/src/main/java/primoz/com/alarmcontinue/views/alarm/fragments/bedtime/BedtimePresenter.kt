@@ -1,6 +1,8 @@
 package primoz.com.alarmcontinue.views.alarm.fragments.bedtime
 
+import androidx.appcompat.app.AlertDialog
 import io.realm.Realm
+import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.DataHelper
@@ -9,6 +11,10 @@ class BedtimePresenter(private val view: BedtimeContract.View) : BedtimeContract
 
     var buttonClearShown = true
     var shouldUseDefaultRingtone = false
+
+    private val reminderDialog by lazy {
+        AlertDialog.Builder(view.getViewActivity(), R.style.AlertDialogCustom)
+    }
 
     override fun updateBedtime(
         realm: Realm,
@@ -31,6 +37,7 @@ class BedtimePresenter(private val view: BedtimeContract.View) : BedtimeContract
             shouldVibrate,
             shouldUseDefaultRingtone
         )
+
         view.finish()
     }
 
@@ -57,6 +64,28 @@ class BedtimePresenter(private val view: BedtimeContract.View) : BedtimeContract
                 view.updateSongList(selectedSongList)
             }
         }
+    }
+
+    override fun loadReminderOptions() { //TODO Implement logic for notifications and handling these values, maybe enums?
+        val listOfOptions = arrayListOf(
+            "Never",
+            "10 min",
+            "20 min",
+            "30 min",
+            "1 h",
+            "2 h"
+        )
+        val reminderCharSequenceList =
+            listOfOptions.toArray(arrayOfNulls<CharSequence>(listOfOptions.size))
+
+        reminderDialog.setSingleChoiceItems(reminderCharSequenceList, 0) { dialog, which ->
+            val reminder = reminderCharSequenceList[which]
+            reminder?.let { view.showReminder(reminder) }
+            dialog.dismiss()
+        }
+
+        reminderDialog.setTitle(view.getViewActivity().getString(R.string.pick_a_folder))
+        reminderDialog.show()
     }
 
     override fun handleSelectedAudioFileList(songList: ArrayList<AudioFile>) {

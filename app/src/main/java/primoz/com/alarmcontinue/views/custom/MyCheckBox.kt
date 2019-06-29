@@ -1,4 +1,4 @@
-package primoz.com.alarmcontinue.views.home.customViews
+package primoz.com.alarmcontinue.views.custom
 
 import android.content.Context
 import android.util.AttributeSet

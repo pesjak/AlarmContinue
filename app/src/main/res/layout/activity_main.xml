@@ -81,7 +81,7 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             tools:ignore="RtlSymmetry">
 
-            <primoz.com.alarmcontinue.views.home.customViews.BedtimeItemView
+            <primoz.com.alarmcontinue.views.custom.BedtimeItemView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

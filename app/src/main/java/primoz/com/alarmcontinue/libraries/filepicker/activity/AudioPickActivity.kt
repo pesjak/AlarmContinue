@@ -122,9 +122,8 @@ class AudioPickActivity : BaseActivity() {
         for (directory in listDirectories) {
             tempStringDirectoryArray.add(directory.name)
         }
-        val directoryCharSequenceList =
+         val directoryCharSequenceList =
             tempStringDirectoryArray.toArray(arrayOfNulls<CharSequence>(tempStringDirectoryArray.size))
-
 
         fileDialog.setSingleChoiceItems(directoryCharSequenceList, -1) { dialog, which ->
             val directory = listDirectories[which]
