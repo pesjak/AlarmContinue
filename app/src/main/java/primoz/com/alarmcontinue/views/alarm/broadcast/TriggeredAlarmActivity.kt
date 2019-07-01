@@ -97,8 +97,7 @@ class TriggeredAlarmActivity : BaseActivity() {
                 initMediaPlayer(alarm)
             }
         }
-
-
+        
         haulerView.setOnDragDismissedListener {
             finish() // finish activity when dismissed
         }
@@ -111,7 +110,7 @@ class TriggeredAlarmActivity : BaseActivity() {
                 DataHelper.updateProgress(alarmID, it.currentPosition)
             }
         }
-        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentUserVolume, AudioManager.FLAG_PLAY_SOUND)
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentUserVolume, 0)
         timer.cancel()
         mediaPlayer?.stop()
         vibrator.cancel()
@@ -167,7 +166,7 @@ class TriggeredAlarmActivity : BaseActivity() {
 
         currentUserVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         var currentVolume = 1
-        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, AudioManager.FLAG_PLAY_SOUND)
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0)
 
         if (shouldVibrate) {
             startVibrating()
@@ -177,7 +176,7 @@ class TriggeredAlarmActivity : BaseActivity() {
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 currentVolume += 1
-                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, AudioManager.FLAG_PLAY_SOUND)
+                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0)
                 if (currentVolume % 10 == 0) {
                     if (shouldVibrate) {
                         startVibrating(currentVolume)
