@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="primoz.com.alarmcontinue">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".MyApplication"
@@ -14,11 +16,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <!-- Activities -->
+
         <activity
             android:name=".views.settings.acknowledgments.AcknowledgmentsActivity"
             android:label="@string/title_activity_acknowledgments"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.home.MainActivity"
             android:screenOrientation="portrait">
@@ -46,6 +52,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Draggable" />
 
+        <!-- File providers -->
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -56,9 +64,23 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <!-- Broadcast recievers -->
+
+        <receiver
+            android:name=".views.alarm.broadcast.ResumeOnBootAlarm"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
         <receiver
             android:name=".views.alarm.broadcast.MyAlarm"
             android:exported="true" />
+
         <receiver
             android:name=".views.alarm.broadcast.MyNotification"
             android:exported="true" />

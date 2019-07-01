@@ -135,6 +135,10 @@ object DataHelper {
         }, { realm.close() }, { realm.close() })
     }
 
+    fun getAllAlarms(realm: Realm): RealmList<Alarm>? {
+        return realm.where(AlarmList::class.java).findFirst()?.alarmList
+    }
+
     fun getAlarm(realm: Realm, alarmID: Int): Alarm? {
         return realm.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, alarmID).findFirst()
     }
@@ -284,4 +288,5 @@ object DataHelper {
         }
         return realmDayOfTheWeekList
     }
+
 }
