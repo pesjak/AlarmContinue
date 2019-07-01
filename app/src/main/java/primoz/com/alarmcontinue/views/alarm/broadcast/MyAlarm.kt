@@ -9,7 +9,6 @@ import android.widget.Toast
 import io.realm.RealmList
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
-import primoz.com.alarmcontinue.enums.EnumNotificationTime
 import primoz.com.alarmcontinue.extensions.getDateDiff
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.RealmDayOfWeek
@@ -104,10 +103,8 @@ class MyAlarm : BroadcastReceiver() {
             realmDays: RealmList<RealmDayOfWeek>
         ): Calendar {
             val now = Calendar.getInstance()
-            //
-            //
             //now.add(Calendar.SECOND, 3)
-            // return now
+            //return now
             val next = Calendar.getInstance()
 
             next.set(Calendar.HOUR_OF_DAY, hour)

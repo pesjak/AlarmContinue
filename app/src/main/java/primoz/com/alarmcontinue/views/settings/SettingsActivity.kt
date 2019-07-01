@@ -25,6 +25,7 @@ class SettingsActivity : BaseActivity(), SettingsActivityContract.View {
 
         realm = Realm.getDefaultInstance()
 
+        initOnClickListener()
         initSettings()
 
         SettingsActivityPresenter(this)
@@ -51,6 +52,10 @@ class SettingsActivity : BaseActivity(), SettingsActivityContract.View {
     Private
      */
 
+    private fun initOnClickListener() {
+        ivBack.setOnClickListener { onBackPressed() }
+    }
+
     private fun initSettings() {
         settings.addTitle(getString(R.string.themes))
         settings.addSettings(
@@ -61,28 +66,19 @@ class SettingsActivity : BaseActivity(), SettingsActivityContract.View {
 
         }
 
-        settings.addTitle(getString(R.string.alarms))
-        settings.addSettings(
-            R.drawable.ic_power_settings,
-            getString(R.string.settings_power_off_alarm),
-            true,
-            getString(R.string.settings_power_off_alarm_description)
-        ) { item, isChecked ->
-        }
-
         settings.addTitle(getString(R.string.about))
         settings.addSettings(
             R.drawable.ic_person,
             getString(R.string.contact_me)
         ) { item ->
-
+            mPresenter.loadEmail()
         }
         settings.addSettings(
             R.drawable.ic_star,
             getString(R.string.acknowledgements),
             true
         ) { item ->
-
+            mPresenter.loadAcknowledgments()
         }
     }
 

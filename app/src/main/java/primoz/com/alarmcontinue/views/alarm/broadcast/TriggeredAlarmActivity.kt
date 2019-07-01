@@ -97,7 +97,7 @@ class TriggeredAlarmActivity : BaseActivity() {
                 initMediaPlayer(alarm)
             }
         }
-        
+
         haulerView.setOnDragDismissedListener {
             finish() // finish activity when dismissed
         }

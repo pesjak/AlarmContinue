@@ -1,14 +1,12 @@
-package primoz.com.alarmcontinue.views.custom
+package primoz.com.alarmcontinue.views.custom.settings
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.view.View.OnClickListener
 import android.widget.CompoundButton
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.dummy_linear_layout.view.*
-import kotlinx.android.synthetic.main.item_settings.view.*
 import primoz.com.alarmcontinue.R
 
 class SettingsGroup @JvmOverloads constructor(

@@ -7,5 +7,7 @@ interface SettingsActivityContract {
     }
 
     interface Presenter {
+        fun loadEmail()
+        fun loadAcknowledgments()
     }
 }

@@ -4,4 +4,5 @@
     <dimen name="title">28sp</dimen>
     <dimen name="subtitle">16sp</dimen>
     <dimen name="title_toolbar">16sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

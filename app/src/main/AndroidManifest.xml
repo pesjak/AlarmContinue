@@ -15,7 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity
+            android:name=".views.settings.acknowledgments.AcknowledgmentsActivity"
+            android:label="@string/title_activity_acknowledgments"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".views.home.MainActivity"
             android:screenOrientation="portrait">
@@ -25,23 +28,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".views.BaseActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.alarm.AlarmActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".libraries.filepicker.activity.AudioPickActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.settings.SettingsActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".views.alarm.broadcast.TriggeredAlarmActivity"
             android:excludeFromRecents="true"
@@ -57,6 +55,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <receiver
             android:name=".views.alarm.broadcast.MyAlarm"
             android:exported="true" />
