@@ -9,8 +9,8 @@ import androidx.core.app.NotificationCompat
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.enums.EnumNotificationTime
 import primoz.com.alarmcontinue.model.Alarm
+import primoz.com.alarmcontinue.views.home.MainActivity
 import java.util.*
-
 
 class MyNotification : BroadcastReceiver() {
 
@@ -20,8 +20,6 @@ class MyNotification : BroadcastReceiver() {
         val alarmID = intent.extras?.getInt(ARG_NOTIFICATION_ALARM_ID)!!
         val notification = intent.extras?.getParcelable<Notification>(ARG_NOTIFICATION)
         val REQUEST_CODE_ID = alarmID * MULTIPLY_FOR_REQUEST_CODE_NOTIFICATION
-
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel =
@@ -91,6 +89,14 @@ class MyNotification : BroadcastReceiver() {
         private fun getNotification(context: Context, timeLeft: String): Notification {
             val notificationBuilder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
 
+            val notifyIntent = Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+
+            val notifyPendingIntent = PendingIntent.getActivity(
+                context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
             notificationBuilder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
@@ -98,6 +104,7 @@ class MyNotification : BroadcastReceiver() {
                 .setTicker(context.getString(R.string.bedtime))
                 .setContentTitle(context.getString(R.string.bedtime_reminder))
                 .setContentText(context.getString(R.string.bedtime_description, timeLeft))
+                .setContentIntent(notifyPendingIntent)
             return notificationBuilder.build()
         }
 
