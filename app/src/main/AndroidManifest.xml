@@ -20,20 +20,19 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <!-- Activities -->
+        <activity
+            android:name=".views.SplashActivity"
+            android:theme="@style/SplashTheme">
 
-        <activity
-            android:name=".views.settings.acknowledgments.AcknowledgmentsActivity"
-            android:label="@string/title_activity_acknowledgments"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".views.home.MainActivity"
-            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".views.home.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".views.BaseActivity"
             android:screenOrientation="portrait" />
@@ -45,6 +44,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".views.settings.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".views.settings.acknowledgments.AcknowledgmentsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".views.alarm.broadcast.TriggeredAlarmActivity"
