@@ -49,6 +49,11 @@ class AcknowledgmentsActivity : BaseActivity() {
             "Copyright (C) 2015 Jake Wharton"
         )
         acknowledgmentsGroup.addAcknowledgment(
+            getString(R.string.AndroidRateThisApp),
+            getString(R.string.license_name_apache),
+            "Copyright 2013-2017 Keisuke Kobayashi"
+        )
+        acknowledgmentsGroup.addAcknowledgment(
             getString(R.string.lottie_android),
             getString(R.string.license_name_apache),
             "Copyright 2018 Airbnb, Inc."

@@ -3,6 +3,7 @@ package primoz.com.alarmcontinue
 import android.app.Application
 import android.content.Context
 import com.jakewharton.threetenabp.AndroidThreeTen
+import com.kobakei.ratethisapp.RateThisApp
 import io.github.inflationx.calligraphy3.CalligraphyConfig
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor
 import io.github.inflationx.viewpump.ViewPump
@@ -43,6 +44,8 @@ class MyApplication : Application() {
 
         //Timezone init for SleepTimePicker
         AndroidThreeTen.init(appContext)
+        // Set custom criteria (optional)
+        RateThisApp.init(RateThisApp.Config(3, 4))
     }
 
     companion object {

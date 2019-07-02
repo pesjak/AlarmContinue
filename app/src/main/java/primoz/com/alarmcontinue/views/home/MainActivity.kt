@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kobakei.ratethisapp.RateThisApp
 import io.realm.Realm
 import io.realm.RealmList
 import kotlinx.android.synthetic.main.activity_main.*
@@ -51,6 +52,15 @@ class MainActivity : BaseActivity(), MainActivityContract.View, OnAlarmListener 
         mPresenter.loadAlarms(realm)
 
         initOnClickListeners()
+
+        rateThisApp()
+    }
+
+    private fun rateThisApp() {
+        // Monitor launch times and interval from installation
+        RateThisApp.onCreate(this)
+        // Show a dialog if criteria is satisfied
+        RateThisApp.showRateDialogIfNeeded(this)
     }
 
     private fun initToolbar() {
