@@ -100,7 +100,7 @@ class MyNotification : BroadcastReceiver() {
             notificationBuilder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.ic_logo_test)
+                .setSmallIcon(R.drawable.ic_icon)
                 .setTicker(context.getString(R.string.bedtime))
                 .setContentTitle(context.getString(R.string.bedtime_reminder))
                 .setContentText(context.getString(R.string.bedtime_description, timeLeft))
