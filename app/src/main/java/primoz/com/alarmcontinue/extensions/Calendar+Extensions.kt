@@ -4,8 +4,8 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 
-fun Calendar.getDateDiff(next: Calendar): Long {
+fun Calendar.getDateDiff(next: Calendar): Int {
     val end = next.timeInMillis
     val start = timeInMillis
-    return TimeUnit.MILLISECONDS.toDays(abs(end - start))
+    return TimeUnit.MILLISECONDS.toDays(abs(end - start)).toInt()
 }

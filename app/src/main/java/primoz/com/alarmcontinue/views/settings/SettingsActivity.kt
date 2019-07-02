@@ -88,5 +88,6 @@ class SettingsActivity : BaseActivity(), SettingsActivityContract.View {
             val intent = Intent(activity, SettingsActivity::class.java)
             return intent
         }
+
     }
 }

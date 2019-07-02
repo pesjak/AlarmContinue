@@ -93,7 +93,7 @@ class MyAlarm : BroadcastReceiver() {
                 }
             } else {
                 now.add(Calendar.DATE, -1) //Remove Temp add
-                context.getString(R.string.alarm_set_in_week, now.getDateDiff(nextAlarm))
+                context.resources.getQuantityString(R.plurals.alarm_set_in_days, now.getDateDiff(nextAlarm))
             }
         }
 
