@@ -57,15 +57,6 @@ class SettingsActivity : BaseActivity(), SettingsActivityContract.View {
     }
 
     private fun initSettings() {
-        settings.addTitle(getString(R.string.themes))
-        settings.addSettings(
-            R.drawable.ic_sun,
-            getString(R.string.settings_light_theme),
-            true
-        ) { item, isChecked ->
-
-        }
-
         settings.addTitle(getString(R.string.about))
         settings.addSettings(
             R.drawable.ic_person,
