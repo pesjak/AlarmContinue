@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "799847172071",
+    "firebase_url": "https://alarm-continue.firebaseio.com",
+    "project_id": "alarm-continue",
+    "storage_bucket": "alarm-continue.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799847172071:android:d3922549ef398a6d",
+        "android_client_info": {
+          "package_name": "primoz.com.alarmcontinue"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799847172071-9noiae5nhjgch96s7u95jn281egnke1c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjoCpI01SnbBhQ29JA9-JrOn89eNZjExE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799847172071-9noiae5nhjgch96s7u95jn281egnke1c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
