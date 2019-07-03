@@ -61,6 +61,9 @@
 
     <style name="AppTheme.Draggable" parent="Theme.AppCompat.NoActionBar">
         <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:statusBarColor">@color/colorBackground</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:navigationBarColor">@color/colorBackground</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowIsTranslucent">true</item>
