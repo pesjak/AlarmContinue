@@ -103,8 +103,8 @@ class MyAlarm : BroadcastReceiver() {
             realmDays: RealmList<RealmDayOfWeek>
         ): Calendar {
             val now = Calendar.getInstance()
-            //now.add(Calendar.SECOND, 3)
-            //return now
+            now.add(Calendar.SECOND, 3)
+            return now
             val next = Calendar.getInstance()
 
             next.set(Calendar.HOUR_OF_DAY, hour)
