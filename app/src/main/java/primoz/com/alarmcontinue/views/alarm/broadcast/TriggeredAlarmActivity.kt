@@ -10,12 +10,7 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.view.WindowManager
-import androidx.core.widget.TextViewCompat
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
 import io.realm.Realm
@@ -24,8 +19,10 @@ import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.views.BaseActivity
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
+import android.os.*
 
 class TriggeredAlarmActivity : BaseActivity() {
 
@@ -53,7 +50,7 @@ class TriggeredAlarmActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_triggered_alarm)
 
-        setAutoSizeTextClock()
+        initTextClock()
         showIfScreenIsLocked()
         showDanceAnimation()
 
@@ -61,17 +58,11 @@ class TriggeredAlarmActivity : BaseActivity() {
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         val alarmFromRealm = DataHelper.getAlarm(realm, alarmID)
-        var showToast = true
-        if (alarmFromRealm == null) {
-            showToast = false
-            DataHelper.getBedtimeAlarm(realm)
-        }
-
         alarmFromRealm?.let { alarm ->
             val shouldEnableAlarm = alarm.isEnabled && alarm.daysList!!.isNotEmpty()
             DataHelper.enableAlarm(alarmID, shouldEnableAlarm, realm)
             if (shouldEnableAlarm) {
-                MyAlarm.setAlarm(baseContext, alarm, showToast)
+                MyAlarm.setAlarm(baseContext, alarm, false)
             } else {
                 MyAlarm.cancelAlarm(baseContext, alarm.id)
             }
@@ -105,8 +96,22 @@ class TriggeredAlarmActivity : BaseActivity() {
         }
     }
 
-    private fun setAutoSizeTextClock() {
-        TextViewCompat.setAutoSizeTextTypeWithDefaults(tvCurrentTimeActual, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM)
+
+    private fun initTextClock() {
+        val period = 5000L
+
+        val timer = Timer()
+        val formatter = SimpleDateFormat("HH:mm")
+
+        val task = object : TimerTask() {
+            override fun run() {
+                val today = Date()
+                runOnUiThread {
+                    tvCurrentTimeActual.text = formatter.format(today)
+                }
+            }
+        }
+        timer.scheduleAtFixedRate(task, 0L, period)
     }
 
     override fun onDestroy() {

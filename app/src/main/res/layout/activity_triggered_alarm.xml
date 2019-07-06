@@ -33,6 +33,7 @@
                 android:id="@+id/messageLottie"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="16dp"
                 android:clickable="false"
                 android:focusable="false"
                 app:layout_constraintBottom_toTopOf="@+id/guideline3"
@@ -44,12 +45,14 @@
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true" />
 
-                <TextClock
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvCurrentTimeActual"
                 style="@style/TextAppearance.SemiBold"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginBottom="16dp"
                 android:gravity="center"
+                app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toTopOf="@+id/guideline4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -61,9 +64,9 @@
                 style="@style/TextAppearance.Light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:alpha="0.5"
                 android:text="@string/swipe_down_to_dismiss"
-                app:layout_constraintBottom_toTopOf="@+id/guideline5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline4" />
@@ -73,11 +76,12 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:alpha="0.3"
+                android:paddingEnd="16dp"
                 android:rotation="90"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline7"
                 app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toTopOf="@+id/guideline4"
+                app:layout_constraintTop_toTopOf="@+id/guideline5"
                 app:lottie_autoPlay="true"
                 app:lottie_colorFilter="@color/white"
                 app:lottie_fileName="lottie/right_a.json"
@@ -102,14 +106,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.55" />
+                app:layout_constraintGuide_percent="0.6" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.6" />
+                app:layout_constraintGuide_percent="0.66" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline6"
