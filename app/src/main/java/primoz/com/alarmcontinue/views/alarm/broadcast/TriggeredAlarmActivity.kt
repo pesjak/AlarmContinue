@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.WindowManager
+import androidx.core.widget.TextViewCompat
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
 import io.realm.Realm
@@ -52,6 +53,7 @@ class TriggeredAlarmActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_triggered_alarm)
 
+        setAutoSizeTextClock()
         showIfScreenIsLocked()
         showDanceAnimation()
 
@@ -101,6 +103,10 @@ class TriggeredAlarmActivity : BaseActivity() {
         haulerView.setOnDragDismissedListener {
             finish() // finish activity when dismissed
         }
+    }
+
+    private fun setAutoSizeTextClock() {
+        TextViewCompat.setAutoSizeTextTypeWithDefaults(tvCurrentTimeActual, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM)
     }
 
     override fun onDestroy() {
