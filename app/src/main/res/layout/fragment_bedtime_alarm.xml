@@ -200,8 +200,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:lineSpacingExtra="18sp"
                         android:text="@string/hr"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
@@ -229,8 +227,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:lineSpacingExtra="18sp"
                         android:text="@string/min"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
