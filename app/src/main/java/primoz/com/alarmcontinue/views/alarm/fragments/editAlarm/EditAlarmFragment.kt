@@ -3,12 +3,12 @@ package primoz.com.alarmcontinue.views.alarm.fragments.editAlarm
 import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -129,8 +129,19 @@ class EditAlarmFragment : Fragment(), EditAlarmContract.View {
         initRecyclerView()
         initOnClickListeners()
         setOnScrollListener()
+        initTimePicker()
         btnDelete.visibility = View.VISIBLE
+
+    }
+
+    private fun initTimePicker() {
         timePicker.setIs24HourView(true)
+        for (i in 0 until timePicker.childCount) {
+            val child = timePicker.getChildAt(i)
+            if (child is AppCompatImageButton) {
+                child.visibility = View.GONE
+            }
+        }
     }
 
     private fun setOnScrollListener() {

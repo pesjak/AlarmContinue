@@ -8,6 +8,8 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +20,6 @@ import primoz.com.alarmcontinue.libraries.filepicker.Constant
 import primoz.com.alarmcontinue.libraries.filepicker.activity.AudioPickActivity
 import primoz.com.alarmcontinue.libraries.filepicker.activity.BaseActivity.Companion.IS_NEED_FOLDER_LIST
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
-import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.views.alarm.fragments.adapters.SelectedSongsRecyclerViewAdapter
 
 class NewAlarmFragment : Fragment(), NewAlarmContract.View {
@@ -104,7 +105,24 @@ class NewAlarmFragment : Fragment(), NewAlarmContract.View {
         initRecyclerView()
         initOnClickListeners()
         setOnScrollListener()
+        initTimePicker()
         timePicker.setIs24HourView(true)
+    }
+
+    private fun initTimePicker() {
+        timePicker.setIs24HourView(true)
+        setImageButtonToGone(timePicker)
+    }
+
+    private fun setImageButtonToGone(viewGroup: ViewGroup) {
+        for (i in 0 until viewGroup.childCount) {
+            val child = viewGroup.getChildAt(i)
+            if (child is LinearLayout) {
+                setImageButtonToGone(child)
+            } else if (child is AppCompatImageButton) {
+                child.visibility = View.GONE
+            }
+        }
     }
 
     private fun setOnScrollListener() {

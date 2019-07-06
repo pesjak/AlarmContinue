@@ -13,7 +13,7 @@ class SettingsActivityPresenter(var view: SettingsActivityContract.View) : Setti
 
     //TODO Different contact mail
     override fun loadEmail() {
-        val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "primoz.pesjak@gmail.com", null))
+        val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "alarmcontinue@gmail.com", null))
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, view.getViewActivity().getString(R.string.app_name))
         view.getViewActivity().startActivity(emailIntent)
     }
