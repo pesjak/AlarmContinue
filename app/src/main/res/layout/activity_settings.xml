@@ -78,7 +78,7 @@
                 android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:padding="16dp"
-                android:text="Version 1.0"
+                android:text="Version 1.0.3"
                 android:textSize="12sp" />
 
         </LinearLayout>
