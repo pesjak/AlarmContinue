@@ -8,6 +8,7 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -136,13 +137,20 @@ class EditAlarmFragment : Fragment(), EditAlarmContract.View {
 
     private fun initTimePicker() {
         timePicker.setIs24HourView(true)
-        for (i in 0 until timePicker.childCount) {
-            val child = timePicker.getChildAt(i)
-            if (child is AppCompatImageButton) {
+        setImageButtonToGone(timePicker)
+    }
+
+    private fun setImageButtonToGone(viewGroup: ViewGroup) {
+        for (i in 0 until viewGroup.childCount) {
+            val child = viewGroup.getChildAt(i)
+            if (child is LinearLayout) {
+                setImageButtonToGone(child)
+            } else if (child is AppCompatImageButton) {
                 child.visibility = View.GONE
             }
         }
     }
+
 
     private fun setOnScrollListener() {
         scrollView.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
