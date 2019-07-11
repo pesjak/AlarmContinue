@@ -3,6 +3,7 @@ package primoz.com.alarmcontinue.views.alarm.fragments.bedtime
 import androidx.appcompat.app.AlertDialog
 import io.realm.Realm
 import primoz.com.alarmcontinue.R
+import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 import primoz.com.alarmcontinue.enums.EnumNotificationTime
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.model.Alarm
@@ -28,20 +29,23 @@ class BedtimePresenter(private val view: BedtimeContract.View) : BedtimeContract
         shouldResumePlaying: Boolean,
         shouldVibrate: Boolean
     ) {
-        DataHelper.updateBedtime(
-            realm,
-            hourSleep,
-            minuteSleep,
-            hour,
-            minute,
-            songList,
-            shouldResumePlaying,
-            shouldVibrate,
-            shouldUseDefaultRingtone,
-            notificationTime
-        )
-
-        view.finish()
+        if (DataHelper.alreadySameAlarm(realm, hour, minute)) {
+            view.showToast(view.getViewActivity().getString(R.string.already_same_alarm))
+        } else {
+            DataHelper.updateBedtime(
+                realm,
+                hourSleep,
+                minuteSleep,
+                hour,
+                minute,
+                songList,
+                shouldResumePlaying,
+                shouldVibrate,
+                shouldUseDefaultRingtone,
+                notificationTime
+            )
+            view.finish()
+        }
     }
 
     override fun restoreUI(realm: Realm) {

@@ -51,7 +51,7 @@
     </style>
 
     <style name="TextAppearance.SemiBold" parent="android:TextAppearance">
-        <item name="fontPath">fonts/Lato-SemiBold.ttf</item>
+        <item name="fontPath">fonts/Lato-Regular.ttf</item>
     </style>
 
     <style name="TextAppearance.Light" parent="android:TextAppearance">

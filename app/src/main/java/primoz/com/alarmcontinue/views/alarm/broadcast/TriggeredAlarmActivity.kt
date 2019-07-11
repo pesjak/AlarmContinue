@@ -10,6 +10,10 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
+import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.WindowManager
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
@@ -22,7 +26,6 @@ import primoz.com.alarmcontinue.views.BaseActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
-import android.os.*
 
 class TriggeredAlarmActivity : BaseActivity() {
 
@@ -91,7 +94,7 @@ class TriggeredAlarmActivity : BaseActivity() {
             }
         }
 
-        haulerView.setOnDragDismissedListener {
+        haulerView?.setOnDragDismissedListener {
             finish() // finish activity when dismissed
         }
     }
@@ -107,7 +110,7 @@ class TriggeredAlarmActivity : BaseActivity() {
             override fun run() {
                 val today = Date()
                 runOnUiThread {
-                    tvCurrentTimeActual.text = formatter.format(today)
+                    tvCurrentTimeActual?.text = formatter.format(today)
                 }
             }
         }
@@ -155,16 +158,16 @@ class TriggeredAlarmActivity : BaseActivity() {
             "lottie/dance/pinguin.json" //White
         )
         val file = lottieFiles.random()
-        messageLottie.setAnimation(file)
+        messageLottie?.setAnimation(file)
         if (file == "lottie/dance/pinguin.json"
             || file == "lottie/dance/sound.json"
         ) {
-            messageLottie.addValueCallback(
+            messageLottie?.addValueCallback(
                 KeyPath("**"), LottieProperty.COLOR_FILTER,
                 { PorterDuffColorFilter(getColor(R.color.white), PorterDuff.Mode.SRC_ATOP) }
             )
         }
-        messageLottie.playAnimation()
+        messageLottie?.playAnimation()
     }
 
     private fun increaseVolumeOverTime(mediaPlayer: MediaPlayer, shouldVibrate: Boolean) {
@@ -212,7 +215,19 @@ class TriggeredAlarmActivity : BaseActivity() {
     private fun initMediaPlayer(alarm: Alarm) {
         mediaPlayer = MediaPlayer()
         mediaPlayer?.let { increaseVolumeOverTime(it, alarm.shouldVibrate) }
-        mediaPlayer?.setDataSource(this, Uri.parse(alarm.currentlySelectedPath))
+        val currentlySelectedPath = alarm.currentlySelectedPath
+        if (currentlySelectedPath == null) {
+            var uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+            if (uri == null) {
+                uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                if (uri == null) {
+                    uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+                }
+            }
+            mediaPlayer?.setDataSource(this, uri)
+        } else {
+            mediaPlayer?.setDataSource(this, Uri.parse(currentlySelectedPath))
+        }
         mediaPlayer?.isLooping = false
         mediaPlayer?.setOnCompletionListener {
             it?.stop()

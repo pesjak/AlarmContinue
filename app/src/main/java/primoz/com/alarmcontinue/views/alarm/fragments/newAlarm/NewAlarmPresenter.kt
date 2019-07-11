@@ -1,6 +1,7 @@
 package primoz.com.alarmcontinue.views.alarm.fragments.newAlarm
 
 import io.realm.Realm
+import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.model.DataHelper
@@ -20,19 +21,23 @@ class NewAlarmPresenter(private val view: NewAlarmContract.View) : NewAlarmContr
         shouldResumePlaying: Boolean,
         shouldVibrate: Boolean
     ) {
-        DataHelper.addAlarm(
-            realm,
-            hour,
-            minute,
-            selectedDays,
-            songList,
-            shouldResumePlaying,
-            shouldVibrate,
-            null,
-            null,
-            shouldUseDefaultRingtone
-        )
-        view.finish()
+        if (DataHelper.alreadySameAlarm(realm, hour, minute, selectedDays)) {
+            view.showToast(view.getViewActivity().getString(R.string.already_same_alarm))
+        } else {
+            DataHelper.addAlarm(
+                realm,
+                hour,
+                minute,
+                selectedDays,
+                songList,
+                shouldResumePlaying,
+                shouldVibrate,
+                null,
+                null,
+                shouldUseDefaultRingtone
+            )
+            view.finish()
+        }
     }
 
     override fun loadSongList() {

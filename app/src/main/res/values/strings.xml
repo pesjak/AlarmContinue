@@ -89,5 +89,6 @@
     <string name="sleep_time_picker">SleepTimePicker</string>
     <string name="multi_type_file_picker">MultiType-FilePicker</string>
     <string name="AndroidRateThisApp">Android-RateThisApp</string>
+    <string name="already_same_alarm">Please pick another time, because another alarm has already set this time.</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package primoz.com.alarmcontinue.views.alarm.fragments.editAlarm
 
 import io.realm.Realm
+import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.model.Alarm
@@ -22,22 +23,26 @@ class EditAlarmPresenter(private val view: EditAlarmContract.View, var alarmID: 
         shouldResumePlaying: Boolean,
         shouldVibrate: Boolean
     ) {
-        DataHelper.editAlarmAsync(
-            alarmID,
-            realm,
-            true,
-            hour,
-            minute,
-            selectedDays,
-            songList,
-            shouldResumePlaying,
-            shouldVibrate,
-            secondsPlayed,
-            null,
-            null,
-            shouldUseDefaultRingtone
-        )
-        view.finish()
+        if (DataHelper.alreadySameAlarm(alarmID, realm, hour, minute, selectedDays)) {
+            view.showToast(view.getViewActivity().getString(R.string.already_same_alarm))
+        } else {
+            DataHelper.editAlarmAsync(
+                alarmID,
+                realm,
+                true,
+                hour,
+                minute,
+                selectedDays,
+                songList,
+                shouldResumePlaying,
+                shouldVibrate,
+                secondsPlayed,
+                null,
+                null,
+                shouldUseDefaultRingtone
+            )
+            view.finish()
+        }
     }
 
     override fun deleteAlarm(realm: Realm) {

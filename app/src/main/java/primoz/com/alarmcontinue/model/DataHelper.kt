@@ -289,4 +289,137 @@ object DataHelper {
         return realmDayOfTheWeekList
     }
 
+    //For New Alarms
+    fun alreadySameAlarm(
+        realm: Realm,
+        hour: Int,
+        minute: Int,
+        selectedDays: MutableList<EnumDayOfWeek>
+    ): Boolean {
+        var disableAlarm = false
+        val alarmList = getAllAlarms(realm)
+        alarmList?.let {
+            for (alarm in it) {
+                val alarmHour = alarm.hourAlarm
+                val alarmMinute = alarm.minuteAlarm
+                if (hour == alarmHour && minute == alarmMinute) {
+                    if (selectedDays.isEmpty()) { //Ugly but will handle if it is one time alarm
+                        disableAlarm = true
+                    }
+                    alarm.daysList?.let { realmDaysList ->
+                        val monday = realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.MONDAY.toString()).findFirst()
+                        val tuesday = realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.TUESDAY.toString()).findFirst()
+                        val wednesday =
+                            realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.WEDNESDAY.toString()).findFirst()
+                        val thursday =
+                            realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.THURSDAY.toString()).findFirst()
+                        val friday = realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.FRIDAY.toString()).findFirst()
+                        val saturday =
+                            realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.SATURDAY.toString()).findFirst()
+                        val sunday = realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.SUNDAY.toString()).findFirst()
+
+                        if (selectedDays.contains(monday?.nameOfDayString)
+                            || selectedDays.contains(tuesday?.nameOfDayString)
+                            || selectedDays.contains(wednesday?.nameOfDayString)
+                            || selectedDays.contains(thursday?.nameOfDayString)
+                            || selectedDays.contains(friday?.nameOfDayString)
+                            || selectedDays.contains(saturday?.nameOfDayString)
+                            || selectedDays.contains(sunday?.nameOfDayString)
+                        ) {
+                            disableAlarm = true
+                        }
+                    }
+                }
+            }
+        }
+
+        //Check bedtime
+        val bedtimeAlarm = getBedtimeAlarm(realm)
+        bedtimeAlarm?.let {
+            if (hour == bedtimeAlarm.hourAlarm && minute == bedtimeAlarm.minuteAlarm) {
+                disableAlarm = true
+            }
+        }
+
+        return disableAlarm
+    }
+
+    //For updating alarm
+    fun alreadySameAlarm(
+        id: Int,
+        realm: Realm,
+        hour: Int,
+        minute: Int,
+        selectedDays: MutableList<EnumDayOfWeek>
+    ): Boolean {
+        val myAlarm = realm.where(Alarm::class.java).equalTo(Alarm.FIELD_ID, id).findFirst()
+        var disableAlarm = false
+        val alarmList = getAllAlarms(realm)
+        alarmList?.let {
+            for (alarm in it) {
+                if (alarm.id == myAlarm?.id) continue
+
+                val alarmHour = alarm.hourAlarm
+                val alarmMinute = alarm.minuteAlarm
+                if (hour == alarmHour && minute == alarmMinute) {
+                    if (selectedDays.isEmpty()) { //Ugly but will handle if it is one time alarm
+                        disableAlarm = true
+                    }
+                    alarm.daysList?.let { realmDaysList ->
+                        val monday = realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.MONDAY.toString()).findFirst()
+                        val tuesday = realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.TUESDAY.toString()).findFirst()
+                        val wednesday =
+                            realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.WEDNESDAY.toString()).findFirst()
+                        val thursday =
+                            realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.THURSDAY.toString()).findFirst()
+                        val friday = realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.FRIDAY.toString()).findFirst()
+                        val saturday =
+                            realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.SATURDAY.toString()).findFirst()
+                        val sunday = realmDaysList.where().equalTo("nameOfDayEnum", EnumDayOfWeek.SUNDAY.toString()).findFirst()
+
+                        if (selectedDays.contains(monday?.nameOfDayString)
+                            || selectedDays.contains(tuesday?.nameOfDayString)
+                            || selectedDays.contains(wednesday?.nameOfDayString)
+                            || selectedDays.contains(thursday?.nameOfDayString)
+                            || selectedDays.contains(friday?.nameOfDayString)
+                            || selectedDays.contains(saturday?.nameOfDayString)
+                            || selectedDays.contains(sunday?.nameOfDayString)
+                        ) {
+                            disableAlarm = true
+                        }
+                    }
+                }
+            }
+        }
+
+        //Check bedtime
+        val bedtimeAlarm = getBedtimeAlarm(realm)
+        bedtimeAlarm?.let {
+            if (hour == bedtimeAlarm.hourAlarm && minute == bedtimeAlarm.minuteAlarm) {
+                disableAlarm = true
+            }
+        }
+
+        return disableAlarm
+    }
+
+    //For Bedtime Alarm
+    fun alreadySameAlarm(
+        realm: Realm,
+        hour: Int,
+        minute: Int
+    ): Boolean {
+        var disableAlarm = false
+        val alarmList = getAllAlarms(realm)
+        alarmList?.let {
+            for (alarm in it) {
+                val alarmHour = alarm.hourAlarm
+                val alarmMinute = alarm.minuteAlarm
+                if (hour == alarmHour && minute == alarmMinute) {
+                    disableAlarm = true
+                }
+            }
+        }
+        return disableAlarm
+    }
 }

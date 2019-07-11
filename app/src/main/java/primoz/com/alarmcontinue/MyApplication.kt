@@ -28,6 +28,7 @@ class MyApplication : Application() {
                 realm.createObject(SongList::class.java)
                 DataHelper.createDefaultBedtimeAlarm(realm)
             }
+            .deleteRealmIfMigrationNeeded()
             .build()
         //Realm.deleteRealm(realmConfig) // Delete Realm between app restarts.
         Realm.setDefaultConfiguration(realmConfig)

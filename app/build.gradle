@@ -11,9 +11,10 @@ android {
         applicationId "primoz.com.alarmcontinue"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 4
-        versionName "1.0.4"
+        versionCode 5
+        versionName "1.0.5"
     }
+    ext.enableCrashlytics = true
     buildTypes {
         release {
             // Enables code shrinking, obfuscation, and optimization for only
