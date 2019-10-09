@@ -6,13 +6,14 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "primoz.com.alarmcontinue"
         minSdkVersion 23
-        targetSdkVersion 28
-        versionCode 5
-        versionName "1.0.5"
+        targetSdkVersion 29
+        versionCode 11
+        versionName "1.2.0"
+        resConfigs "en"
     }
     ext.enableCrashlytics = true
     buildTypes {
@@ -38,14 +39,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
-    implementation 'androidx.core:core-ktx:1.2.0-alpha01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
-    // Database
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+        // Database
     implementation 'io.realm:android-adapters:3.1.0'
     // Fonts
     implementation 'io.github.inflationx:calligraphy3:3.1.1'
-    implementation 'io.github.inflationx:viewpump:2.0.2'
+    implementation 'io.github.inflationx:viewpump:2.0.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     // Permission
     implementation 'pub.devrel:easypermissions:3.0.0'
@@ -58,7 +59,7 @@ dependencies {
     // Rating
     implementation 'io.github.kobakei:ratethisapp:1.2.0'
     // Crashlytics
-    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 }
 apply plugin: 'com.google.gms.google-services'

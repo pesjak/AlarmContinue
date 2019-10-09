@@ -17,12 +17,14 @@ import android.os.Vibrator
 import android.view.WindowManager
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
+import com.crashlytics.android.Crashlytics
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_triggered_alarm.*
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.views.BaseActivity
+import primoz.com.alarmcontinue.views.alarm.services.SleepReminderService
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
@@ -36,9 +38,9 @@ class TriggeredAlarmActivity : BaseActivity() {
     private var mediaPlayer: MediaPlayer? = null
     private var shouldResumePlaying: Boolean = false
 
-    private val alarmID: Int
+    private val alarmID: Int?
         get() {
-            return intent.extras?.getInt(ARG_ALARM_ID)!!
+            return intent.extras?.getInt(ARG_ALARM_ID)
         }
 
     private val mAudioManager: AudioManager by lazy {
@@ -53,50 +55,72 @@ class TriggeredAlarmActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_triggered_alarm)
 
+
+        stopService(Intent(baseContext, SleepReminderService::class.java))
         initTextClock()
         showIfScreenIsLocked()
         showDanceAnimation()
 
-        realm = Realm.getDefaultInstance()
-        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (alarmID == null) {
+            val uri = getDefaultRingtone()
+            mediaPlayer = MediaPlayer()
+            mediaPlayer?.setDataSource(this, uri)
+            mediaPlayer?.prepare()
+            mediaPlayer?.start()
+        } else {
+            realm = Realm.getDefaultInstance()
+            vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
-        val alarmFromRealm = DataHelper.getAlarm(realm, alarmID)
-        alarmFromRealm?.let { alarm ->
-            val shouldEnableAlarm = alarm.isEnabled && alarm.daysList!!.isNotEmpty()
-            DataHelper.enableAlarm(alarmID, shouldEnableAlarm, realm)
-            if (shouldEnableAlarm) {
-                MyAlarm.setAlarm(baseContext, alarm, false)
-            } else {
-                MyAlarm.cancelAlarm(baseContext, alarm.id)
-            }
-            if (alarm.useDefaultRingtone) {
-                var uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-                if (uri == null) {
-                    uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-                    if (uri == null) {
-                        uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+            val alarmFromRealm = DataHelper.getAlarm(realm, alarmID!!)
+            alarmFromRealm?.let { alarm ->
+                try {
+                    if (alarm.useDefaultRingtone) {
+                        val uri = getDefaultRingtone()
+                        mediaPlayer = MediaPlayer()
+                        mediaPlayer?.let { increaseVolumeOverTime(it, alarm.shouldVibrate) }
+                        mediaPlayer?.setDataSource(this, uri)
+                        mediaPlayer?.isLooping = true
+                        shouldResumePlaying = alarm.shouldResumePlaying
+                        mediaPlayer?.setOnPreparedListener {
+                            if (alarm.shouldResumePlaying) {
+                                mediaPlayer?.seekTo(alarm.secondsPlayed)
+                            }
+                            mediaPlayer?.start()
+                        }
+                        mediaPlayer?.prepareAsync()
+                    } else {
+                        initMediaPlayer(alarm)
                     }
-                }
-                mediaPlayer = MediaPlayer()
-                mediaPlayer?.let { increaseVolumeOverTime(it, alarm.shouldVibrate) }
-                mediaPlayer?.setDataSource(this, uri)
-                mediaPlayer?.isLooping = true
-                shouldResumePlaying = alarm.shouldResumePlaying
-                mediaPlayer?.setOnPreparedListener {
-                    if (alarm.shouldResumePlaying) {
-                        mediaPlayer?.seekTo(alarm.secondsPlayed)
+                } catch (exception: Exception) {
+                    Crashlytics.logException(exception)
+                    val uri = getDefaultRingtone()
+                    mediaPlayer = MediaPlayer()
+                    mediaPlayer?.let { increaseVolumeOverTime(it, true) }
+                    mediaPlayer?.setDataSource(this, uri)
+                    mediaPlayer?.isLooping = true
+                    mediaPlayer?.setOnPreparedListener {
+                        mediaPlayer?.start()
                     }
-                    mediaPlayer?.start()
+                    mediaPlayer?.prepareAsync()
                 }
-                mediaPlayer?.prepareAsync()
-            } else {
-                initMediaPlayer(alarm)
             }
         }
 
         haulerView?.setOnDragDismissedListener {
             finish() // finish activity when dismissed
         }
+
+    }
+
+    private fun getDefaultRingtone(): Uri {
+        var uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        if (uri == null) {
+            uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            if (uri == null) {
+                uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+            }
+        }
+        return uri
     }
 
 
@@ -121,7 +145,7 @@ class TriggeredAlarmActivity : BaseActivity() {
         super.onDestroy()
         if (shouldResumePlaying) {
             mediaPlayer?.let {
-                DataHelper.updateProgress(alarmID, it.currentPosition)
+                alarmID?.let { it1 -> DataHelper.updateProgress(it1, it.currentPosition) }
             }
         }
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentUserVolume, 0)
@@ -235,7 +259,7 @@ class TriggeredAlarmActivity : BaseActivity() {
             it?.isLooping = false
             val path = alarm.songsList?.random()?.path
             it?.setDataSource(this, Uri.parse(path))
-            DataHelper.nextRandomSong(alarmID, path)
+            alarmID?.let { it1 -> DataHelper.nextRandomSong(it1, path) }
             it?.setOnPreparedListener {
                 mediaPlayer?.start()
             }
@@ -256,7 +280,7 @@ class TriggeredAlarmActivity : BaseActivity() {
 
         fun getIntent(context: Context, alarmID: Int?): Intent {
             val intent = Intent(context, TriggeredAlarmActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY) //If it doesn't hide in recent use or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra(ARG_ALARM_ID, alarmID)
             return intent
         }

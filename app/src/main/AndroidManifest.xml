@@ -8,6 +8,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.SET_ALARM" />
 
     <application
         android:name=".MyApplication"
@@ -53,7 +56,6 @@
             android:name=".views.alarm.broadcast.TriggeredAlarmActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Draggable" />
 
         <!-- File providers -->
@@ -86,8 +88,16 @@
             android:exported="true" />
 
         <receiver
+            android:name=".views.alarm.broadcast.MyAlarmDismiss"
+            android:exported="true" />
+   <receiver
+            android:name=".views.alarm.broadcast.MyAlarmDisable"
+            android:exported="true" />
+
+        <receiver
             android:name=".views.alarm.broadcast.MyNotification"
             android:exported="true" />
+        <service android:name=".views.alarm.services.SleepReminderService" />
     </application>
 
 </manifest>

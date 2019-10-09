@@ -24,6 +24,7 @@ import primoz.com.alarmcontinue.enums.EnumNotificationTime
 import primoz.com.alarmcontinue.libraries.filepicker.filter.entity.AudioFile
 import primoz.com.alarmcontinue.views.alarm.broadcast.MyAlarm
 import primoz.com.alarmcontinue.views.alarm.broadcast.MyNotification
+import java.util.*
 
 object DataHelper {
 
@@ -421,5 +422,96 @@ object DataHelper {
             }
         }
         return disableAlarm
+    }
+
+    fun getNextAlarm(realm: Realm?): Alarm? {
+        realm ?: return null
+        val alarmList = getAllAlarms(realm)
+        alarmList ?: return null
+        var nextAlarm: Alarm? = null
+        for (alarm in alarmList) {
+            if (alarm.isEnabled) {
+                if (nextAlarm == null) {
+                    nextAlarm = alarm
+                } else {
+                    val currentAlarmCalendar = getNextAlarmCalendar(alarm.hourAlarm!!, alarm.minuteAlarm!!, alarm.daysList!!)
+                    val nextAlarmCalendar =
+                        getNextAlarmCalendar(nextAlarm.hourAlarm!!, nextAlarm.minuteAlarm!!, nextAlarm.daysList!!)
+                    if (currentAlarmCalendar.before(nextAlarmCalendar)) nextAlarm = alarm
+                }
+            }
+        }
+        val bedtime = getBedtimeAlarm(realm)
+        bedtime?.let {
+            if (bedtime.isEnabled) {
+                if (nextAlarm == null) {
+                    nextAlarm = bedtime
+                } else {
+                    val currentAlarmCalendar = getNextAlarmCalendar(bedtime.hourAlarm!!, bedtime.minuteAlarm!!, bedtime.daysList!!)
+                    val nextAlarmCalendar =
+                        getNextAlarmCalendar(nextAlarm!!.hourAlarm!!, nextAlarm!!.minuteAlarm!!, nextAlarm!!.daysList!!)
+                    if (currentAlarmCalendar.before(nextAlarmCalendar)) nextAlarm = bedtime
+                }
+            }
+        }
+
+        return nextAlarm
+    }
+
+    private fun getNextAlarmCalendar(
+        hour: Int,
+        minute: Int,
+        realmDays: RealmList<RealmDayOfWeek>
+    ): Calendar {
+        val now = Calendar.getInstance()
+        //now.add(Calendar.SECOND, 3)
+        //return now
+        val next = Calendar.getInstance()
+
+        next.set(Calendar.HOUR_OF_DAY, hour)
+        next.set(Calendar.MINUTE, minute)
+        next.set(Calendar.SECOND, 0)
+
+        //Should set for some other day
+        if (!now.after(next)) return next
+
+        //Set the next day, because every day is selected
+        if (realmDays.size == 7) {
+            next.add(Calendar.DATE, 1)
+            return next
+        }
+
+        //Set next available day
+        val monday = realmDays.where().equalTo("nameOfDayEnum", EnumDayOfWeek.MONDAY.toString()).findFirst()
+        val tuesday = realmDays.where().equalTo("nameOfDayEnum", EnumDayOfWeek.TUESDAY.toString()).findFirst()
+        val wednesday = realmDays.where().equalTo("nameOfDayEnum", EnumDayOfWeek.WEDNESDAY.toString()).findFirst()
+        val thursday = realmDays.where().equalTo("nameOfDayEnum", EnumDayOfWeek.THURSDAY.toString()).findFirst()
+        val friday = realmDays.where().equalTo("nameOfDayEnum", EnumDayOfWeek.FRIDAY.toString()).findFirst()
+        val saturday = realmDays.where().equalTo("nameOfDayEnum", EnumDayOfWeek.SATURDAY.toString()).findFirst()
+        val sunday = realmDays.where().equalTo("nameOfDayEnum", EnumDayOfWeek.SUNDAY.toString()).findFirst()
+
+        val statusAllDayOfTheWeekList: MutableList<Boolean> = mutableListOf(
+            monday != null,
+            tuesday != null,
+            wednesday != null,
+            thursday != null,
+            friday != null,
+            saturday != null,
+            sunday != null
+        )
+
+        var nextDay = next.get(Calendar.DAY_OF_WEEK) - 1 // index on 0-6, rather than the 1-7 returned by Calendar
+
+        var i = 0
+        while (i < 7 && !statusAllDayOfTheWeekList[nextDay]) {
+            nextDay++
+            nextDay %= 7
+            i++
+        }
+        val nextDayToSet = nextDay + 2 //TODO Works but needs further testing
+        next.set(Calendar.DAY_OF_WEEK, nextDayToSet) // + 1 = back to 1-7 range
+
+        while (now.after(next)) next.add(Calendar.DATE, 7)
+        return next
     }
 }

@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import io.realm.Realm
 import io.realm.RealmList
 import primoz.com.alarmcontinue.R
 import primoz.com.alarmcontinue.enums.EnumDayOfWeek
@@ -13,12 +14,27 @@ import primoz.com.alarmcontinue.extensions.getDateDiff
 import primoz.com.alarmcontinue.model.Alarm
 import primoz.com.alarmcontinue.model.DataHelper
 import primoz.com.alarmcontinue.model.RealmDayOfWeek
+import primoz.com.alarmcontinue.views.alarm.services.SleepReminderService
+import primoz.com.alarmcontinue.views.home.MainActivity
 import java.util.*
 
 class MyAlarm : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val alarmID = intent.extras?.getInt(ARG_ALARM_ID)
+
+        //Immediatly set new alarm
+        val realm = Realm.getDefaultInstance()
+        val alarmFromRealm = DataHelper.getAlarm(realm, alarmID!!)
+        alarmFromRealm?.let { alarm ->
+            val shouldEnableAlarm = alarm.isEnabled && alarm.daysList!!.isNotEmpty()
+            DataHelper.enableAlarm(alarmID, shouldEnableAlarm, realm)
+            if (shouldEnableAlarm) {
+                setAlarm(context, alarm, false)
+            } else {
+                cancelAlarm(context, alarm.id)
+            }
+        }
         context.startActivity(TriggeredAlarmActivity.getIntent(context, alarmID))
     }
 
@@ -26,7 +42,7 @@ class MyAlarm : BroadcastReceiver() {
 
         const val ARG_ALARM_ID = "AlarmID"
 
-        fun setAlarm(context: Context, alarm: Alarm, showToast: Boolean = true) {
+        fun setAlarm(context: Context, alarm: Alarm, showToast: Boolean = true, nextDay: Boolean = false) {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(context, MyAlarm::class.java)
             if (alarm.songsList?.isNotEmpty() == true) { //TODO Chcek this why you did this
@@ -45,11 +61,23 @@ class MyAlarm : BroadcastReceiver() {
                 minute = it
             }
 
-            val alarmClockInfo = AlarmManager.AlarmClockInfo(
-                getNextAlarmCalendar(hour, minute, days).timeInMillis,
+            val timeInMillis = getNextAlarmCalendar(hour, minute, days, nextDay).timeInMillis
+            alarmManager.setAlarmClock(
+                AlarmManager.AlarmClockInfo(
+                    timeInMillis,
+                    PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), 0)
+                ),
                 pendingIntent
             )
-            alarmManager.setAlarmClock(alarmClockInfo, pendingIntent)
+            val sleepReminder = Intent(context, SleepReminderService::class.java)
+            intent.putExtra(ARG_ALARM_ID, alarm.id)
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                timeInMillis - 252000L,
+                PendingIntent.getService(context, 0, sleepReminder, 0)
+            )
+
+            SleepReminderService.refreshSleepTime(context)
 
             if (showToast) Toast.makeText(
                 context,
@@ -101,13 +129,16 @@ class MyAlarm : BroadcastReceiver() {
         private fun getNextAlarmCalendar(
             hour: Int,
             minute: Int,
-            realmDays: RealmList<RealmDayOfWeek>
+            realmDays: RealmList<RealmDayOfWeek>,
+            nextDay: Boolean = false
         ): Calendar {
             val now = Calendar.getInstance()
             //now.add(Calendar.SECOND, 3)
             //return now
             val next = Calendar.getInstance()
-
+            if (nextDay) {
+                next.add(Calendar.DAY_OF_YEAR, 1)
+            }
             next.set(Calendar.HOUR_OF_DAY, hour)
             next.set(Calendar.MINUTE, minute)
             next.set(Calendar.SECOND, 0)

@@ -59,7 +59,6 @@
     </style>
 
     <!-- Drag App theme -->
-
     <style name="AppTheme.Draggable" parent="Theme.AppCompat.NoActionBar">
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:statusBarColor">@color/colorBackground</item>
