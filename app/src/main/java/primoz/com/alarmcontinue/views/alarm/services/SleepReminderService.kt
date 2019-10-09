@@ -131,7 +131,7 @@ class SleepReminderService : Service() {
                 val alarmCalendar = getNextAlarmCalendar(alarm.hourAlarm!!, alarm.minuteAlarm!!, alarm.daysList!!)
                 val calendar = Calendar.getInstance()
                 calendar.timeInMillis = alarmCalendar.timeInMillis - 1800000L
-                if (calendar.after(Calendar.getInstance())) {
+                if (Calendar.getInstance().after(calendar)) {
                     ContextCompat.startForegroundService(
                         context,
                         Intent(MyApplication.appContext, SleepReminderService::class.java)
