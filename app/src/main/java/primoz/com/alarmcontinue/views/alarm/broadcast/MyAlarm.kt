@@ -48,6 +48,7 @@ class MyAlarm : BroadcastReceiver() {
             if (alarm.songsList?.isNotEmpty() == true) { //TODO Chcek this why you did this
                 intent.putExtra(ARG_ALARM_ID, alarm.id)
             }
+            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
             val pendingIntent = PendingIntent.getBroadcast(context, alarm.id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
             var hour = 0
@@ -71,6 +72,7 @@ class MyAlarm : BroadcastReceiver() {
             )
             val sleepReminder = Intent(context, SleepReminderService::class.java)
             intent.putExtra(ARG_ALARM_ID, alarm.id)
+            sleepReminder.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
             alarmManager.set(
                 AlarmManager.RTC_WAKEUP,
                 timeInMillis - 252000L,
