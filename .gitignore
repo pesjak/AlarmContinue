@@ -12,5 +12,5 @@ build
 /app/fabric.properties
 /keys.txt
 /app/release/
-.keys/
-.Design/
+keys/
+Design/
