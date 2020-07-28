@@ -57,7 +57,7 @@ class SleepReminderService : Service() {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        refreshState()
+        refreshState() //TODO needs FOREGROUND service
         return super.onStartCommand(intent, flags, startId)
     }
 
